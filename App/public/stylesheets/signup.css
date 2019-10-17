@@ -1,0 +1,28 @@
+body{
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+    color: #00B7FF;
+}
+  
+.jumbo{
+    background-color:red;
+    /* background : url('App\public\images\boatImage.jpg') no-repeat fixed bottom; */
+    background-size : cover;
+    color: #efefef;
+    height:200px;
+    position:relative;
+    z-index: -2;
+}
+
+.overlay{
+    background-color : #000;
+    opacity : 0.6;
+    position: absolute;
+    top:0;
+    left:0;
+    bottom: 0;
+    right: 0;
+    z-index : -1;
+}
