@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <!-- Page Title -->
     <title>Sign Up</title>
@@ -20,21 +21,21 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
-    
+
     <script>
         function hello() {
             window.open("/select", "_self");
         }
-        $(document).ready(function(){
+        $(document).ready(function () {
             console.log("ready!");
-            $('#driverRadio').click(function(){
+            $('#driverRadio').click(function () {
                 $('#collapseExample').collapse('show');
             });
-            $('#passengerRadio').click(function(){
+            $('#passengerRadio').click(function () {
                 $('#collapseExample').collapse('hide');
             })
 
-            $('#submitbtn').click(function(){
+            $('#submitbtn').click(function () {
                 alert("Perform form validation!");
             })
         })
@@ -45,7 +46,7 @@
 <body style="background-color: white; background-size:100%; background-position-y: -400px;">
 
     <nav class="navbar navbar-expand-lg navbar-dark" style="background:#2e2e2e;">
-        <a class="navbar-brand" href="#">Carpool</a>
+        <a class="navbar-brand" href="/">Carpool</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
             aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -98,32 +99,34 @@
                 <label for="inputCity">Credit Card Number</label>
                 <input type="text" class="form-control" id="creditCardNum">
             </div>
-            
+
             <h5>Register As:</h5>
-            
+
             <div class="form-check">
-                    <input class="form-check-input" type="radio" name="exampleRadios" id="passengerRadio" value="option1" checked>
-                    <label class="form-check-label" for="exampleRadios1">
-                      Passenger Account
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="exampleRadios" id="driverRadio" value="option2">
-                    <label class="form-check-label" for="exampleRadios2">
-                      Driver Account
-                    </label>
-                  </div>
+                <input class="form-check-input" type="radio" name="exampleRadios" id="passengerRadio" value="option1"
+                    checked>
+                <label class="form-check-label" for="exampleRadios1">
+                    Passenger Account
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="exampleRadios" id="driverRadio" value="option2">
+                <label class="form-check-label" for="exampleRadios2">
+                    Driver Account
+                </label>
+            </div>
             <div class="collapse" id="collapseExample">
-                    <div class="form-group">
-                            <label for="inputCity">Enter your vehicle number:</label>
-                            <input type="text" class="form-control" id="vehicleNum">
-                    </div>
+                <div class="form-group">
+                    <label for="inputCity">Enter your vehicle number:</label>
+                    <input type="text" class="form-control" id="vehicleNum">
+                </div>
             </div>
             <br>
             <div style="height:20px"></div>
-            <button type="submit" class="btn btn-primary" id="submitbtn">Sign in</button>
+            <button type="submit" class="btn btn-primary" id="submitbtn">Register</button>
         </form>
     </div>
     <div style="height:40px"></div>
 </body>
+
 </html>
