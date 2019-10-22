@@ -40,6 +40,18 @@ insert into Drives (email, license_plate) values ('jcashen7@aboutads.info','SYS4
 insert into Drives (email, license_plate) values ('vdequesne8@youku.com','WAU3968');
 insert into Drives (email, license_plate) values ('bmulligan9@networkadvertising.org','SGD9065');
 
+/*locations*/
+insert into location(loc_name, loc_add) values ('Queenstown','159432');
+insert into location(loc_name, loc_add) values ('Jurong','178543');
+insert into location(loc_name, loc_add) values ('Ang Mo Kio','760234');
+insert into location(loc_name, loc_add) values ('Bishan','643793');
+insert into location(loc_name, loc_add) values ('Toa Payoh','784393');
+insert into location(loc_name, loc_add) values ('NUS','439924');
+insert into location(loc_name, loc_add) values ('Yishun','329483');
+insert into location(loc_name, loc_add) values ('Yio Chu Kang','347294');
+insert into location(loc_name, loc_add) values ('Raffles','943554');
+insert into location(loc_name, loc_add) values ('Pasir Ris','984321');
+
 /*advertisesTrip*/
 insert into advertisesTrip (start_loc, end_loc, email, a_date,a_time) values ('Queenstown', 'NUS', 'ayurenev5@icio.us', '2018-12-21', '09:10:00');
 insert into advertisesTrip (start_loc, end_loc, email, a_date,a_time) values ('Jurong', 'Yishun', 'rdoog6@yandex.ru', '2018-12-23', '12:20:00');
@@ -48,12 +60,11 @@ insert into advertisesTrip (start_loc, end_loc, email, a_date,a_time) values ('B
 insert into advertisesTrip (start_loc, end_loc, email, a_date,a_time) values ('Toa Payoh', 'Pasir Ris', 'bmulligan9@networkadvertising.org', '2018-12-21', '23:51:13');
 
 /*bid*/
-insert into bid(is_win, b_date, b_time, amount, start_loc, end_loc, email_bidder, email_driver, rating) values ('true', '2018-12-21', '09:10:00', '25.3', 'Queenstown', 'NUS', 'shagergham0@theatlantic.com', 'ayurenev5@icio.us', '3');
-insert into bid(is_win, b_date, b_time, amount, start_loc, end_loc, email_bidder, email_driver, rating) values ('false', '2018-12-23', '12:20:00', '19.5', 'Jurong', 'Yishun', 'ucramphorn1@netlog.com', 'rdoog6@yandex.ru', '5');
-insert into bid(is_win, b_date, b_time, amount, start_loc, end_loc, email_bidder, email_driver, rating) values ('true', '2018-11-11', '19:41:30', '18.6', 'Ang Mo Kio', 'Yio Chu Kang', 'shutchence2@usnews.com', 'jcashen7@aboutads.info', '3.2');
-insert into bid(is_win, b_date, b_time, amount, start_loc, end_loc, email_bidder, email_driver, rating) values ('true', '2018-02-19', '15:29:02', '21', 'Bishan', 'Raffles', 'tcrudgington3@godaddy.com', 'vdequesne8@youku.com', '1.2');
-insert into bid(is_win, b_date, b_time, amount, start_loc, end_loc, email_bidder, email_driver, rating) values ('true', '2018-12-21', '23:51:13', '35', 'Toa Payoh', 'Pasir Ris', 'cbramall4@ebay.co.uk', 'bmulligan9@networkadvertising.org', '5');
-
+insert into bid(is_win, s_date, s_time, e_date, e_time, amount, start_loc, end_loc, email_bidder, email_driver, rating) values ('true', '2018-12-21', '09:10:00', '2018-12-21', '10:10:00', '25.3', 'Queenstown', 'NUS', 'shagergham0@theatlantic.com', 'ayurenev5@icio.us', '3');
+insert into bid(is_win, s_date, s_time, e_date, e_time, amount, start_loc, end_loc, email_bidder, email_driver, rating) values ('false', '2018-12-23', '12:20:00', '2018-12-24', '13:20:00', '19.5', 'Jurong', 'Yishun', 'ucramphorn1@netlog.com', 'rdoog6@yandex.ru', '5');
+insert into bid(is_win, s_date, s_time, e_date, e_time, amount, start_loc, end_loc, email_bidder, email_driver, rating) values ('true', '2018-11-11', '19:41:30', '2018-11-11',  '23:41:30','18.6', 'Ang Mo Kio', 'Yio Chu Kang', 'shutchence2@usnews.com', 'jcashen7@aboutads.info', '3.2');
+insert into bid(is_win, s_date, s_time, e_date, e_time, amount, start_loc, end_loc, email_bidder, email_driver, rating) values ('true', '2018-02-19', '15:29:02', '2018-02-19', '21:29:02', '21', 'Bishan', 'Raffles', 'tcrudgington3@godaddy.com', 'vdequesne8@youku.com', '1.2');
+insert into bid(is_win, s_date, s_time, e_date, e_time, amount, start_loc, end_loc, email_bidder, email_driver, rating) values ('true', '2018-12-21', '23:51:13', '2018-12-22', '00:50:13', '35', 'Toa Payoh', 'Pasir Ris', 'cbramall4@ebay.co.uk', 'bmulligan9@networkadvertising.org', '5');
 
 
 

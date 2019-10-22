@@ -54,34 +54,6 @@ create table message(
     */
 );
 
-create table advertisesTrip(
-    start_loc varchar(256) not null,
-    end_loc varchar(256) not null,
-    email varchar(256) references driver(email),
-    a_date date,
-    a_time time,   --time the driver will start his trip
-    primary key(email, start_loc, end_loc)
-);
-
-create table bid(
-    is_win boolean,
-    b_date date,  
-    b_time time,
-    amount float,
-    start_loc varchar(256),
-    end_loc varchar(256),
-    email_bidder varchar(256) references passenger(email),
-    email_driver varchar(256) references driver(email),
-    primary key(email_bidder, email_driver, start_loc, end_loc, b_date, b_time),
-    foreign key (email_driver, start_loc, end_loc) references advertisesTrip(email, start_loc, end_loc)
-);
-
--- create table favouriteLocation(
---     loc_name varchar(256),
---     email varchar (256) not null references passenger(email),
---     primary key(loc_name, email)
--- );
-
 create table location(
     loc_name varchar(256) primary key,
     loc_add varchar(256) not null
@@ -91,6 +63,42 @@ create table favouriteLocation(
     email_passenger varchar(256) references passenger(email),
     loc_name varchar(256) references location (loc_name),
     primary key(email_passenger, loc_name)
+);
+
+/*
+create table favouriteLocation(
+    loc_name varchar(256),
+    email varchar (256) not null references passenger(email),
+    primary key(loc_name, email)
+);
+*/
+
+create table advertisesTrip(
+    start_loc varchar(256) not null references location(loc_name),
+    end_loc varchar(256) not null references location(loc_name),
+    email varchar(256) references driver(email),
+    a_date date not null,
+    a_time time not null,   --time the driver will start his trip
+    primary key(email, start_loc, end_loc, a_date, a_time)
+);
+
+create table bid(
+    is_win boolean default false,
+    amount float not null,
+    start_loc varchar(256) not null,
+    end_loc varchar(256) not null,
+    email_bidder varchar(256) references passenger(email),
+    email_driver varchar(256) references driver(email),
+    s_date date not null,
+    s_time time not null,
+    e_date date,
+    e_time time,
+    review varchar(1024),
+    rating numeric,
+    CHECK ((is_win is true and (e_time > s_time) or (e_date > s_date)) or 
+          ((is_win is false and e_time is null and e_date is null and review is null and rating is null))),
+    primary key(email_bidder, email_driver, start_loc, end_loc, s_date, s_time),
+    foreign key (email_driver, start_loc, end_loc, s_date, s_time) references advertisesTrip(email, start_loc, end_loc, a_date, a_time)
 );
 
 create table discount(
