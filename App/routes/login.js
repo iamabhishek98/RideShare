@@ -20,7 +20,7 @@ var sql_query = ''
 
 
 
-select 1
-from users
-where 
+// select 1
+// from users
+// where 
 module.exports = router;
