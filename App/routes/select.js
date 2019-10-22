@@ -15,7 +15,7 @@ var sql_query = 'SELECT * FROM student_info';
 
 router.get('/', function(req, res, next) {
 	pool.query(sql_query, (err, data) => {
-		res.render('select', { title: 'Database Connect', data: data.rows });
+    res.render('select', { title: 'Database Connect', data: data.rows });
 	});
 });
 
