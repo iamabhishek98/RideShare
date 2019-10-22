@@ -33,6 +33,7 @@ var insertRouter = require("./routes/insert");
  */
 var signupRouter = require("./routes/signup");
 var loginRouter = require("./routes/login");
+var messageRouter = require("./routes/message");
 
 var app = express();
 
@@ -75,7 +76,8 @@ app.use("/login", loginRouter);
 /* ---------------------------- */
 
 app.use("/signup", signupRouter);
-app.use("/passenger", signupRouter);
+app.use("/message", messageRouter);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
