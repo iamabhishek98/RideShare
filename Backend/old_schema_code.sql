@@ -6,6 +6,8 @@ drop table if exists drives CASCADE;
 drop table if exists message CASCADE;
 drop table if exists advertisesTrip CASCADE;
 drop table if exists bid CASCADE;
+/*drop table if exists log CASCADE;
+*/
 drop table if exists location CASCADE;
 drop table if exists favouriteLocation CASCADE;
 drop table if exists gets CASCADE;
@@ -58,29 +60,53 @@ create table advertisesTrip(
     start_loc varchar(256) not null,
     end_loc varchar(256) not null,
     email varchar(256) references driver(email),
-    a_date date,
-    a_time time,   --time the driver will start his trip
+    a_date date not null,
+    a_time time not null,   --time the driver will start his trip
     primary key(email, start_loc, end_loc)
 );
 
-create table bid(
-    is_win boolean,
-    b_date date,  
-    b_time time,
+/*
+create table log(
+    email_driver varchar(256) not null references driver (email),
+    email_passenger varchar(256) not null references passenger (email),
     amount float,
-    start_loc varchar(256),
-    end_loc varchar(256),
+    e_date date,
+    e_time time,
+    review varchar(1024),
+    rating numeric,
+    log_id numeric primary key
+);
+*/
+
+create table bid(
+    is_win boolean default false,
+    b_date date not null,  
+    b_time time not null,
+    amount float not null,
+    start_loc varchar(256) not null,
+    end_loc varchar(256) not null,
     email_bidder varchar(256) references passenger(email),
     email_driver varchar(256) references driver(email),
+    s_date date,
+    s_time time,
+    e_date date,
+    e_time time,
+    review varchar(1024),
+    rating numeric,
+    CHECK ((is_win is true and (e_time > s_time) or (e_date > s_date)) or 
+          ((is_win is false and s_time is null and s_date is null and e_time is null 
+            and e_date is null and review is null and rating is null))),
     primary key(email_bidder, email_driver, start_loc, end_loc, b_date, b_time),
     foreign key (email_driver, start_loc, end_loc) references advertisesTrip(email, start_loc, end_loc)
 );
 
--- create table favouriteLocation(
---     loc_name varchar(256),
---     email varchar (256) not null references passenger(email),
---     primary key(loc_name, email)
--- );
+/*
+create table favouriteLocation(
+    loc_name varchar(256),
+    email varchar (256) not null references passenger(email),
+    primary key(loc_name, email)
+);
+*/
 
 create table location(
     loc_name varchar(256) primary key,
