@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+
+        </title>
+
+    </head>
+
+    <body>
+          <div>
+                <div>
+                    <Row>
+                        <Col sm={8}>
+                        <Form>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Label>Start</Form.Label>
+                                    <Form.Control type="location" placeholder="Enter Your Current Location " />
+                            </Form.Group>
+                        </Form>
+                        
+                        </Col>
+                        
+                    </Row>
+            
+                    <Row>
+                        <Col sm={8}>
+                            <Form>
+                                <Form.Group controlId="formBasicPassword">
+                                    <Form.Label>End</Form.Label>
+                                        <Form.Control type="location" placeholder="Enter Your Destination " />
+                                </Form.Group>
+                            </Form>
+            
+                        </Col>
+                    </Row>
+            
+            
+                </div>
+         
+            
+
+            
+                <Col sm = {8}>
+                    <Table striped bordered hover variant="dark">
+            
+                            <thead>
+                                <tr>
+                                <th>#</th>
+                                <th>Driver Name</th>
+                                <th>Destination</th>
+                                <th>Current Bid</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                <td>1</td>
+                                <td>Mark</td>
+                                <td>Tuas</td>
+                                <td>$20.00</td>
+                                </tr>
+                                <tr>
+                                <td>2</td>
+                                <td>Jacob</td>
+                                <td>Boon Lay</td>
+                                <td>$25.00</td>
+                                </tr>
+                            
+                            </tbody>
+                    
+                    </Table>
+            
+                </Col>
+                     
+                        <div className = "mb-0">   
+                            <UserDetails/>
+            
+                            <hr/>
+            
+                            <Button variant="success" size="lg" onClick = {this.displayRides}>
+                                    POOL NOW
+                            </Button>
+            
+                            <hr/>
+            
+                            <RideDetails/>
+            
+                            <hr/>
+            
+            
+                            <div className = "my-5">
+            
+                                <Form>
+                                    <Form.Group controlId="Number">
+                                        <Form.Label>Option Number</Form.Label>
+                                            <Form.Control type="Number" placeholder="Enter the Option " />
+                                    </Form.Group>
+                                </Form>
+            
+                                <Form>
+                                    <Form.Group controlId="text">
+                                        <Form.Label>Bid</Form.Label>
+                                            <Form.Control type="text" placeholder=" Enter your bid for the ride " />
+                                    </Form.Group>
+                                </Form>
+            
+                            </div>
+            
+            
+                            
+                        </div>
+                   
+    
+                                <div>
+                                    <div className = "mb-0">   
+                                        <UserDetails/>
+                                    </div>
+            
+                                    <hr/>
+            
+                                    <div>
+                                    <Button variant="success" size="lg" onClick = {this.displayRides}>
+                                            POOL NOW
+                                    </Button>
+            
+                                    <hr/>
+                                    </div>
+            
+                                  
+            
+                                </div>
+                    
+            
+    
+    </body>
+</html>
