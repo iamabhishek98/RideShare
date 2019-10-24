@@ -22,9 +22,20 @@ with B as (select distinct start_loc, count(*) as frequency
 from bid
 group by start_loc)
 
-select distinct L.loc_name as location, L.loc_add as address, B.frequency
+select distinct L.loc_name as location, B.frequency
 from location L, B
 where L.loc_name = B.start_loc
+order by B.frequency desc;
+
+/* prints the statistics for the passenger that counts the number of successful trips from every particular location*/
+with B as (select distinct start_loc, count(*) as frequency
+from bid 
+where is_win is True
+group by start_loc)
+
+select distinct L.loc_name as location, B.frequency
+from location L, B
+where L.loc_name = B.start_loc 
 order by B.frequency desc;
 
 

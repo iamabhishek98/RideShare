@@ -10,7 +10,6 @@ drop table if exists location CASCADE;
 drop table if exists favouriteLocation CASCADE;
 drop table if exists gets CASCADE;
 drop table if exists discount CASCADE;
-drop table if exists rewarded CASCADE;
 
 create table users(
     email varchar(256) primary key,
@@ -47,6 +46,7 @@ create table message(
     msg varchar(1024) not null,
     msg_time time,
     msg_date date,
+    check (sender_email <> receiver_email),
     unique(msg_time, msg_date, sender_email, receiver_email) /* do we need this */
     /*
         how do i ensure that sender_email and receiver_email are unique for each tuple but allow
@@ -65,21 +65,13 @@ create table favouriteLocation(
     primary key(email_passenger, loc_name)
 );
 
-/*
-create table favouriteLocation(
-    loc_name varchar(256),
-    email varchar (256) not null references passenger(email),
-    primary key(loc_name, email)
-);
-*/
-
 create table advertisesTrip(
     start_loc varchar(256) not null references location(loc_name),
     end_loc varchar(256) not null references location(loc_name),
     email varchar(256) references driver(email),
     a_date date not null,
     a_time time not null,   --time the driver will start his trip
-    primary key(email, start_loc, end_loc, a_date, a_time)
+    primary key(email, start_loc, a_date, a_time)
 );
 
 create table bid(
@@ -97,8 +89,8 @@ create table bid(
     rating numeric,
     CHECK ((is_win is true and (e_time > s_time) or (e_date > s_date)) or 
           ((is_win is false and e_time is null and e_date is null and review is null and rating is null))),
-    primary key(email_bidder, email_driver, start_loc, end_loc, s_date, s_time),
-    foreign key (email_driver, start_loc, end_loc, s_date, s_time) references advertisesTrip(email, start_loc, end_loc, a_date, a_time)
+    primary key(email_bidder, email_driver, start_loc, s_date, s_time),
+    foreign key (email_driver, start_loc, s_date, s_time) references advertisesTrip(email, start_loc, a_date, a_time)
 );
 
 create table discount(
@@ -112,11 +104,5 @@ create table discount(
 create table gets (
     email varchar(256) references passenger(email),
     tier numeric references discount(tier),
-    primary key(email, tier)
-);
-
-create table rewarded(
-    email varchar(256) not null references passenger(email),
-    tier numeric not null references discount(tier),
     primary key(email, tier)
 );
