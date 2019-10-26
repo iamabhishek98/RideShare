@@ -3,7 +3,8 @@ var router = express.Router();
 
 const {Pool} = require('pg')
 
-//const pool = new Pool({connectionString:process.env.DATABASE_URL})
+const pool = new Pool({connectionString:process.env.DATABASE_URL})
+/*
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
@@ -11,6 +12,7 @@ const pool = new Pool({
   password: 'dtub2019',
   port:5432,
 })
+*/
 const bcrypt = require('bcrypt');
 
 /**
