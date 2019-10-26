@@ -15,8 +15,6 @@ create table users(
     email varchar(256) primary key,
     name varchar(100) not null,
     password varchar(100) not null,
-
-    address varchar(100) not null,
     credit_card_num varchar(100) not null
     --Just include some fields in the form that can be set to null.. just for fun
 
