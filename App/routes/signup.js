@@ -3,8 +3,14 @@ var router = express.Router();
 
 const {Pool} = require('pg')
 
-const pool = new Pool({connectionString:process.env.DATABASE_URL})
-
+//const pool = new Pool({connectionString:process.env.DATABASE_URL})
+const pool = new Pool({
+  user: 'postgres',
+  host: 'localhost',
+  database: 'postgres',
+  password: 'dtub2019',
+  port:5432,
+})
 const bcrypt = require('bcrypt');
 
 /**
@@ -31,16 +37,13 @@ router.post('/', async function(req, res, next){
   var email = req.body.email;
   var credit_card = req.body.credit_card;
   var vehicle_num = req.body.vehicleNum;
-  var is_passenger = req.body.passenger;
-
 
   try{
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
     // Construct Specific SQL Query
 	  pool.query(sql.query.register, [email, name, hashedPassword, credit_card],(err, data) => {
       console.log("query success");
-      res.redirect('./login')
-      
+      res.redirect('./login')  
 	  });
   } catch {
     res.redirect('./signup')
