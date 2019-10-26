@@ -28,7 +28,6 @@ passport.use(new LocalStrategy(
     // user will sign in using an email rather than a "username"
     {
       usernameField: 'email',
-      
     },
     (async (email, password, done) => {
         console.log(email, password)
@@ -57,13 +56,6 @@ passport.use(new LocalStrategy(
             return done(null);
           }
         });
-
-        // if (password === 'password') {  
-        //     console.log("success")
-        //     return done(null, { email, password, id: '12r2f3g45' });
-        // }
-        // console.log("failure")
-        // return done(null, false, { email })
     })
   ));
   passport.serializeUser((user, done) => {

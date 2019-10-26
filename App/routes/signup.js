@@ -31,6 +31,8 @@ router.post('/', async function(req, res, next){
   var email = req.body.email;
   var credit_card = req.body.credit_card;
   var vehicle_num = req.body.vehicleNum;
+  var is_passenger = req.body.passenger;
+
 
   try{
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
