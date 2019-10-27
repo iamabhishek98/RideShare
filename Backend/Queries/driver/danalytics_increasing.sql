@@ -1,17 +1,13 @@
-with AVG_BID as (
-    select distinct start_loc as location, avg(amount) as average_bid
+select L.loc_name as location, T.total_bids, AB.average_bid
+from Location L, 
+    (select distinct start_loc as location, avg(amount) as average_bid
     from bid
     group by location
-    ),
-
-TOTAL as (
-    select distinct start_loc as location, count(*) as total_bids
+    ) AB, 
+    (select distinct start_loc as location, count(*) as total_bids
     from bid
     group by start_loc
-    )
-
-select L.loc_name as location, T.total_bids, AB.average_bid
-from Location L, AVG_BID AB, TOTAL T
+    ) T
 where L.loc_name = AB.location and L.loc_name = T.location
 order by AB.average_bid asc;
 -- order by AB.average_bid desc;
