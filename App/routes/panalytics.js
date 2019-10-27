@@ -12,7 +12,7 @@ const pool = new Pool({connectionString:process.env.DATABASE_URL})
 
 const sql = {}
 sql.query = {
-  panalytics_query: `with AVG_BID as (select distinct start_loc as location, avg(amount) as average_bid
+  panalytics_query_basic: `with AVG_BID as (select distinct start_loc as location, avg(amount) as average_bid
   from bid
   group by location),
   
@@ -59,10 +59,10 @@ router.get('/', function(req, res, next) {
 });
 
 // POST
-router.post('/', function(req, res, next){
+router.post('/basic', function(req, res, next){
   try{
     // Construct Specific SQL Query
-	  pool.query(sql.query.panalytics_query,(err, data) => {
+	  pool.query(sql.query.panalytics_query_basic,(err, data) => {
       console.log("panalytics query success");
       console.log(data.rows)
       res.render('panalytics', {
