@@ -32,10 +32,22 @@
         });
     </script>
 
+    <!-- <script>
+        function hello() {
+            console.log('hello');
+        }
+
+        $(document).ready(function(){
+            $('#loginbtn1').click(function(){
+            alert('vgin!');
+            })
+        })
+
+    </script> -->
+
 </head>
 
 <body style="background-color: white; background-size:100%; background-position-y: -400px;">
-
     <nav class="navbar navbar-expand-lg navbar-dark" style="background:#2e2e2e;">
         <a class="navbar-brand" href="/">Carpool</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
@@ -65,12 +77,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
 
     <div class="container">
     <div class="dropdown">
@@ -116,9 +122,12 @@
     </div>
 
     <br/>
+        <form method="post">
+            <button class="btn btn-primary">Refresh</button>
+        </form>
     <br/>
 
-      <table class="table">
+    <table class="table">
               <thead class="thead-dark">
           <tr>
             <th scope="col">Location</th>
@@ -128,12 +137,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Buona Vista</td>
-            <td>69</td>
-            <td>69</td>
-            <td>$6.90</td>
-          </tr>
+          <% for (var i = 0; i < result.length;  i++) { %>
+            <tr>
+              <td><%= result[i].location %></td>
+              <td><%= result[i].successful_bids %></td>
+              <td><%= result[i].percent %>%</td>
+              <td>$<%= result[i].average_bid %></td>
+            </tr>    
+           <% } %>
         </tbody>
       </table>
     </div>

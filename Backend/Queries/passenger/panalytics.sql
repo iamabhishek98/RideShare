@@ -34,7 +34,13 @@ from (
         group by start_loc) as TOTAL
 where WIN.start_loc = TOTAL.start_loc)
 
-select B.s_time as time, B.start_loc as location, WB.successful_bids, WP.percent, AB.average_bid
-from Bid B, AVG_BID AB, WIN_BIDS WB, WIN_PERCENT WP
-where B.start_loc = AB.location and B.start_loc = WB.location and B.start_loc = WP.location
-    and B.s_time between '09:00:00' and '11:00:00';
+select L.loc_name as location, WB.successful_bids, WP.percent, AB.average_bid
+from Location L, Bid B, AVG_BID AB, WIN_BIDS WB, WIN_PERCENT WP,
+where L.loc_name = AB.location and L.loc_name = WB.location and L.loc_name = WP.location;
+
+
+-- select B.s_time as time, B.start_loc as location, WB.successful_bids, WP.percent, AB.average_bid
+-- from Bid B, AVG_BID AB, WIN_BIDS WB, WIN_PERCENT WP
+-- where B.start_loc = AB.location and B.start_loc = WB.location and B.start_loc = WP.location
+--     and B.s_time between '00:00:00' and '23:59:00';
+
