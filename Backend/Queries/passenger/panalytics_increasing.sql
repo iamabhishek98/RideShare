@@ -36,6 +36,7 @@ where WIN.start_loc = TOTAL.start_loc)
 
 select L.loc_name as location, WB.successful_bids, WP.percent, AB.average_bid
 from Location L, AVG_BID AB, WIN_BIDS WB, WIN_PERCENT WP
-where L.loc_name = AB.location and L.loc_name = WB.location and L.loc_name = WP.location;
-
-
+where L.loc_name = AB.location and L.loc_name = WB.location and L.loc_name = WP.location
+order by AB.average_bid asc; 
+--   order by AB.average_bid desc; 
+  
