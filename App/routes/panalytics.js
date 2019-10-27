@@ -172,6 +172,7 @@ sql.query = {
           group by TOTAL.start_loc) 
       as WIN, (select distinct start_loc, count(*) as frequency
           from bid
+          where s_time between '00:00:00' and '02:00:00'
           group by start_loc) as TOTAL
   where WIN.start_loc = TOTAL.start_loc)
   
@@ -218,6 +219,7 @@ sql.query = {
           group by TOTAL.start_loc) 
       as WIN, (select distinct start_loc, count(*) as frequency
           from bid
+          where s_time between '02:00:00' and '04:00:00'
           group by start_loc) as TOTAL
   where WIN.start_loc = TOTAL.start_loc)
   
@@ -264,6 +266,7 @@ sql.query = {
           group by TOTAL.start_loc) 
       as WIN, (select distinct start_loc, count(*) as frequency
           from bid
+          where s_time between '04:00:00' and '06:00:00'
           group by start_loc) as TOTAL
   where WIN.start_loc = TOTAL.start_loc)
   
@@ -310,6 +313,7 @@ sql.query = {
           group by TOTAL.start_loc) 
       as WIN, (select distinct start_loc, count(*) as frequency
           from bid
+          where s_time between '06:00:00' and '08:00:00'
           group by start_loc) as TOTAL
   where WIN.start_loc = TOTAL.start_loc)
   
@@ -356,6 +360,7 @@ sql.query = {
           group by TOTAL.start_loc) 
       as WIN, (select distinct start_loc, count(*) as frequency
           from bid
+          where s_time between '08:00:00' and '10:00:00'
           group by start_loc) as TOTAL
   where WIN.start_loc = TOTAL.start_loc)
   
@@ -402,6 +407,7 @@ sql.query = {
           group by TOTAL.start_loc) 
       as WIN, (select distinct start_loc, count(*) as frequency
           from bid
+          where s_time between '10:00:00' and '12:00:00'
           group by start_loc) as TOTAL
   where WIN.start_loc = TOTAL.start_loc)
   
@@ -448,6 +454,7 @@ sql.query = {
           group by TOTAL.start_loc) 
       as WIN, (select distinct start_loc, count(*) as frequency
           from bid
+          where s_time between '12:00:00' and '14:00:00'
           group by start_loc) as TOTAL
   where WIN.start_loc = TOTAL.start_loc)
   
@@ -494,6 +501,7 @@ sql.query = {
           group by TOTAL.start_loc) 
       as WIN, (select distinct start_loc, count(*) as frequency
           from bid
+          where s_time between '14:00:00' and '16:00:00'
           group by start_loc) as TOTAL
   where WIN.start_loc = TOTAL.start_loc)
   
@@ -540,6 +548,7 @@ sql.query = {
           group by TOTAL.start_loc) 
       as WIN, (select distinct start_loc, count(*) as frequency
           from bid
+          where s_time between '16:00:00' and '18:00:00'
           group by start_loc) as TOTAL
   where WIN.start_loc = TOTAL.start_loc)
   
@@ -586,6 +595,7 @@ sql.query = {
           group by TOTAL.start_loc) 
       as WIN, (select distinct start_loc, count(*) as frequency
           from bid
+          where s_time between '18:00:00' and '20:00:00'
           group by start_loc) as TOTAL
   where WIN.start_loc = TOTAL.start_loc)
   
@@ -632,6 +642,7 @@ sql.query = {
           group by TOTAL.start_loc) 
       as WIN, (select distinct start_loc, count(*) as frequency
           from bid
+          where s_time between '20:00:00' and '22:00:00'
           group by start_loc) as TOTAL
   where WIN.start_loc = TOTAL.start_loc)
   
@@ -678,6 +689,7 @@ sql.query = {
           group by TOTAL.start_loc) 
       as WIN, (select distinct start_loc, count(*) as frequency
           from bid
+          where s_time between '22:00:00' and '00:00:00'
           group by start_loc) as TOTAL
   where WIN.start_loc = TOTAL.start_loc)
   

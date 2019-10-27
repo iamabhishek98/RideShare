@@ -16,12 +16,22 @@ sql.query = {
 
 /* GET signup page. */
 router.get('/', function(req, res, next) {
-  res.render('danalytics', { title: 'Express' });
+  res.render('danalytics', { result: [], title: 'Express' });
 });
 
 // POST
-router.post('/', function(req, res, next){
-    
+router.post('/basic', function(req, res, next){
+  try{
+    // Construct Specific SQL Query
+	  pool.query(sql.query.panalytics_basic,(err, data) => {
+      console.log(data.rows)
+      res.render('panalytics', {
+        result: data.rows 
+      })
+    });
+  } catch {
+    console.log('panalytics basic error');
+  }
 })
 
 module.exports = router;
