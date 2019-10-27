@@ -31,6 +31,8 @@ passport.use(new LocalStrategy(
     },
     (async (email, password, done) => {
         console.log(email, password)
+        console.log("hellooooooooooooooooooo"+email)
+    
         pool.query(sql.query.email_query, [email], async (err, data) => {
           if(err){
             console.log("Cannot find user");
