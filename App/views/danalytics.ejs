@@ -124,8 +124,8 @@
             <li><a href="#" data-value="another action">Descreasing bid</a></li>
         </ul> -->
         <form method = "post">
-            <button class="btn btn-primary" formaction="/danalytics/increasing">Ascending</button>
-            <button class="btn btn-primary" formaction="/danalytics/decreasing">Descending</button>
+            <button class="btn btn-primary" formaction="/danalytics/increasing">Increasing Bids</button>
+            <button class="btn btn-primary" formaction="/danalytics/decreasing">Decreasing Bids</button>
         </form>   
     </div>
 
@@ -145,11 +145,13 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Buona Vista</td>
-                <td>69</td>
-                <td>$4.20</td>
-              </tr>
+                <% for (var i = 0; i < result.length;  i++) { %>
+                    <tr>
+                        <td><%= result[i].location %></td>
+                        <td><%= result[i].total_bids %></td>
+                        <td>$<%= result[i].average_bid %></td>
+                    </tr>    
+                <% } %>
             </tbody>
           </table>
         </div>

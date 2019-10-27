@@ -759,7 +759,7 @@ router.post('/00', function(req, res, next){
       })
     });
   } catch {
-    console.log('panalytics decreasing error');
+    console.log('panalytics 00 error');
   }
 })
 
@@ -773,7 +773,7 @@ router.post('/02', function(req, res, next){
       })
     });
   } catch {
-    console.log('panalytics decreasing error');
+    console.log('panalytics 02 error');
   }
 })
 
@@ -787,7 +787,7 @@ router.post('/04', function(req, res, next){
       })
     });
   } catch {
-    console.log('panalytics decreasing error');
+    console.log('panalytics 04 error');
   }
 })
 
@@ -801,7 +801,7 @@ router.post('/06', function(req, res, next){
       })
     });
   } catch {
-    console.log('panalytics decreasing error');
+    console.log('panalytics 06 error');
   }
 })
 
@@ -815,7 +815,7 @@ router.post('/08', function(req, res, next){
       })
     });
   } catch {
-    console.log('panalytics decreasing error');
+    console.log('panalytics 08 error');
   }
 })
 
@@ -829,7 +829,7 @@ router.post('/10', function(req, res, next){
       })
     });
   } catch {
-    console.log('panalytics decreasing error');
+    console.log('panalytics 10 error');
   }
 })
 
@@ -843,7 +843,7 @@ router.post('/12', function(req, res, next){
       })
     });
   } catch {
-    console.log('panalytics decreasing error');
+    console.log('panalytics 12 error');
   }
 })
 
@@ -857,7 +857,7 @@ router.post('/14', function(req, res, next){
       })
     });
   } catch {
-    console.log('panalytics decreasing error');
+    console.log('panalytics 14 error');
   }
 })
 
@@ -871,7 +871,7 @@ router.post('/16', function(req, res, next){
       })
     });
   } catch {
-    console.log('panalytics decreasing error');
+    console.log('panalytics 16 error');
   }
 })
 
@@ -885,7 +885,7 @@ router.post('/18', function(req, res, next){
       })
     });
   } catch {
-    console.log('panalytics decreasing error');
+    console.log('panalytics 18 error');
   }
 })
 
@@ -899,7 +899,7 @@ router.post('/20', function(req, res, next){
       })
     });
   } catch {
-    console.log('panalytics decreasing error');
+    console.log('panalytics 20 error');
   }
 })
 
@@ -913,7 +913,7 @@ router.post('/22', function(req, res, next){
       })
     });
   } catch {
-    console.log('panalytics decreasing error');
+    console.log('panalytics 22 error');
   }
 })
 
