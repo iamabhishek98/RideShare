@@ -23,7 +23,6 @@ sql.query = {
     register: 'INSERT INTO users VALUES($1,$2,$3,$4)'
 }
 
-
 /* GET signup page. */
 router.get('/', function(req, res, next) {
   res.render('signup', { title: 'Express' });
@@ -43,7 +42,7 @@ router.post('/', async function(req, res, next){
     // Construct Specific SQL Query
 	  pool.query(sql.query.register, [email, name, hashedPassword, credit_card],(err, data) => {
       console.log("query success");
-      res.redirect('./login')  
+      res.redirect('./login')
 	  });
   } catch {
     res.redirect('./signup')
