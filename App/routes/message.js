@@ -76,7 +76,7 @@ router.get("/", function(req, res, next) {
 router.post("/basic", function(req, res, next) {
   //Retrieve Information
 
-  var sender = "haha@haha.com";
+  var sender = user_email;
   var email = req.body.email;
   var user_Message = req.body.user_Message;
   var d = new Date();

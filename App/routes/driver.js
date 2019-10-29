@@ -31,7 +31,7 @@ router.post('/basic', function(req, res, next) {
     console.log(req.body)
     var origin = req.body.origin;
     var destination = req.body.destination;
-    var email = "rdoog6@yandex.ru";
+    var email = driver_email;
     var date = req.body.datetime.split("T")[0].split("-")[2]+"/"+req.body.datetime.split("T")[0].split("-")[1]+"/"+req.body.datetime.split("T")[0].split("-")[0]
     var time = req.body.datetime.split("T")[1]+":00";
     try {
