@@ -71,10 +71,8 @@ router.post("/basic", function(req, res, next) {
   var email = req.body.email;
   var user_Message = req.body.user_Message;
   var d = new Date();
-  // var time = d.getTime();
-  // var date = d.getDate();
-  var time = "12:12:00";
-  var date = "14/12/2012";
+  var date = d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear();
+  var time = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
   console.log(sender, email, user_Message, date, time);
   // var sql =
   //   "insert into message values('" +
