@@ -69,11 +69,12 @@ passport.use(new LocalStrategy(
     done(null, user);
   });
 
-router.post('/', passport.authenticate('local', { failureRedirect: '/login' }), function(req, res, next){
-    console.log(req.session)
-    return res.json ({
-        data: "hi"
-    })
+router.post('/', passport.authenticate('local', { failureRedirect: '/login' }), function(req, res, next){  
+  console.log(req.session)
+    res.redirect('/passenger');
+    // return res.json ({
+    //     data: "hi"
+    // })
 })
 
 module.exports = router;

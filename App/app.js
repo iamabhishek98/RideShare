@@ -14,8 +14,6 @@ const passport = require('passport')
 const flash = require('express-flash');
 const session = require('express-session');
 
-
-
 // //Authentication Setup
 // require('./auth').load();
 
@@ -72,8 +70,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(flash())
 app.use(session({
   secret: process.env.SESSION_SECRET,
-  resave:false,
-  saveUninitialized: false
+  resave:true,
+  saveUninitialized: true
 }))
 
 app.use(passport.initialize())
@@ -110,10 +108,9 @@ app.use("/login", loginRouter);
 app.use("/signup", signupRouter);
 app.use("/message", messageRouter);
 app.use("/passenger", passengerRouter);
-app.use("/driver", driverRouter);
+app.use("/driver",/* passport.authenticate('local', {failureRedirect: '/login'}),*/ driverRouter);
 app.use("/panalytics", panalyticsRouter);
 app.use("/danalytics", danalyticsRouter);
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -125,7 +122,6 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
-
   // render the error page
   res.status(err.status || 500);
   res.render("error");
