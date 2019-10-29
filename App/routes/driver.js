@@ -14,15 +14,6 @@ sql.query = {
 
 var driver_email;
 
-const {Pool} = require('pg')
-
-const pool = new Pool({connectionString:process.env.DATABASE_URL})
-const sql = {}
-sql.query = {
-    //registering
-    register: 'INSERT INTO users AdvertisesTrip($1,$2,$3,$4,$5)'
-}
-
 /* GET login page. */
 router.get('/', function(req, res, next) {
     console.log("driver dashboard");
