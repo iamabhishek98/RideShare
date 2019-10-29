@@ -104,49 +104,53 @@
       </div>
     </div>
 
-    <div class="container" style="background:white" id="message" method="post">
-      <div class="input-group mb-3">
-        <input
-          type="text"
-          id="emailUsername"
-          class="form-control"
-          placeholder="Recipient's username"
-          aria-label="Recipient's username"
-          aria-describedby="basic-addon2"
-        />
-        <div class="input-group-append">
-          <span class="input-group-text" id="basic-addon2">@gmail.com</span>
+    <div class="container" style="background:white" id="message">
+      <form id="sendMessage" action="/message/basic" role="form" method="post">
+        <div class="form-group">
+          <label for="inputEmail4">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            placeholder="Email"
+          />
         </div>
-      </div>
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Write your message here </span>
+        <div class="form-group">
+          <label for="inputCity">Message</label>
+          <input
+            type="text"
+            class="form-control"
+            id="userMessage"
+            name="user_Message"
+            placeholder="Write your message here"
+          />
         </div>
-        <textarea
-          id="text"
-          class="form-control"
-          aria-label="With textarea"
-        ></textarea>
-      </div>
 
-      <div style="height:20px"></div>
+        <!-- <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="passengerRadio" name="passenger" value="passenger"
+                checked>
+            <label class="form-check-label" for="exampleRadios1">
+                Passenger Account
+            </label>
+        </div> -->
 
-      <button type="submit" class="btn btn-primary" id="submitbtn">
-        SEND ;)
-      </button>
-
-      <div style="height:20px"></div>
+        <br />
+        <div style="height:20px"></div>
+        <button type="submit" class="btn btn-primary" id="submitbtn">
+          SEND :)
+        </button>
+      </form>
     </div>
+    <div style="height:40px"></div>
 
     <script>
       (function() {
         window.addEventListener(
           "load",
           function() {
-            var messages = [document.getElementById("message")];
-            var validation = Array.prototype.filter.call(messages, function(
-              message
-            ) {
+            var forms = [document.getElementById(" ")];
+            var validation = Array.prototype.filter.call(forms, function(form) {
               form.addEventListener("submit", check, false);
             });
           },

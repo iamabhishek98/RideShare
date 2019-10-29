@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <!-- Page Title -->
-    <title>Passenger Dashboard</title>
+    <title>Passenger Discount</title>
     <!-- <link rel='stylesheet' href='/stylesheets/style.css' /> -->
     <link rel='stylesheet' href='/stylesheets/login.css' />
 
@@ -67,90 +66,66 @@
     <div class="container" style="background:white">
         <h2 className="my-5"> Welcome </h2>
         <div style="height:20px;"></div>
+
         <div class="row">
             <div class="col">
                 <div class="dropdown">
                     <label for="vehicle">
-                        <h4>Choose your vehicle: </h4>
+                        <h4>Current Tier: </h4>
+                    </label>
+
+                    <label for="vehicle">
+                        <h4>1</h4> <!--EJS here-->
+                    </label>
+                   
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="dropdown">
+                    <label for="vehicle">
+                        <h4>User Rewards: </h4>
                     </label>
                     <button class="btn btn-primary dropdown-toggle" id="vehicle" type="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="true">
-                        Vehicle
+                        Rewards
                         <span class="caret"></span>
                     </button>
+                    <!--EJS this part-->
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                         <li><a href="#" data-value="action">BMW</a></li>
                         <li><a href="#" data-value="another action">Proton</a></li>
                         <li><a href="#" data-value="something else here">Neutron</a></li>
                         <li><a href="#" data-value="separated link">Electron</a></li>
                     </ul>
+
+                    <button class="btn btn-primary" id="vehicle" type="button"
+                    aria-haspopup="true" aria-expanded="true">
+                    Use
+                    <span class="caret"></span>
+                </button>
+
+
                 </div>
-            </div>
-            <div class="col">
-<<<<<<< HEAD
-                <form method="post" action="/driver/advertise">
-=======
-                <form id="advertisetrip" method="post" action="/driver/basic">
->>>>>>> upstream/master
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" name = "Origin" id="inputGroup-sizing-default">Origin</span>
-                        </div>
-                        <input type="text" class="form-control" aria-label="Default" name = "origin"
-                            aria-describedby="inputGroup-sizing-default"/>
-                    </div>
-                    
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" name =  "Destination" id="inputGroup-sizing-default">Destination</span>
-                        </div>
-                        <input type="text" class="form-control" aria-label="Default" name = "destination"
-                            aria-describedby="inputGroup-sizing-default"/>
-                    </div>
-
-                    <div class='input-group date' id='datetimepicker1'>
-<<<<<<< HEAD
-                        <input type='datetime-local' name = "Date" class="form-control">
-=======
-                        <input type='datetime-local' class="form-control" name = "datetime" />
->>>>>>> upstream/master
-
-                    </div>
-                    <br/>
-                    <button type="submit" class="btn btn-primary" id="loginbtn">Advertise</button>
-                </form>
             </div>
         </div>
 
-        <br />
-        <br />
-        <h3>Current Bids: </h3>
-        <br />
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Start Location</th>
-                    <th scope="col">End Location</th>
-                    <th scope="col">Bid</th>
-                    <th scope="col">Bidder Name</th>
-                    <th scope="col">Number of Pax</th>
-                    <th scope="col">Accept</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">Buona Vista</th>
-                    <td>Kent Ridge</td>
-                    <td>$2.69</td>
-                    <td>Abhishek</td>
-                    <td>2</td>
-                    <td>
-                        <button class="btn btn-primary" id="loginbtn">Accept</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <div class="row">
+            <div class="col">
+                <div class="dropdown">
+                    <label for="vehicle">
+                        <h4>Amount to spend to reach next tier: </h4>
+                    </label>
+
+                    <label for="vehicle">
+                        <h4>$69</h4> <!--EJS here-->
+                    </label>
+                   
+                </div>
+            </div>
+        </div>
 </body>
 
 </html>

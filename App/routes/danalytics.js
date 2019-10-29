@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const {Pool} = require('pg')
-
+var driver_email;
 const pool = new Pool({connectionString:process.env.DATABASE_URL})
 
 /**
@@ -238,6 +238,13 @@ sql.query = {
 
 /* GET signup page. */
 router.get('/', function(req, res, next) {
+  console.log("danalytics");
+  if(req.session.passport.user.email == undefined){
+    console.log("driver not logged in");
+  } else {
+    driver_email = req.session.passport.user.email;
+    console.log(driver_email);
+  }
   res.render('danalytics', { result: [], title: 'Express' });
 });
 
