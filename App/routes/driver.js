@@ -27,8 +27,6 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/basic', function(req, res, next) {
-    console.log('hellloooooooo')
-    console.log(req.body)
     var origin = req.body.origin;
     var destination = req.body.destination;
     var email = driver_email;
