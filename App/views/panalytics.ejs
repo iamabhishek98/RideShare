@@ -32,10 +32,22 @@
         });
     </script>
 
+    <!-- <script>
+        function hello() {
+            console.log('hello');
+        }
+
+        $(document).ready(function(){
+            $('#loginbtn1').click(function(){
+            alert('vgin!');
+            })
+        })
+
+    </script> -->
+
 </head>
 
 <body style="background-color: white; background-size:100%; background-position-y: -400px;">
-
     <nav class="navbar navbar-expand-lg navbar-dark" style="background:#2e2e2e;">
         <a class="navbar-brand" href="/">Carpool</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
@@ -66,18 +78,12 @@
         </div>
     </div>
 
-
-
-
-
-
-
     <div class="container">
     <div class="dropdown">
         <label for="vehicle">
             <h5>Choose a timing: </h6>
         </label>
-        <button class="btn btn-primary dropdown-toggle" id="vehicle" type="button" data-toggle="dropdown"
+        <!-- <button class="btn btn-primary dropdown-toggle" id="vehicle" type="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="true">
             Timing
             <span class="caret"></span>
@@ -95,30 +101,55 @@
             <li><a href="#" data-value="separated link">6pm-8pm</a></li>
             <li><a href="#" data-value="separated link">8pm-10pm</a></li>
             <li><a href="#" data-value="separated link">10pm-12am</a></li>
-        </ul>
+        </ul> -->
+
+        <form method = "post">
+            <button class="btn btn-primary" formaction="/panalytics/00">12am-2am</button>
+            <button class="btn btn-primary" formaction="/panalytics/02">2am-4am</button>
+            <button class="btn btn-primary" formaction="/panalytics/04">4am-6am</button>
+            <button class="btn btn-primary" formaction="/panalytics/06">6am-8am</button>
+            <button class="btn btn-primary" formaction="/panalytics/08">8am-10am</button>
+            <button class="btn btn-primary" formaction="/panalytics/10">10am-12pm</button>
+            <br/><br/>
+            <button class="btn btn-primary" formaction="/panalytics/12">12pm-2pm</button>
+            <button class="btn btn-primary" formaction="/panalytics/14">2pm-4pm</button>
+            <button class="btn btn-primary" formaction="/panalytics/16">4pm-6pm</button>
+            <button class="btn btn-primary" formaction="/panalytics/18">6pm-8pm</button>
+            <button class="btn btn-primary" formaction="/panalytics/20">8pm-10pm</button>
+            <button class="btn btn-primary" formaction="/panalytics/22">10pm-12am</button>
+        </form>
     </div>
 
     <br/>
 
     <div class="dropdown">
-        <label for="vehicle">
-            <h5>Arrange by: </h6>
-        </label>
-        <button class="btn btn-primary dropdown-toggle" id="vehicle" type="button" data-toggle="dropdown"
+
+            <label for="vehicle">
+                <h5>Arrange by: </h6>
+            </label>
+        <!-- <button class="btn btn-primary dropdown-toggle" id="vehicle" type="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="true">
             Sort By
             <span class="caret"></span>
         </button>
+        
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
             <li><a href="#" data-value="action">Increasing bid</a></li>
             <li><a href="#" data-value="another action">Descreasing bid</a></li>
-        </ul>
+        </ul> -->
+        <form method = "post">
+            <button class="btn btn-primary" formaction="/panalytics/increasing">Increasing Price</button>
+            <button class="btn btn-primary" formaction="/panalytics/decreasing">Decreasing Price</button>
+        </form>       
     </div>
 
     <br/>
+        <form method = "post">
+            <button class="btn btn-primary" formaction="/panalytics/basic">Refresh</button>
+        </form>
     <br/>
 
-      <table class="table">
+    <table class="table">
               <thead class="thead-dark">
           <tr>
             <th scope="col">Location</th>
@@ -128,12 +159,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Buona Vista</td>
-            <td>69</td>
-            <td>69</td>
-            <td>$6.90</td>
-          </tr>
+          <% for (var i = 0; i < result.length;  i++) { %>
+            <tr>
+              <td><%= result[i].location %></td>
+              <td><%= result[i].successful_bids %></td>
+              <td><%= result[i].percent %>%</td>
+              <td>$<%= result[i].average_bid %></td>
+            </tr>    
+           <% } %>
         </tbody>
       </table>
     </div>

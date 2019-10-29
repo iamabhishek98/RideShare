@@ -34,7 +34,7 @@ router.post('/', async function(req, res, next){
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
     // Construct Specific SQL Query
 	  pool.query(sql.query.register, [email, name, hashedPassword, credit_card],(err, data) => {
-      console.log("query success");
+      console.log("login query success");
       res.redirect('./login')
 	  });
   } catch {

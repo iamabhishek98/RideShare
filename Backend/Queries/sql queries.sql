@@ -16,7 +16,6 @@ from bid
 group by s_time
 order by count(*) desc;
 
-
 /*hotspots for carpool bidding*/
 with B as (select distinct start_loc, count(*) as frequency
 from bid
