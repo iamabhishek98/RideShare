@@ -4,7 +4,7 @@ var router = express.Router();
 const {Pool} = require('pg')
 
 const pool = new Pool({connectionString:process.env.DATABASE_URL})
-
+var passenger_email;
 
 /**
  * Enter sql queries in here:
@@ -697,12 +697,17 @@ sql.query = {
   from Location L, AVG_BID AB, WIN_BIDS WB, WIN_PERCENT WP
   where L.loc_name = AB.location and L.loc_name = WB.location and L.loc_name = WP.location;
     `
-
-
 }
 
 /* GET signup page. */
 router.get('/', function(req, res, next) {
+  console.log("Passenger Analytics");
+  if(req.session.passport.user.email == undefined){
+    console.log("user not logged in");
+  } else {
+    passenger_email = req.session.passport.user.email;
+    console.log(passenger_email);
+  }
   res.render('panalytics', { result: [], title: 'Express' });
 });
 

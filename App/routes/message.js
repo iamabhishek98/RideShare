@@ -58,8 +58,17 @@ sql.query = {
     "INSERT INTO message (sender_email, receiver_email, msg, msg_time, msg_date) VALUES($1, $2, $3, $4, $5)"
 };
 
+
+var user_email;
 /* GET signup page. */
 router.get("/", function(req, res, next) {
+  console.log("Message page");
+  if(req.session.passport.user.email == undefined){
+    console.log("user not logged in");
+  } else {
+    user_email = req.session.passport.user.email;
+    console.log(user_email);
+  }
   res.render("message", { title: "Express" });
 });
 
