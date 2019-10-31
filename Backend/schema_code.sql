@@ -105,5 +105,6 @@ create table discount(
 create table gets (
     email varchar(256) references passenger(email),
     tier numeric references discount(tier),
+    is_used boolean default false,
     primary key(email, tier)
 );
