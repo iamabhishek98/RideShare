@@ -50,10 +50,14 @@ router.get('/', function(req, res, next) {
         //passenger success
         try {
             pool.query(sql.query.avail_advertisements, (err, data) => {
-                console.log(data.rows)
-                res.render('passenger', {
-                    advertisements: data.rows
-                })
+                if (data != undefined) {
+                    console.log(data.rows)
+                    res.render('passenger', {
+                        advertisements: data.rows
+                    })
+                } else {
+                    console.log('data is undefined')
+                }
             })
         } catch {
             console.log('passenger bid error')
@@ -99,30 +103,37 @@ router.post('/logout', function(req, res, next){
 router.post('/bid', async function(req, res, next) {
     var bids = req.body.bid;
     var data = await pool.query(sql.query.bid_advertisements)
-    var advertisements = data.rows
-      
-    for (var i = 0; i < bids.length; i++) {
-        if (bids[i] != '') {
-            console.log(i+' '+bids[i])
-            // check if amount is a number
-            // if (bids[i]<0) break;
-            var amount = bids[i];
-            var start_loc = advertisements[i].start_loc;
-            var end_loc = advertisements[i].end_loc; 
-            // to be changed to current user
-            var email_bidder = 'shagergham0@theatlantic.com'
-            var email_driver = advertisements[i].email
-            var vehicle = advertisements[i].vehicle
-            var s_date = advertisements[i].a_date
-            var s_time = advertisements[i].a_time
-            console.log(amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time);
-            try {
-                var result = await pool.query(sql.query.insert_bid, [amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time]);
-                console.log(result)
-            } catch {
-                console.log('insert bid error')
+    if (data != undefined) {
+        var advertisements = data.rows
+        for (var i = 0; i < bids.length; i++) {
+            if (bids[i] != '') {
+                console.log(i+' '+bids[i])
+                // check if amount is a number
+                // if (bids[i]<0) break;
+                var amount = bids[i];
+                var start_loc = advertisements[i].start_loc;
+                var end_loc = advertisements[i].end_loc; 
+                // to be changed to current user
+                var email_bidder = 'shagergham0@theatlantic.com'
+                var email_driver = advertisements[i].email
+                var vehicle = advertisements[i].vehicle
+                var s_date = advertisements[i].a_date
+                var s_time = advertisements[i].a_time
+                console.log(amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time);
+                try {
+                    var result = await pool.query(sql.query.insert_bid, [amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time]);
+                    if (result != undefined) {
+                        console.log(result)
+                    } else {
+                        console.log('result is undefined')
+                    }
+                } catch {
+                    console.log('insert bid error')
+                }
             }
         }
+    } else {
+        console.log('data is undefined')
     }
 })
 

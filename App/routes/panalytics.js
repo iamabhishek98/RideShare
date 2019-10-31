@@ -711,10 +711,14 @@ router.get('/', function(req, res, next) {
   try{
     // Construct Specific SQL Query
 	  pool.query(sql.query.panalytics_basic,(err, data) => {
-      console.log(data.rows)
-      res.render('panalytics', {
-        result: data.rows, title: 'Express'  
-      })
+      if (data != undefined) {
+        console.log(data.rows)
+        res.render('panalytics', {
+          result: data.rows, title: 'Express'  
+        })
+      } else {
+        console.log('data is undefined')
+      }
     });
   } catch {
     console.log('panalytics basic error');
@@ -728,10 +732,14 @@ router.post('/increasing', function(req, res, next){
   try{
     // Construct Specific SQL Query
 	  pool.query(sql.query.panalytics_increasing,(err, data) => {
-      console.log(data.rows)
-      res.render('panalytics', {
-        result: data.rows 
-      })
+      if (data != undefined) {
+        console.log(data.rows)
+        res.render('panalytics', {
+          result: data.rows 
+        })
+      } else {
+          console.log('data is undefined')
+      }
     });
   } catch {
     console.log('panalytics increasing error');
@@ -742,10 +750,14 @@ router.post('/decreasing', function(req, res, next){
   try{
     // var order = 'desc';
 	  pool.query(sql.query.panalytics_decreasing,(err, data) => {
-      console.log(data.rows)
-      res.render('panalytics', {
-        result: data.rows 
-      })
+      if (data != undefined) {
+        console.log(data.rows)
+        res.render('panalytics', {
+          result: data.rows 
+        })
+      } else {
+          console.log('data is undefined')
+      }
     });
   } catch {
     console.log('panalytics decreasing error');
@@ -756,10 +768,14 @@ router.post('/00', function(req, res, next){
   try{
     // var order = 'desc';
 	  pool.query(sql.query.panalytics_00,(err, data) => {
-      console.log(data.rows)
-      res.render('panalytics', {
-        result: data.rows 
-      })
+      if (data != undefined) {
+        console.log(data.rows)
+        res.render('panalytics', {
+          result: data.rows 
+        })
+      } else {
+          console.log('data is undefined')
+      }
     });
   } catch {
     console.log('panalytics 00 error');
@@ -770,10 +786,14 @@ router.post('/02', function(req, res, next){
   try{
     // var order = 'desc';
 	  pool.query(sql.query.panalytics_02,(err, data) => {
-      console.log(data.rows)
-      res.render('panalytics', {
-        result: data.rows 
-      })
+      if (data != undefined) {
+        console.log(data.rows)
+        res.render('panalytics', {
+          result: data.rows 
+        })
+      } else {
+          console.log('data is undefined')
+      }
     });
   } catch {
     console.log('panalytics 02 error');
@@ -784,10 +804,14 @@ router.post('/04', function(req, res, next){
   try{
     // var order = 'desc';
 	  pool.query(sql.query.panalytics_04,(err, data) => {
-      console.log(data.rows)
-      res.render('panalytics', {
-        result: data.rows 
-      })
+      if (data != undefined) {
+        console.log(data.rows)
+        res.render('panalytics', {
+          result: data.rows 
+        })
+      } else {
+          console.log('data is undefined')
+      }
     });
   } catch {
     console.log('panalytics 04 error');
@@ -798,10 +822,14 @@ router.post('/06', function(req, res, next){
   try{
     // var order = 'desc';
 	  pool.query(sql.query.panalytics_06,(err, data) => {
-      console.log(data.rows)
-      res.render('panalytics', {
-        result: data.rows 
-      })
+      if (data != undefined) {
+        console.log(data.rows)
+        res.render('panalytics', {
+          result: data.rows 
+        })
+      } else {
+          console.log('data is undefined')
+      }
     });
   } catch {
     console.log('panalytics 06 error');
@@ -812,10 +840,14 @@ router.post('/08', function(req, res, next){
   try{
     // var order = 'desc';
 	  pool.query(sql.query.panalytics_08,(err, data) => {
-      console.log(data.rows)
-      res.render('panalytics', {
-        result: data.rows 
-      })
+      if (data != undefined) {
+        console.log(data.rows)
+        res.render('panalytics', {
+          result: data.rows 
+        })
+      } else {
+          console.log('data is undefined')
+      }
     });
   } catch {
     console.log('panalytics 08 error');
@@ -826,10 +858,14 @@ router.post('/10', function(req, res, next){
   try{
     // var order = 'desc';
 	  pool.query(sql.query.panalytics_10,(err, data) => {
-      console.log(data.rows)
-      res.render('panalytics', {
-        result: data.rows 
-      })
+      if (data != undefined) {
+        console.log(data.rows)
+        res.render('panalytics', {
+          result: data.rows 
+        })
+      } else {
+          console.log('data is undefined')
+      }
     });
   } catch {
     console.log('panalytics 10 error');
@@ -840,10 +876,14 @@ router.post('/12', function(req, res, next){
   try{
     // var order = 'desc';
 	  pool.query(sql.query.panalytics_12,(err, data) => {
-      console.log(data.rows)
-      res.render('panalytics', {
-        result: data.rows 
-      })
+      if (data != undefined) {
+        console.log(data.rows)
+        res.render('panalytics', {
+          result: data.rows 
+        })
+      } else {
+          console.log('data is undefined')
+      }
     });
   } catch {
     console.log('panalytics 12 error');
@@ -854,10 +894,14 @@ router.post('/14', function(req, res, next){
   try{
     // var order = 'desc';
 	  pool.query(sql.query.panalytics_14,(err, data) => {
-      console.log(data.rows)
-      res.render('panalytics', {
-        result: data.rows 
-      })
+      if (data != undefined) {
+        console.log(data.rows)
+        res.render('panalytics', {
+          result: data.rows 
+        })
+      } else {
+          console.log('data is undefined')
+      }
     });
   } catch {
     console.log('panalytics 14 error');
@@ -868,10 +912,14 @@ router.post('/16', function(req, res, next){
   try{
     // var order = 'desc';
 	  pool.query(sql.query.panalytics_16,(err, data) => {
-      console.log(data.rows)
-      res.render('panalytics', {
-        result: data.rows 
-      })
+      if (data != undefined) {
+        console.log(data.rows)
+        res.render('panalytics', {
+          result: data.rows 
+        })
+      } else {
+          console.log('data is undefined')
+      }
     });
   } catch {
     console.log('panalytics 16 error');
@@ -882,10 +930,14 @@ router.post('/18', function(req, res, next){
   try{
     // var order = 'desc';
 	  pool.query(sql.query.panalytics_18,(err, data) => {
-      console.log(data.rows)
-      res.render('panalytics', {
-        result: data.rows 
-      })
+      if (data != undefined) {
+        console.log(data.rows)
+        res.render('panalytics', {
+          result: data.rows 
+        })
+      } else {
+          console.log('data is undefined')
+      }
     });
   } catch {
     console.log('panalytics 18 error');
@@ -896,10 +948,14 @@ router.post('/20', function(req, res, next){
   try{
     // var order = 'desc';
 	  pool.query(sql.query.panalytics_20,(err, data) => {
-      console.log(data.rows)
-      res.render('panalytics', {
-        result: data.rows 
-      })
+      if (data != undefined) {
+        console.log(data.rows)
+        res.render('panalytics', {
+          result: data.rows 
+        })
+      } else {
+          console.log('data is undefined')
+      }
     });
   } catch {
     console.log('panalytics 20 error');
@@ -910,10 +966,14 @@ router.post('/22', function(req, res, next){
   try{
     // var order = 'desc';
 	  pool.query(sql.query.panalytics_22,(err, data) => {
-      console.log(data.rows)
-      res.render('panalytics', {
-        result: data.rows 
-      })
+      if (data != undefined) {
+        console.log(data.rows)
+        res.render('panalytics', {
+          result: data.rows 
+        })
+      } else {
+          console.log('data is undefined')
+      }
     });
   } catch {
     console.log('panalytics 22 error');
