@@ -26,22 +26,55 @@ router.get('/', function(req, res, next) {
     console.log("passenger dashboard");
     if(req.session.passport.user.email == undefined){
         console.log("user not logged in");
-    } else {
-        passenger_email = req.session.passport.user.email;
-        console.log(passenger_email);
-    }
-    try {
-        pool.query(sql.query.avail_advertisements, (err, data) => {
-            console.log(data.rows)
-            res.render('passenger', {
-                advertisements: data.rows
+    } else if(req.session.passport.user.id == "passenger"){
+        //passenger success
+        try {
+            pool.query(sql.query.avail_advertisements, (err, data) => {
+                console.log(data.rows)
+                res.render('passenger', {
+                    advertisements: data.rows
+                })
             })
-        })
-    } catch {
-        console.log('passenger bid error')
+        } catch {
+            console.log('passenger bid error')
+        }
+    } else if(req.session.passport.user.id == "driver"){
+        //no access
+        res.redirect('./driver');
+    } else {
+        res.redirect('./login');
     }
+    
+    
+    
+    
+    
+    
+    // else {
+    //     passenger_email = req.session.passport.user.email;
+    //     console.log(passenger_email);
+    // }
+    // try {
+    //     pool.query(sql.query.avail_advertisements, (err, data) => {
+    //         console.log(data.rows)
+    //         res.render('passenger', {
+    //             advertisements: data.rows
+    //         })
+    //     })
+    // } catch {
+    //     console.log('passenger bid error')
+    // }
     // res.render('passenger', {advertisements: [], title: 'Express' });
 });
+
+
+router.post('/logout', function(req, res, next){
+    req.session.passport.user.email = "";
+    req.session.passport.user.password = "";
+    req.session.passport.user.id = "";
+    console.log(session);
+    res.redirect('../login');
+})
 
 router.post('/bid', async function(req, res, next) {
     var bids = req.body.bid;

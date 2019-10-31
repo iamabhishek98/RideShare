@@ -70,8 +70,18 @@ passport.use(new LocalStrategy(
   });
 
 router.post('/', passport.authenticate('local', { failureRedirect: '/login' }), function(req, res, next){  
-  console.log(req.session)
+  console.log("this is the session---------:");
+  var user_type = req.body.userType;
+  if(user_type == "passenger"){
+    req.session.passport.user.id = "passenger";
+    console.log(req.session);
     res.redirect('/passenger');
+  } else if(user_type == "driver"){
+    req.session.passport.user.id = "driver";
+    console.log(req.session);
+    res.redirect('/driver');
+  }
+   // res.redirect('/passenger');
     // return res.json ({
     //     data: "hi"
     // })
