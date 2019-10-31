@@ -15,7 +15,7 @@ sql.query = {
     add_rating: `update bid set rating = $6 where email_driver = $1 and vehicle = $2 and start_loc = $3 and s_date = $4 and s_time = $5`
 }
 var driver_email;
-
+var bid_val;
 
 /* GET login page. */
 router.get('/', function(req, res, next) {
@@ -27,6 +27,9 @@ router.get('/', function(req, res, next) {
     } else if(req.session.passport.user.id == "passenger"){
         //have access
         res.render('trip');
+        bid_val = req.session.passport.user.bid;
+        console.log("you are now in the trip page: --------");
+        console.log(bid_val);
     } else if(req.session.passport.user.id == "driver"){
         res.redirect('./driver');
     } else {
@@ -71,7 +74,9 @@ router.post('/logout', function(req, res, next){
 
 
 router.post('/endtrip', function(req, res, next){
-    console.log(req.body)
+    console.log(req.body.datetime);
+    console.log(req.body.text_area);
+    console.log(req.body.selectpicker);
 })
 
 module.exports = router;
