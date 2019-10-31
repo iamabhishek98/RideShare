@@ -68,7 +68,9 @@ router.post('/logout', function(req, res, next){
 
 
 router.post('/endtrip', function(req, res, next){
-    console.log("end trip pressed");
+    console.log(req.body.datetime);
+    console.log(req.body.text_area);
+    console.log(req.body.selectpicker);
 })
 
 module.exports = router;
