@@ -9,8 +9,9 @@ const bcrypt = require('bcrypt')
 const sql = {};
 sql.query = {
     //registering
-    email_query: 'select * from passenger where email = $1'
-};
+    email_query: 'select * from passenger where email = $1',
+    check_driver: 'select * from driver where email = $1'
+  };
 
 //Postgre SQL Connection
 const{ Pool } = require('pg');
@@ -77,9 +78,23 @@ router.post('/', passport.authenticate('local', { failureRedirect: '/login' }), 
     console.log(req.session);
     res.redirect('/passenger');
   } else if(user_type == "driver"){
-    req.session.passport.user.id = "driver";
+    //check if passenger has a driver account
+    pool.query(sql.query.check_driver, [req.body.email], (err, data) => {
+      if(data.rows.length == 0){
+        //user does not have a driver account and hence, cannot log in as driver
+        console.log("User not driver");
+        req.session.passport.user.id = "";
+        req.session.passport.user.password = "";
+        req.session.passport.user.email = "";
+
+        res.redirect('/login');
+      } else {
+        req.session.passport.user.id = "driver";
+        console.log(req.session);
+        res.redirect('/driver');
+      }
+    });
     console.log(req.session);
-    res.redirect('/driver');
   }
    // res.redirect('/passenger');
     // return res.json ({

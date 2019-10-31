@@ -100,6 +100,13 @@ router.post('/logout', function(req, res, next){
     res.redirect('../login');
 })
 
+router.post('/start_trip', function(req, res, next){
+    /**
+     * the code to check for any matching and winning bids
+     */
+    res.redirect('../trip');
+})
+
 router.post('/bid', async function(req, res, next) {
     var bids = req.body.bid;
     var data = await pool.query(sql.query.bid_advertisements)

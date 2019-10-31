@@ -21,11 +21,11 @@ router.get('/', function(req, res, next) {
     console.log(req.session);
     if(req.session.passport.user.email==undefined){
         console.log("driver not logged in");
-    } else if(req.session.passport.user.id == "driver"){
+    } else if(req.session.passport.user.id == "passenger"){
         //have access
         res.render('trip');
-    } else if(req.session.passport.user.id == "passenger"){
-        res.redirect('./passenger');
+    } else if(req.session.passport.user.id == "driver"){
+        res.redirect('./driver');
     } else {
         res.redirect('./login');
     }
@@ -68,7 +68,7 @@ router.post('/logout', function(req, res, next){
 
 
 router.post('/endtrip', function(req, res, next){
-    console.log("end trip pressed");
+    console.log(req.body)
 })
 
 module.exports = router;

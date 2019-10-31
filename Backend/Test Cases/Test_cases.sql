@@ -1,13 +1,13 @@
 -- delete from users;
-delete from driver;
-delete from passenger;
-delete from vehicles;
 delete from drives;
-delete from message;
-delete from advertisesTrip;
+delete from driver;
+delete from vehicles;
 delete from bid;
-delete from location;
+delete from message;
 delete from favouriteLocation;
+delete from location;
+delete from advertisesTrip;
+delete from passenger;
 delete from gets;
 delete from discount;
 

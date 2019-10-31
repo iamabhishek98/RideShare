@@ -138,7 +138,7 @@ router.post('/bid_true', async function(req, res, next) {
                 var result = await pool.query(sql.query.bid_win, [email_bidder, email_driver, vehicle, start_loc, amount, s_date, s_time]);
                 if (result != undefined) {
                     console.log(result)
-                    res.redirect('../trip');
+                    // res.redirect('../trip');
                 } else {
                     console.log('result is undefined')
                 }
