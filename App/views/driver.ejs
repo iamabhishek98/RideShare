@@ -125,6 +125,8 @@
                     <th scope="col">Bidder Name</th>
                     <th scope="col">Start Location</th>
                     <th scope="col">End Location</th>
+                    <th scope="col">Vehicle</th>
+                    <th scope="col">Current Pax</th>
                     <th scope="col">Bid</th>
                 </tr>
             </thead>
@@ -142,6 +144,8 @@
                             <td><%= bid[i].name %></td>
                             <td><%= bid[i].start_loc %></td>
                             <td><%= bid[i].end_loc %></td>
+                            <td><%= bid[i].vehicle %></td>
+                            <td><%= bid[i].current_pax %></td>
                             <td>$<%= bid[i].amount %></td>
                         </tr>    
                     <% } %>
