@@ -1,3 +1,5 @@
+/*OUTDATED*/
+
 /*orders the average ratings of the driver descending order*/
 with B as (select distinct email_driver, avg(rating) as avg_rating
 from bid 
