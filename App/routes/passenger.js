@@ -12,7 +12,7 @@ sql.query = {
     from users U, advertisesTrip A
     where U.email = A.email) N
     where N.email = A.email
-    order by A.a_date desc, A.a_time desc;`,
+    order by A.a_date asc, A.a_time asc;`,
 
     bid_advertisements: `select * from advertisesTrip;`,
 
