@@ -40,7 +40,7 @@ passport.use(new LocalStrategy(
           if(data.rows.length == 0){
             console.log("User does not exists?");
             return done(null);
-          } else if(data.rows.length == 1){
+          } else if(data.rows.length == 1) {
             try{
               if (await bcrypt.compare(password, data.rows[0].password)){
                 console.log("success");

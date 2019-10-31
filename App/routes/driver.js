@@ -45,6 +45,7 @@ router.get('/', function(req, res, next) {
     }
 });
 
+
 router.post('/bid_true', async function(req, res, next) {
     console.log(req.body.bid_true);
     var index = req.body.bid_true-1;
@@ -85,5 +86,4 @@ router.post('/advertise', function(req, res, next) {
         console.log('driver advertise error')
     }
 })
-
 module.exports = router;  
