@@ -69,11 +69,4 @@ insert into bid(is_win, s_date, s_time, e_date, e_time, amount, start_loc, end_l
 insert into bid(is_win, s_date, s_time, e_date, e_time, amount, start_loc, end_loc, email_bidder, email_driver, rating) values ('true', '2018-12-21', '23:51:13', '2018-12-22', '00:50:13', '35', 'Toa Payoh', 'Pasir Ris', 'cbramall4@ebay.co.uk', 'bmulligan9@networkadvertising.org', '5');
 insert into bid(is_win, s_date, s_time, e_date, e_time, amount, start_loc, end_loc, email_bidder, email_driver, rating) values ('false', '2018-12-23', '10:10:00', '2018-12-24', '11:10:00', '25.3', 'Queenstown', 'NUS', 'shagergham0@theatlantic.com', 'ayurenev5@icio.us', '3');
 insert into bid(is_win, s_date, s_time, e_date, e_time, amount, start_loc, end_loc, email_bidder, email_driver, rating) values ('false', '2018-12-24', '10:10:00', '2018-12-25', '11:10:00', '25.3', 'Queenstown', 'NUS', 'shagergham0@theatlantic.com', 'ayurenev5@icio.us', '3');
-
-
-
-	
-	
-	
-	
 	
