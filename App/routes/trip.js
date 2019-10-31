@@ -34,9 +34,6 @@ router.get('/', function(req, res, next) {
         res.redirect('./login');
     }
     
-    
-    
-    
     /*
     else {
         driver_email = req.session.passport.user.email;

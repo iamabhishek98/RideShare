@@ -44,7 +44,13 @@ sql.query = {
     where email_bidder = $1 and email_driver = $2
     and vehicle = $3 and start_loc = $4 and amount = $5 
     and s_date = $6 and s_time = $7;
-    `
+    `,
+    
+    insert_vehicle: 'insert into vehicles(license_plate, pax) values($1, $2)',
+
+    insert_drives: 'insert into drives(email, license_plate) values($1, $2)',
+    
+    get_drives: 'select * from drives where email = $1'
     /*
     update bid set is_win = false
     where email_bidder = 'ucramphorn1@netlog.com' and email_driver = 'rdoog6@yandex.ru'
@@ -65,10 +71,17 @@ router.get('/', function(req, res, next) {
         console.log("This is a driver account");
         try {
             // need to only load driver related bids
+        
             pool.query(sql.query.available_bids, ['rdoog6@yandex.ru'], (err, data) => {
                 if (data != undefined) {
                     console.log(data.rows)
-                    res.render('driver', {bid: data.rows, title : 'Express'})
+
+                    pool.query(sql.query.get_drives, [req.session.passport.user.email], (err, result) => {
+                        console.log(result);
+                        res.render('driver', {bid: data.rows, vehicles: result.rows, title : 'Express'})
+                    })
+
+                    
                 } else {
                     console.log('data is undefined')
                 }
@@ -116,6 +129,20 @@ router.post('/logout', function(req, res, next){
     req.session.passport.user.id = "";
     console.log(session);
     res.redirect('../login');
+})
+
+router.post('/add_vehicle', function(req, res, next){
+    console.log(req.session.passport.user.email);
+    console.log(req.body.newVehicleNum);
+    console.log(req.body.paxPicker);
+
+    var email = req.session.passport.user.email;
+    var vehicleNum = req.body.newVehicleNum;
+    var paxPicker = req.body.paxPicker;
+    pool.query(sql.query.insert_vehicle, [vehicleNum, paxPicker]);
+    pool.query(sql.query.insert_drives, [email, vehicleNum]);
+    console.log("inserted data already");
+    res.redirect('../driver');
 })
 
 router.post('/bid_true', async function(req, res, next) {

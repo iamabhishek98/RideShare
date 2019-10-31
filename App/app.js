@@ -56,6 +56,8 @@ var panalyticsRouter = require("./routes/panalytics");
 var danalyticsRouter = require("./routes/danalytics");
 var discountRouter = require("./routes/discount");
 var tripRouter = require("./routes/trip");
+var becomeDriverRouter = require("./routes/becomeDriver");
+
 
 var app = express();
 
@@ -115,6 +117,8 @@ app.use("/panalytics", panalyticsRouter);
 app.use("/danalytics", danalyticsRouter);
 app.use("/discount", discountRouter);
 app.use('/trip', tripRouter);
+app.use('/becomeDriver', becomeDriverRouter);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
