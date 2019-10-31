@@ -16,7 +16,7 @@ sql.query = {
 
     bid_advertisements: `select * from advertisesTrip;`,
 
-    insert_bid: `INSERT INTO bid (amount, start_loc, end_loc, email_bidder, email_driver, s_date, s_time) VALUES($1, $2, $3, $4, $5, $6, $7)`   
+    insert_bid: `INSERT INTO bid (amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time) VALUES($1, $2, $3, $4, $5, $6, $7, $8)`   
 }
 
 
@@ -59,10 +59,12 @@ router.post('/bid', async function(req, res, next) {
             // to be changed to current user
             var email_bidder = 'shagergham0@theatlantic.com'
             var email_driver = advertisements[i].email
+            var vehicle = advertisements[i].vehicle
             var s_date = advertisements[i].a_date
             var s_time = advertisements[i].a_time
+            console.log(amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time);
             try {
-                var result = await pool.query(sql.query.insert_bid, [amount, start_loc, end_loc, email_bidder, email_driver, s_date, s_time]);
+                var result = await pool.query(sql.query.insert_bid, [amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time]);
                 console.log(result)
             } catch {
                 console.log('insert bid error')
