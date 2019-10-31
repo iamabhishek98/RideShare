@@ -52,6 +52,7 @@ router.post('/bid', async function(req, res, next) {
         if (bids[i] != '') {
             console.log(i+' '+bids[i])
             // check if amount is a number
+            // if (bids[i]<0) break;
             var amount = bids[i];
             var start_loc = advertisements[i].start_loc;
             var end_loc = advertisements[i].end_loc; 

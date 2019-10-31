@@ -50,18 +50,22 @@ router.post('/bid_true', async function(req, res, next) {
     var index = req.body.bid_true-1;
     var data = await pool.query(sql.query.available_bids)
     var bids = data.rows
-    var email_bidder = bids[index].email_bidder;
-    // to be changed to current user
-    var email_driver = 'rdoog6@yandex.ru';
-    var start_loc = bids[index].start_loc;
-    var amount = bids[index].amount;
-    var s_date = bids[index].s_date;
-    var s_time = bids[index].s_time;
-    try {
-        var result = await pool.query(sql.query.bid_win, [email_bidder, email_driver, start_loc, amount, s_date, s_time]);
-        console.log(result)
-    } catch {
-        console.log('driver set bid true error')
+    if (index >= 0 && index < bids.length) {
+        var email_bidder = bids[index].email_bidder;
+        // to be changed to current user
+        var email_driver = 'rdoog6@yandex.ru';
+        var start_loc = bids[index].start_loc;
+        var amount = bids[index].amount;
+        var s_date = bids[index].s_date;
+        var s_time = bids[index].s_time;
+        try {
+            var result = await pool.query(sql.query.bid_win, [email_bidder, email_driver, start_loc, amount, s_date, s_time]);
+            console.log(result)
+        } catch {
+            console.log('driver set bid true error')
+        }
+    } else {
+        console.log('invalid index');
     }
 
 })
