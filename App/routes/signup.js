@@ -15,7 +15,6 @@ sql.query = {
     //registering
     register: 'INSERT INTO users VALUES($1,$2,$3,$4)'
 }
-
 /* GET signup page. */
 router.get('/', function(req, res, next) {
   res.render('signup', { title: 'Express' });
