@@ -38,7 +38,7 @@ sql.query = {
 
     insert_bid: `INSERT INTO bid (amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time) VALUES($1, $2, $3, $4, $5, $6, $7, $8)`,
     
-    bid_win: `select * from bid where is_win is true and email_bidder = $1`
+    bid_win: `select * from bid where is_win is true and e_date is null and e_time is null and email_bidder = $1`
 }
 
 
@@ -69,12 +69,7 @@ router.get('/', function(req, res, next) {
         res.redirect('./driver');
     } else {
         res.redirect('./login');
-    }
-    
-    
-    
-    
-    
+    }   
     
     // else {
     //     passenger_email = req.session.passport.user.email;

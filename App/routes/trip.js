@@ -10,7 +10,9 @@ const pool = new Pool({connectionString:process.env.DATABASE_URL})
 const sql = []
 
 sql.query = {
-
+    complete_trip: `update bid set e_date = $6 and e_time = $7 where email_driver = $1 and vehicle = $2 and start_loc = $3 and s_date = $4 and s_time = $5`,
+    add_review: `update bid set review = $6 where email_driver = $1 and vehicle = $2 and start_loc = $3 and s_date = $4 and s_time = $5`,
+    add_rating: `update bid set rating = $6 where email_driver = $1 and vehicle = $2 and start_loc = $3 and s_date = $4 and s_time = $5`
 }
 var driver_email;
 
