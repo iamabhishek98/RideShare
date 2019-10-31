@@ -142,7 +142,7 @@ router.post('/start_trip', function(req, res, next){
     try {
         pool.query(sql.query.bid_win, ['shagergham0@theatlantic.com'], (err, data) => {
             if (data != undefined) {
-                console.log(data.rows[0])
+                console.log(data.rows)
                 req.session.passport.user.bid = data.rows[0];
                 res.redirect('../trip');
             } else {
