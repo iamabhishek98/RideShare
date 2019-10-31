@@ -8,11 +8,11 @@ const pool = new Pool({connectionString:process.env.DATABASE_URL})
 const sql = []
 sql.query = {
     avail_advertisements: `select distinct N.name, A.start_loc, A.end_loc, A.a_date, A.a_time
-    from advertisesTrip A, (select distinct U.name, U.email 
-    from users U, advertisesTrip A
-    where U.email = A.email) N
+    from advertisesTrip A, (select distinct P.name, P.email 
+    from passenger P, advertisesTrip A
+    where P.email = A.email) N
     where N.email = A.email
-    order by A.a_date asc, A.a_time asc;`,
+    order by A.a_date desc, A.a_time desc;`,
 
     bid_advertisements: `select * from advertisesTrip;`,
 
@@ -52,6 +52,7 @@ router.post('/bid', async function(req, res, next) {
         if (bids[i] != '') {
             console.log(i+' '+bids[i])
             // check if amount is a number
+            // if (bids[i]<0) break;
             var amount = bids[i];
             var start_loc = advertisements[i].start_loc;
             var end_loc = advertisements[i].end_loc; 

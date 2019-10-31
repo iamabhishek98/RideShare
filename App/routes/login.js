@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt')
 const sql = {};
 sql.query = {
     //registering
-    email_query: 'select * from users where email = $1'
+    email_query: 'select * from passenger where email = $1'
 };
 
 //Postgre SQL Connection

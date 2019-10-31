@@ -13,7 +13,7 @@ const bcrypt = require('bcrypt');
 const sql = {}
 sql.query = {
     //registering
-    register: 'INSERT INTO users VALUES($1,$2,$3,$4)'
+    register: 'INSERT INTO passenger VALUES($1,$2,$3,$4)'
 }
 
 /* GET signup page. */
