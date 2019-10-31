@@ -88,8 +88,8 @@
             <button type="submit" class="btn btn-primary" id="loginbtn">Search</button>
         </form>
         <br />
-        <br />
         <h3>Available Advertisements</h3>
+        
         <br />
         <table class="table">
             <thead class="thead-dark">
@@ -97,44 +97,37 @@
                     <th scope="col">Driver Name</th>
                     <th scope="col">Start Location</th>
                     <th scope="col">End Location</th>
-                    <th scope="col">Est. Artival Time</th>
-                    <th scope="col">Number of Pax</th>
+                    <th scope="col">Est. Arrival Date</th>
+                    <th scope="col">Est. Arrival Time</th>
+                    <th scope="col">Current Pax</th>
                     <th scope="col">Your Bid ($)</th>
                 </tr>
             </thead>
             <tbody>
+                    <form method = "post" action = "/passenger/bid">
+        
                 <tr>
-                    <th scope="row">Rowdy</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    <td>
-                        <div class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="true">
-                                1
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li><a href="#" data-value="action">1</a></li>
-                                <li><a href="#" data-value="another action">2</a></li>
-                                <li><a href="#" data-value="something else here">3</a></li>
-                                <li><a href="#" data-value="separated link">4</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Your bid"
-                                aria-label="Recipient's username" aria-describedby="button-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button" id="button-addon2">Bid!</button>
-                            </div>
-                        </div>
-                    </td>
+                <% for (var i = 0; i < advertisements.length;  i++) { %>
+                    <tr>
+                        <th scope="row"><%= advertisements[i].name %></td>
+                        <td><%= advertisements[i].start_loc %></td>
+                        <td><%= advertisements[i].end_loc %></td>
+                        <td><%= advertisements[i].a_date %></td>
+                        <td><%= advertisements[i].a_time %></td>
+                        <td><div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Your bid"
+                                    aria-label="Recipient's username" aria-describedby="button-addon2" name = "bid">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit" id="submit-button">Bid!</button>
+                                </div>
+                        </td>
+                    </tr>    
+                    <% } %>
                 </tr>
+                </form>
             </tbody>
         </table>
+        
     </div>
     <br />
     <br />

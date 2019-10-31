@@ -245,24 +245,21 @@ router.get('/', function(req, res, next) {
     driver_email = req.session.passport.user.email;
     console.log(driver_email);
   }
-  res.render('danalytics', { result: [], title: 'Express' });
-});
-
-// POST
-router.post('/basic', function(req, res, next){
   try{
     // Construct Specific SQL Query
 	  pool.query(sql.query.danalytics_basic,(err, data) => {
       console.log(data.rows)
       res.render('danalytics', {
-        result: data.rows 
+        result: data.rows, title: 'Express' 
       })
     });
   } catch {
     console.log('danalytics basic error');
   }
-})
+  // res.render('danalytics', { result: [], title: 'Express' });
+});
 
+// POST
 router.post('/increasing', function(req, res, next){
   try{
     // Construct Specific SQL Query
