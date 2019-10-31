@@ -25,7 +25,6 @@ where B.email_bidder = N.email
 and B.email_driver = CP.email_driver
 and B.email_driver = 'ayurenev5@icio.us';
 
-
 -- select distinct N.name, B.email_bidder, B.vehicle, B.start_loc, B.end_loc, B.amount, B.s_date, B.s_time
 -- from Bid B, (select distinct P.name, P.email
 -- from passenger P, bid B

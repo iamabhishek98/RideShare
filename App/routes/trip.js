@@ -18,6 +18,7 @@ var driver_email;
 /* GET login page. */
 router.get('/', function(req, res, next) {
     console.log("trip dashboard");
+    console.log(req)
     console.log(req.session);
     if(req.session.passport.user.email==undefined){
         console.log("driver not logged in");
@@ -68,7 +69,7 @@ router.post('/logout', function(req, res, next){
 
 
 router.post('/endtrip', function(req, res, next){
-    console.log("end trip pressed");
+    console.log(req.body)
 })
 
 module.exports = router;

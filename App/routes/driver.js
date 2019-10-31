@@ -66,8 +66,12 @@ router.get('/', function(req, res, next) {
         try {
             // need to only load driver related bids
             pool.query(sql.query.available_bids, ['rdoog6@yandex.ru'], (err, data) => {
-                console.log(data.rows)
-                res.render('driver', {bid: data.rows, title : 'Express'})
+                if (data != undefined) {
+                    console.log(data.rows)
+                    res.render('driver', {bid: data.rows, title : 'Express'})
+                } else {
+                    console.log('data is undefined')
+                }
             })
         } catch {
             console.log('driver available bids error')
@@ -118,26 +122,34 @@ router.post('/bid_true', async function(req, res, next) {
     console.log(req.body.bid_true);
     var index = req.body.bid_true-1;
     var data = await pool.query(sql.query.available_bids, ['rdoog6@yandex.ru'])
-    var bids = data.rows
-    if (index >= 0 && index < bids.length) {
-        var email_bidder = bids[index].email_bidder;
-        // to be changed to current user
-        var email_driver = 'rdoog6@yandex.ru';
-        var vehicle = bids[index].vehicle;
-        var start_loc = bids[index].start_loc;
-        var amount = bids[index].amount;
-        var s_date = bids[index].s_date;
-        var s_time = bids[index].s_time;
-        console.log(email_bidder, email_driver, vehicle, start_loc, amount, s_date, s_time)
-        try {
-            var result = await pool.query(sql.query.bid_win, [email_bidder, email_driver, vehicle, start_loc, amount, s_date, s_time]);
-            console.log(result)
-            //res.redirect('../trip');
-        } catch {
-            console.log('driver set bid true error')
+    if (data != undefined) {
+        var bids = data.rows
+        if (index >= 0 && index < bids.length) {
+            var email_bidder = bids[index].email_bidder;
+            // to be changed to current user
+            var email_driver = 'rdoog6@yandex.ru';
+            var vehicle = bids[index].vehicle;
+            var start_loc = bids[index].start_loc;
+            var amount = bids[index].amount;
+            var s_date = bids[index].s_date;
+            var s_time = bids[index].s_time;
+            console.log(email_bidder, email_driver, vehicle, start_loc, amount, s_date, s_time)
+            try {
+                var result = await pool.query(sql.query.bid_win, [email_bidder, email_driver, vehicle, start_loc, amount, s_date, s_time]);
+                if (result != undefined) {
+                    console.log(result)
+                    // res.redirect('../trip');
+                } else {
+                    console.log('result is undefined')
+                }
+            } catch {
+                console.log('driver set bid true error')
+            }
+        } else {
+            console.log('invalid index');
         }
     } else {
-        console.log('invalid index');
+        console.log('data is undefined.')
     }
 
 })
@@ -151,7 +163,11 @@ router.post('/advertise', function(req, res, next) {
     var time = req.body.datetime.split("T")[1]+":00";
     try {
         pool.query(sql.query.advertise, [origin, destination, email, date, time], (err, data) => {
-            console.log(data.rows)
+            if (data != undefined) {
+                console.log(data.rows)
+            } else {
+                console.log('data is undefined.')
+            }
         })
     } catch {
         console.log('driver advertise error')

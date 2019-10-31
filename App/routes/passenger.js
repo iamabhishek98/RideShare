@@ -36,7 +36,9 @@ sql.query = {
 
     bid_advertisements: `select * from advertisesTrip;`,
 
-    insert_bid: `INSERT INTO bid (amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time) VALUES($1, $2, $3, $4, $5, $6, $7, $8)`   
+    insert_bid: `INSERT INTO bid (amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time) VALUES($1, $2, $3, $4, $5, $6, $7, $8)`,
+    
+    bid_win: `select * from bid where is_win is true and email_bidder = $1`
 }
 
 
@@ -50,10 +52,14 @@ router.get('/', function(req, res, next) {
         //passenger success
         try {
             pool.query(sql.query.avail_advertisements, (err, data) => {
-                console.log(data.rows)
-                res.render('passenger', {
-                    advertisements: data.rows
-                })
+                if (data != undefined) {
+                    console.log(data.rows)
+                    res.render('passenger', {
+                        advertisements: data.rows
+                    })
+                } else {
+                    console.log('data is undefined')
+                }
             })
         } catch {
             console.log('passenger bid error')
@@ -96,40 +102,59 @@ router.post('/logout', function(req, res, next){
     res.redirect('../login');
 })
 
+router.post('/bid', async function(req, res, next) {
+    var bids = req.body.bid;
+    var data = await pool.query(sql.query.bid_advertisements)
+    if (data != undefined) {
+        var advertisements = data.rows
+        for (var i = 0; i < bids.length; i++) {
+            if (bids[i] != '') {
+                console.log(i+' '+bids[i])
+                // check if amount is a number
+                // if (bids[i]<0) break;
+                var amount = bids[i];
+                var start_loc = advertisements[i].start_loc;
+                var end_loc = advertisements[i].end_loc; 
+                // to be changed to current user
+                var email_bidder = 'shagergham0@theatlantic.com'
+                var email_driver = advertisements[i].email
+                var vehicle = advertisements[i].vehicle
+                var s_date = advertisements[i].a_date
+                var s_time = advertisements[i].a_time
+                console.log(amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time);
+                try {
+                    var result = await pool.query(sql.query.insert_bid, [amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time]);
+                    if (result != undefined) {
+                        console.log(result)
+                    } else {
+                        console.log('result is undefined')
+                    }
+                } catch {
+                    console.log('insert bid error')
+                }
+            }
+        }
+    } else {
+        console.log('data is undefined')
+    }
+})
+
+
 router.post('/start_trip', function(req, res, next){
     /**
      * the code to check for any matching and winning bids
      */
-    res.redirect('../trip');
-})
-
-router.post('/bid', async function(req, res, next) {
-    var bids = req.body.bid;
-    var data = await pool.query(sql.query.bid_advertisements)
-    var advertisements = data.rows
-      
-    for (var i = 0; i < bids.length; i++) {
-        if (bids[i] != '') {
-            console.log(i+' '+bids[i])
-            // check if amount is a number
-            // if (bids[i]<0) break;
-            var amount = bids[i];
-            var start_loc = advertisements[i].start_loc;
-            var end_loc = advertisements[i].end_loc; 
-            // to be changed to current user
-            var email_bidder = 'shagergham0@theatlantic.com'
-            var email_driver = advertisements[i].email
-            var vehicle = advertisements[i].vehicle
-            var s_date = advertisements[i].a_date
-            var s_time = advertisements[i].a_time
-            console.log(amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time);
-            try {
-                var result = await pool.query(sql.query.insert_bid, [amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time]);
-                console.log(result)
-            } catch {
-                console.log('insert bid error')
+    try {
+        pool.query(sql.query.bid_win, ['shagergham0@theatlantic.com'], (err, data) => {
+            if (data != undefined) {
+                console.log(data.rows[0])
+                // res.redirect('../trip');
+            } else {
+                console.log('data is undefined')
             }
-        }
+        })
+    } catch {
+        console.log('start trip error ')
     }
 })
 
