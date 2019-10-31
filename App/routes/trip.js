@@ -13,7 +13,7 @@ sql.query = {
 
 }
 var driver_email;
-
+var bid_val;
 
 /* GET login page. */
 router.get('/', function(req, res, next) {
@@ -25,6 +25,9 @@ router.get('/', function(req, res, next) {
     } else if(req.session.passport.user.id == "passenger"){
         //have access
         res.render('trip');
+        bid_val = req.session.passport.user.bid;
+        console.log("you are now in the trip page: --------");
+        console.log(bid_val);
     } else if(req.session.passport.user.id == "driver"){
         res.redirect('./driver');
     } else {
