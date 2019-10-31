@@ -9,6 +9,8 @@ const pool = new Pool({connectionString:process.env.DATABASE_URL})
 
 const sql = []
 sql.query = {
+
+    check_driver: 'select * from driver where email = $1',
     advertise: `INSERT INTO advertisesTrip (start_loc, end_loc, email, a_date, a_time) VALUES($1, $2, $3, $4, $5)`,   
     
     available_bids: `select distinct  N.name, B.start_loc, B.end_loc, B.amount
@@ -34,15 +36,24 @@ router.get('/', function(req, res, next) {
         driver_email = req.session.passport.user.email;
         console.log(driver_email);
     }
-    try {
-        // need to only load driver related bids
-        pool.query(sql.query.available_bids, (err, data) => {
-            console.log(data.rows)
-            res.render('driver', {bid: data.rows, title : 'Express'})
-        })
-    } catch {
-        console.log('driver available bids error')
-    }
+    pool.query(sql.query.check_driver, [driver_email], async (err, data) => {
+        if(data.rows.length == 0){
+            console.log("This user cannot access the driver dashboard");
+            res.redirect('./passenger');
+        } else {
+            console.log("This is a driver account");
+            try {
+                // need to only load driver related bids
+                pool.query(sql.query.available_bids, (err, data) => {
+                    console.log(data.rows)
+                    res.render('driver', {bid: data.rows, title : 'Express'})
+                })
+            } catch {
+                console.log('driver available bids error')
+            }
+        }
+    })
+
 });
 
 router.post('/bid_true', async function(req, res, next) {
