@@ -55,6 +55,8 @@ var driverRouter = require("./routes/driver");
 var panalyticsRouter = require("./routes/panalytics");
 var danalyticsRouter = require("./routes/danalytics");
 var discountRouter = require("./routes/discount");
+var tripRouter = require("./routes/trip");
+
 var app = express();
 
 // view engine setup
@@ -112,7 +114,7 @@ app.use("/driver",/* passport.authenticate('local', {failureRedirect: '/login'})
 app.use("/panalytics", panalyticsRouter);
 app.use("/danalytics", danalyticsRouter);
 app.use("/discount", discountRouter);
-
+app.use('/trip', tripRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

@@ -13,7 +13,9 @@ const bcrypt = require('bcrypt');
 const sql = {}
 sql.query = {
     //registering
-    register: 'INSERT INTO passenger VALUES($1,$2,$3,$4)'
+    check: 'select * from passenger where email = $1',
+    register: 'INSERT INTO passenger VALUES($1,$2,$3,$4)',
+    driver: 'insert into driver values($1)'
 }
 
 /* GET signup page. */
@@ -30,15 +32,32 @@ router.post('/', async function(req, res, next){
   var credit_card = req.body.credit_card;
   var vehicle_num = req.body.vehicleNum;
 
-  try{
-    const hashedPassword = await bcrypt.hash(req.body.password, 10)
-    // Construct Specific SQL Query
-	  pool.query(sql.query.register, [email, name, hashedPassword, credit_card],(err, data) => {
-      console.log("login query success");
-      res.redirect('./login')
-	  });
-  } catch {
-    res.redirect('./signup')
-  }
+  pool.query(sql.query.check, [email], async (err, data) => {
+    console.log("this is the inital data: t ");
+    console.log(data);
+    if(data.rows.length == 0){
+      try{
+        const hashedPassword = await bcrypt.hash(req.body.password, 10)
+        // Construct Specific SQL Query
+        pool.query(sql.query.register, [email, name, hashedPassword, credit_card],(err, data) => {
+          console.log("login query success");
+          if(vehicle_num.trim()){
+            console.log("there is a vehicle number");
+            pool.query(sql.query.driver, [email], (err, data) => {
+              console.log("Driver account added");
+            })
+          }
+          res.redirect('./login')
+        });
+      } catch {
+        res.redirect('./signup')
+      }
+    } else {
+      console.log("This user already exists");
+      res.redirect('./login');
+    }
+  })
+
 })
+
 module.exports = router;
