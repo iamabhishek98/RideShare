@@ -11,10 +11,10 @@ const sql = []
 sql.query = {
     advertise: `INSERT INTO advertisesTrip (start_loc, end_loc, email, a_date, a_time) VALUES($1, $2, $3, $4, $5)`,   
     
-    available_bids: `select distinct N.name, B.email_bidder, B.email_driver, B.start_loc, B.end_loc, B.amount, B.s_date, B.s_time
-    from Bid B, (select distinct U.name, U.email
-    from users U, bid B
-    where U.email = B.email_bidder) N;`,
+    available_bids: `select distinct  N.name, B.start_loc, B.end_loc, B.amount
+    from Bid B, (select distinct P.name, P.email
+    from passenger P, bid B
+    where P.email = B.email_bidder) N;`,
 
     bid_win: `update bid set is_win = true
     where email_bidder = $1 and email_driver = $2
