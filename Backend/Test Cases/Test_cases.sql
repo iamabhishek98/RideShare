@@ -1,16 +1,3 @@
--- delete from users;
-delete from driver;
-delete from passenger;
-delete from vehicles;
-delete from drives;
-delete from message;
-delete from advertisesTrip;
-delete from bid;
-delete from location;
-delete from favouriteLocation;
-delete from gets;
-delete from discount;
-
 /*Users*/
 insert into Passenger (email, name, password, credit_card_num) values ('shagergham0@theatlantic.com', 'Stanton', '5jBNmUMac', '3588017154768897');
 insert into Passenger (email, name, password, credit_card_num) values ('ucramphorn1@netlog.com', 'Ulrika', 'krr0DG', '3589400719730926');
