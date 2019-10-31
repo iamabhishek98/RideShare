@@ -12,7 +12,7 @@ sql.query = {
     from users U, advertisesTrip A
     where U.email = A.email) N
     where N.email = A.email
-    order by A.a_date desc, A.a_time desc;`,
+    order by A.a_date asc, A.a_time asc;`,
 
     bid_advertisements: `select * from advertisesTrip;`,
 
@@ -30,11 +30,6 @@ router.get('/', function(req, res, next) {
         passenger_email = req.session.passport.user.email;
         console.log(passenger_email);
     }
-    res.render('passenger', {advertisements: [], title: 'Express' });
-});
-
-router.post('/refresh', function(req, res, next) {
-    console.log(req.body)
     try {
         pool.query(sql.query.avail_advertisements, (err, data) => {
             console.log(data.rows)
@@ -45,7 +40,8 @@ router.post('/refresh', function(req, res, next) {
     } catch {
         console.log('passenger bid error')
     }
-})
+    // res.render('passenger', {advertisements: [], title: 'Express' });
+});
 
 router.post('/bid', async function(req, res, next) {
     var bids = req.body.bid;
@@ -55,9 +51,11 @@ router.post('/bid', async function(req, res, next) {
     for (var i = 0; i < bids.length; i++) {
         if (bids[i] != '') {
             console.log(i+' '+bids[i])
+            // check if amount is a number
             var amount = bids[i];
             var start_loc = advertisements[i].start_loc;
             var end_loc = advertisements[i].end_loc; 
+            // to be changed to current user
             var email_bidder = 'shagergham0@theatlantic.com'
             var email_driver = advertisements[i].email
             var s_date = advertisements[i].a_date

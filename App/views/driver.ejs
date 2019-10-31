@@ -87,7 +87,7 @@
                 </div>
             </div>
             <div class="col">
-                <form id="advertisetrip" method="post" action="/driver/basic">
+                <form id="acceptBid" method="post" action="/driver/advertise">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroup-sizing-default">Origin</span>
@@ -109,7 +109,7 @@
 
                     </div>
                     <br/>
-                    <button type="submit" class="btn btn-primary" id="loginbtn">Advertise</button>
+                    <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Advertise</button>
                 </form>
             </div>
         </div>
@@ -121,25 +121,31 @@
         <table class="table">
             <thead class="thead-dark">
                 <tr>
+                    <th scope="col">Bid Index</th>
+                    <th scope="col">Bidder Name</th>
                     <th scope="col">Start Location</th>
                     <th scope="col">End Location</th>
                     <th scope="col">Bid</th>
-                    <th scope="col">Bidder Name</th>
-                    <th scope="col">Number of Pax</th>
-                    <th scope="col">Accept</th>
                 </tr>
             </thead>
             <tbody>
+                <form method = "post" action = "/driver/bid_true">
+                    <div>
+                    <input type="text" class="form-control" placeholder="Bid Index" style ="width:9%"
+                                    aria-label="Recipient's username" aria-describedby="button-addon2" name = "bid_true">
+                                    <button class="btn btn-primary" type="submit" id="submit-button" value = "submit">Accept</button>
+                </div></form>
                 <tr>
-                    <th scope="row">Buona Vista</th>
-                    <td>Kent Ridge</td>
-                    <td>$2.69</td>
-                    <td>Abhishek</td>
-                    <td>2</td>
-                    <td>
-                        <button class="btn btn-primary" id="loginbtn">Accept</button>
-                    </td>
-                </tr>
+                    <% for (var i = 0; i < bid.length;  i++) { %>
+                        <tr>
+                            <th scope="row"><%= i+1 %></td>
+                            <td><%= bid[i].name %></td>
+                            <td><%= bid[i].start_loc %></td>
+                            <td><%= bid[i].end_loc %></td>
+                            <td>$<%= bid[i].amount %></td>
+                        </tr>    
+                    <% } %>
+                </tr>                
             </tbody>
         </table>
     </div>

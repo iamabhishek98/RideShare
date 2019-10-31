@@ -708,23 +708,21 @@ router.get('/', function(req, res, next) {
     passenger_email = req.session.passport.user.email;
     console.log(passenger_email);
   }
-  res.render('panalytics', { result: [], title: 'Express' });
-});
-
-// POST
-router.post('/basic', function(req, res, next){
   try{
     // Construct Specific SQL Query
 	  pool.query(sql.query.panalytics_basic,(err, data) => {
       console.log(data.rows)
       res.render('panalytics', {
-        result: data.rows 
+        result: data.rows, title: 'Express'  
       })
     });
   } catch {
     console.log('panalytics basic error');
   }
-})
+  // res.render('panalytics', { result: [], title: 'Express' });
+});
+
+// POST
 
 router.post('/increasing', function(req, res, next){
   try{
