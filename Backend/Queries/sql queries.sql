@@ -49,3 +49,6 @@ group by email_bidder)
 select distinct U.name as passenger, B.avg_expenditure
 from users U, B
 where U.email = B.email_bidder;
+
+
+

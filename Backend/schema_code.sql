@@ -26,10 +26,6 @@ create table driver(
     email varchar(256) primary key references passenger(email)
 );
 
--- create table passenger(
---     email varchar(256) primary key references users(email)
--- );
-
 create table vehicles(
     license_plate varchar(50) primary key,
     pax integer not null
