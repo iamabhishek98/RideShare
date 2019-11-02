@@ -10,6 +10,9 @@ drop table if exists location CASCADE;
 drop table if exists favouriteLocation CASCADE;
 drop table if exists gets CASCADE;
 drop table if exists discount CASCADE;
+drop table if exists songs CASCADE;
+drop table if exists likes CASCADE;
+drop table if exists plays CASCADE;
 
 create table passenger(
     email varchar(256) primary key,
@@ -107,4 +110,22 @@ create table gets (
     tier numeric references discount(tier),
     is_used boolean default false,
     primary key(email, tier)
+);
+
+create table songs (
+    name varchar(256) primary key,
+    duration float,
+    artist varchar(256)
+);
+
+create table likes (
+    email varchar(256) references passenger(email),
+    name varchar(256) references songs(name),
+    primary key(email, name)
+);
+
+create table plays (
+    email varchar(256) references driver(email),
+    name varchar(256) references songs(name),
+    primary key(email, name)
 );
