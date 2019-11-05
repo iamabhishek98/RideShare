@@ -80,21 +80,17 @@ router.post('/logout', function(req, res, next){
 
 
 router.post('/endtrip', function(req, res, next){
-    // email_driver = $1 and vehicle = $2 and start_loc = $3 and s_date = $4 and s_time = $5`
     var email_driver = bid_val.email_driver
     var vehicle = bid_val.vehicle
     var start_loc = bid_val.start_loc.split(" ")[0]
     var temp = bid_val.s_date
     var s_date = new Date(temp).getDate()+"/"+new Date(temp).getMonth()+"/"+new Date(temp).getFullYear()
     var s_time = bid_val.s_time
-    temp = req.body.datetime
     var date = req.body.datetime.split("T")[0].split("-")[2]+"/"+req.body.datetime.split("T")[0].split("-")[1]+"/"+req.body.datetime.split("T")[0].split("-")[0]
     var time = req.body.datetime.split("T")[1]+":00";
     var review = req.body.text_area
     var rating = req.body.selectpicker
-    console.log(start_loc)
     console.log(email_driver, vehicle, start_loc, s_date, s_time, date, time, rating)
-    console.log(date, time, review, rating)
     pool.query(sql.query.complete_trip, [date, time, rating, email_driver, vehicle, start_loc, s_date, s_time], (err, data) => {
         if (data != undefined) {
             console.log(data)
