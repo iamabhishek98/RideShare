@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <!-- Page Title -->
+    <title>Favourite Songs</title>
+    <!-- <link rel='stylesheet' href='/stylesheets/style.css' /> -->
+    <link rel="stylesheet" href="/stylesheets/index.css" />
+
+    <!-- CSS for Styling -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+      crossorigin="anonymous"
+    />
+
+    <!-- JavaScript for Interactivity -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+      integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+      integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- ADDED JavaScript -->
+    <script src="javascripts/signupScript.js"></script>
+
+    <script>
+      // function hello() {
+      //     window.open("/select", "_self");
+      // }
+      // $(document).ready(function () {
+      //     console.log("ready!");
+      // $('#driverRadio').click(function () {
+      //     $('#collapseExample').collapse('show');
+      // });
+      // $('#passengerRadio').click(function () {
+      //     $('#collapseExample').collapse('hide');
+      // })
+
+      $("#submitbtn").click(function() {
+        alert("Perform form validation!");
+      });
+      // })
+    </script>
+  </head>
+
+  <body
+    style="background-color: white; background-size:100%; background-position-y: -400px;"
+  >
+    <nav
+      class="navbar navbar-expand-lg navbar-dark"
+      style="background:#2e2e2e;"
+    >
+      <a class="navbar-brand" href="/">Carpool</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarText"
+        aria-controls="navbarText"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav ml-auto">
+            <form method = "post" action="/message/dashboard">
+              <!--redirect user to passenger or driver dashboard based on how they logged in using session-->
+              <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Dashboard</button>
+          </form>
+          
+          <form method = "post" action="/message/logout">
+              <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Log Out</button>
+          </form>
+        </ul>
+      </div>
+    </nav>
+    <div
+      style="background-image: url('/images/boatImage.jpg'); background-position-y: -200px; background-size: cover; background-attachment: fixed;"
+    >
+      <div
+        class="jumbotron jumbotron-fluid"
+        style="background:rgba(0, 0, 0, .6);"
+      >
+        <div class="container" style="color:white;">
+          <h1 style="font-size: 64px;">CARPOOL@2019</h1>
+          <p class="lead">Share a Ride or Ride to Share</p>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container" style="background:white" id="message">
+        <div class="row">
+            <div class = "col">
+                    <form method = "post" action="/songs/fav_song">
+                        <input type="text" class="form-control" placeholder="Enter song name" name="fav_song" >
+                        <br/>
+                        <input type="text" class="form-control" placeholder="Enter song playtime" name="fav_song_playtime" >
+                        <br/>
+                        <input type="text" class="form-control" placeholder="Enter artist" name="fav_song_artist" >
+                        <br/>
+                        <button class="btn btn-primary" type="submit">Add Song to favourite</button>
+                    </form>
+            </div>
+            <div class="col">
+                    <form method = "post" action="/songs/delete_song">
+                        <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Enter song id to remove from favourite" name="delete_id" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                  <button class="btn btn-primary" type="submit">Delete</button>
+                                </div>
+                              </div>
+                    </form>
+            </div>
+        </div>
+
+            <br/>
+            <br/>
+            <h5>List of your favourite tracks:</h5>
+            <table class="table">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Song Name</th>
+                        <th scope="col">Song Artist</th>
+                        <th scope="col">Song Playtime(mins)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>6.9</td>
+                      </tr>
+                    </tbody>
+            </table>
+    </div>
+
+
+    <div style="height:40px"></div>
+
+  </body>
+</html>

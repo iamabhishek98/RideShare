@@ -52,9 +52,11 @@ router.post("/basic", function(req, res, next) {
 });
 
 router.post("/logout", function(req, res, next){
-  req.session.passport.user.email = "";
-  req.session.passport.user.password = "";
-  req.session.passport.user.id = "";
+  if(req.session.passport != undefined){
+    req.session.passport.user.email = "";
+    req.session.passport.user.password = "";
+    req.session.passport.user.id = "";
+  }
   res.redirect('../login');
 })
 

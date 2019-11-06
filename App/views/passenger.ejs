@@ -43,6 +43,11 @@
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav ml-auto">
                     <li class = "nav-item">
+                            <form method = "post" action="/passenger/songs">
+                                <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Songs</button>
+                            </form>
+                        </li>
+                    <li class = "nav-item">
                             <form method = "post" action="/passenger/discount">
                                 <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Rewards</button>
                             </form>
@@ -102,7 +107,7 @@
         </form>
     </div>
 
-    <div class = "col">
+    <!-- <div class = "col">
             <form method = "post" action="/passenger/fav_song">
                 <input type="text" class="form-control" placeholder="Enter song name" name="fav_song" >
                 <br/>
@@ -112,7 +117,7 @@
                 <br/>
                 <button class="btn btn-primary" type="submit">Add Song to favourite</button>
             </form>
-    </div>
+    </div> -->
     </div>
             
         <br/>
@@ -121,6 +126,41 @@
         <form method="post" action="/passenger/start_trip">
                 <button type="submit" class="btn btn-primary" id="loginbtn">Start Trip</button>
         </form>
+
+        <br/>
+        <h3>Recommended Drivers</h3>
+        <br/>
+        <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Driver Name</th>
+                        <th scope="col">Average Rating</th>
+                        <th scope="col">Common Songs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--Do u want it to be a form? If not, just remove the corresponding form tags-->
+                        <form method = "post" action = "/passenger/recc_drivers">
+                    <tr>
+                        <!--Abhishek, change the ejs here to show recommended drivers details-->
+                    <% for (var i = 0; i < advertisements.length;  i++) { %>
+                        <tr>
+                            <th scope="row"><%= advertisements[i].name %></td>
+                            <td><%= advertisements[i].start_loc %></td>
+                            <td><%= advertisements[i].end_loc %></td>
+                        </tr>    
+                        <% } %>
+                    </tr>
+                    </form>
+                </tbody>
+            </table>
+
+
+
+
+
+
+
         <br />
         <h3>Available Advertisements</h3>
         

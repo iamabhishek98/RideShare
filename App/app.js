@@ -58,6 +58,8 @@ var discountRouter = require("./routes/discount");
 var tripRouter = require("./routes/trip");
 var becomeDriverRouter = require("./routes/becomeDriver");
 var inboxRouter = require("./routes/inbox");
+var songRouter = require("./routes/songs");
+
 
 var app = express();
 
@@ -119,6 +121,7 @@ app.use("/discount", discountRouter);
 app.use('/trip', tripRouter);
 app.use('/becomeDriver', becomeDriverRouter);
 app.use('/inbox', inboxRouter);
+app.use('/songs', songRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
