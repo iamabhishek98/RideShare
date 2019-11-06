@@ -6,7 +6,7 @@ var driver_email;
 const pool = new Pool({connectionString:process.env.DATABASE_URL})
 const sql = {}
 sql.query = {
-
+    insert_song : 'INSERT INTO songs(name, duration, artist) VALUES($1, $2, $3);'
 }
 
 var user_email;
@@ -24,13 +24,19 @@ router.get('/', function(req, res, next){
     }
 })
 
-router.post('/fav_song', function(req, res, next){
-    var fav_song_name = req.body.fav_song;
-    var fav_song_playtime = req.body.fav_song_playtime;
-    var fav_song_artist = req.body.fav_song_artist;
-    console.log(fav_song_name);
-    console.log(fav_song_playtime);
-    console.log(fav_song_artist);
+router.post('/fav_song', async function(req, res, next){
+    var name = req.body.fav_song;
+    var duration = req.body.fav_song_duration;
+    var artist = req.body.fav_song_artist;
+    console.log(name);
+    console.log(duration);
+    console.log(artist);
+    var insert_song = await pool.query(sql.query.insert_song, [name, duration, artist])
+    if (insert_song != undefined) {
+        console.log(insert_song)
+    } else {
+        console.log('insert song data is undefined')
+    }
     res.redirect('./');
 })
 

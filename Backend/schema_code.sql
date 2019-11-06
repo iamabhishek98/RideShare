@@ -104,9 +104,10 @@ create table gets (
 );
 
 create table songs (
-    name varchar(256) primary key,
-    duration float,
-    artist varchar(256)
+    name varchar(256),
+    duration time not null,
+    artist varchar(256) not null,
+    primary key(songs, artist)
 );
 
 create table likes (

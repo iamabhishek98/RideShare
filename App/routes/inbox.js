@@ -88,9 +88,6 @@ router.post('/delete_msg', async function(req, res, next){
     } else {
       console.log('delete_view_messages is undefined')
     }
-    
-    //@Abhi, write ur SQL code to delete message here
-    // res.redirect('./');
 })
 
 module.exports = router;
