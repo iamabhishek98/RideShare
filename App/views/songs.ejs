@@ -108,7 +108,8 @@
                     <form method = "post" action="/songs/fav_song">
                         <input type="text" class="form-control" placeholder="Enter song name" name="fav_song" >
                         <br/>
-                        <input type="text" class="form-control" placeholder="Enter song playtime" name="fav_song_duration" >
+                        <label for="fav_song_playtime">Song Play Time:</label>
+                        <input type="time" class="form-control" placeholder="Enter song duration" name="fav_song_duration" >
                         <br/>
                         <input type="text" class="form-control" placeholder="Enter artist" name="fav_song_artist" >
                         <br/>
@@ -136,16 +137,18 @@
                         <th scope="col">Id</th>
                         <th scope="col">Song Name</th>
                         <th scope="col">Song Artist</th>
-                        <th scope="col">Song Playtime(mins)</th>
+                        <th scope="col">Song Duration</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>6.9</td>
-                      </tr>
+                        <% for (var i = 0; i < songs.length;  i++) { %>
+                          <tr>
+                              <th scope="row"><%= i+1 %></td>
+                              <td><%= songs[i].name %></td>
+                              <td><%= songs[i].artist %></td>
+                              <td><%= songs[i].duration %></td>
+                          </tr>    
+                        <% } %>
                     </tbody>
             </table>
     </div>

@@ -78,6 +78,14 @@ insert into message(sender_email, receiver_email, msg, msg_time, msg_date) value
 insert into message(sender_email, receiver_email, msg, msg_time, msg_date) values ('ayurenev5@icio.us','rdoog6@yandex.ru','hello 4','10:10:00','2018-12-21');
 insert into message(sender_email, receiver_email, msg, msg_time, msg_date) values ('cbramall4@ebay.co.uk','ayurenev5@icio.us','hello 5','23:51:13','2018-12-21');
 
+insert into songs(name, duration, artist) values ('bang bang', '00:03:56', 'nirvana');
+insert into songs(name, duration, artist) values ('hello', '00:04:01', 'adele');
+insert into songs(name, duration, artist) values ('numb', '00:02:59', 'linkin park');
+
+insert into likes(email, name) values ('ayurenev5@icio.us','bang bang');
+insert into likes(email, name) values ('cbramall4@ebay.co.uk','hello');
+insert into likes(email, name) values ('rdoog6@yandex.ru','numb');
+insert into likes(email, name) values ('rdoog6@yandex.ru','bang bang');
 
 -- insert into bid(is_win, s_date, s_time, e_date, e_time, amount, start_loc, end_loc, email_bidder, email_driver, vehicle, rating) values ('true', '2018-12-21', '09:10:00', '2018-12-21', '10:10:00', '25.3', 'Queenstown', 'NUS', 'shagergham0@theatlantic.com', 'ayurenev5@icio.us', 'SBD0170', '3');
 -- insert into bid(is_win, s_date, s_time, e_date, e_time, amount, start_loc, end_loc, email_bidder, email_driver, vehicle, rating) values ('false', '2018-12-23', '12:20:00', '2018-12-24', '13:20:00', '19.5', 'Jurong', 'Yishun', 'ucramphorn1@netlog.com', 'rdoog6@yandex.ru', 'SAL4224', '5');
