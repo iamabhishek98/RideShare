@@ -82,7 +82,7 @@ create table bid(
     e_time time,
     review varchar(1024),
     rating numeric,
-    CHECK ((is_win is true and (e_time > s_time) or (e_date > s_date)) or 
+    CHECK ((is_win is true and ((e_time > s_time) or (e_date > s_date))) or 
           ((is_win is false and e_time is null and e_date is null and review is null and rating is null))),
     primary key(email_bidder, email_driver, start_loc, s_date, s_time)
     --foreign key (email_driver, vehicle, start_loc, s_date, s_time) references advertisesTrip(email, vehicle, start_loc, a_date, a_time)
@@ -104,9 +104,10 @@ create table gets (
 );
 
 create table songs (
-    name varchar(256) primary key,
-    duration float,
-    artist varchar(256)
+    name varchar(256),
+    duration time not null,
+    artist varchar(256) not null,
+    primary key(songs, artist)
 );
 
 create table likes (

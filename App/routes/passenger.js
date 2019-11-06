@@ -55,7 +55,7 @@ router.get('/', function(req, res, next) {
                 if (data != undefined) {
                     console.log(data.rows)
                     res.render('passenger', {
-                        advertisements: data.rows
+                        advertisements: data.rows, title : 'Express'
                     })
                 } else {
                     console.log('data is undefined')
@@ -71,21 +71,21 @@ router.get('/', function(req, res, next) {
         res.redirect('./login');
     }   
     
-    // else {
-    //     passenger_email = req.session.passport.user.email;
-    //     console.log(passenger_email);
-    // }
-    // try {
-    //     pool.query(sql.query.avail_advertisements, (err, data) => {
-    //         console.log(data.rows)
-    //         res.render('passenger', {
-    //             advertisements: data.rows
-    //         })
-    //     })
-    // } catch {
-    //     console.log('passenger bid error')
-    // }
-    // res.render('passenger', {advertisements: [], title: 'Express' });
+/*    else {
+        passenger_email = req.session.passport.user.email;
+        console.log(passenger_email);
+    }
+    try {
+        pool.query(sql.query.avail_advertisements, (err, data) => {
+            console.log(data.rows)
+            res.render('passenger', {
+                advertisements: data.rows
+            })
+        })
+    } catch {
+        console.log('passenger bid error')
+    }
+    res.render('passenger', {advertisements: [], title: 'Express' });*/
 });
 
 
