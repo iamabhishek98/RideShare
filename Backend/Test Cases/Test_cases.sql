@@ -13,11 +13,11 @@ insert into Passenger (email, name, password, credit_card_num) values ('bmulliga
 
 
 -- /*Passenger*/
--- insert into Passenger (email) values ('shagergham0@theatlantic.com');
--- insert into Passenger (email) values ('ucramphorn1@netlog.com');
--- insert into Passenger (email) values ('shutchence2@usnews.com');
--- insert into Passenger (email) values ('tcrudgington3@godaddy.com');
--- insert into Passenger (email) values ('cbramall4@ebay.co.uk');
+ insert into Passenger (email) values ('shagergham0@theatlantic.com');
+ insert into Passenger (email) values ('ucramphorn1@netlog.com');
+ insert into Passenger (email) values ('shutchence2@usnews.com');
+ insert into Passenger (email) values ('tcrudgington3@godaddy.com');
+ insert into Passenger (email) values ('cbramall4@ebay.co.uk');
 
 /*Driver*/
 insert into Driver (email) values ('ayurenev5@icio.us');
@@ -62,14 +62,23 @@ insert into advertisesTrip (start_loc, end_loc, email, vehicle, a_date,a_time) v
 insert into advertisesTrip (start_loc, end_loc, email, vehicle, a_date,a_time) values ('Queenstown', 'NUS', 'ayurenev5@icio.us', 'SBD0170', '2018-12-24', '10:10:00');
 
 /*bid without end and no rating*/
-insert into bid(is_win, s_date, s_time, amount, start_loc, end_loc, email_bidder, email_driver, vehicle) values ('true', '2018-12-21', '09:10:00', '25.3', 'Queenstown', 'NUS', 'shagergham0@theatlantic.com', 'ayurenev5@icio.us', 'SBD0170');
+insert into bid(is_win, s_date, s_time, amount, start_loc, end_loc, email_bidder, email_driver, vehicle) values ('false', '2018-12-21', '09:10:00', '25.3', 'Queenstown', 'NUS', 'shagergham0@theatlantic.com', 'ayurenev5@icio.us', 'SBD0170');
 insert into bid(is_win, s_date, s_time, amount, start_loc, end_loc, email_bidder, email_driver, vehicle) values ('false', '2018-12-23', '12:20:00', '19.5', 'Jurong', 'Yishun', 'ucramphorn1@netlog.com', 'rdoog6@yandex.ru', 'SAL4224');
 insert into bid(is_win, s_date, s_time, amount, start_loc, end_loc, email_bidder, email_driver, vehicle) values ('true', '2018-11-11', '19:41:30','18.6', 'Ang Mo Kio', 'Yio Chu Kang', 'shutchence2@usnews.com', 'jcashen7@aboutads.info',  'SYS4775');
 insert into bid(is_win, s_date, s_time, amount, start_loc, end_loc, email_bidder, email_driver, vehicle) values ('true', '2018-02-19', '15:29:02', '21', 'Bishan', 'Raffles', 'tcrudgington3@godaddy.com', 'vdequesne8@youku.com', 'WAU3968');
 insert into bid(is_win, s_date, s_time, amount, start_loc, end_loc, email_bidder, email_driver, vehicle) values ('true', '2018-12-21', '23:51:13', '35', 'Toa Payoh', 'Pasir Ris', 'cbramall4@ebay.co.uk', 'bmulligan9@networkadvertising.org', 'SGD9065'  );
 insert into bid(is_win, s_date, s_time, amount, start_loc, end_loc, email_bidder, email_driver, vehicle) values ('false', '2018-12-23', '10:10:00', '2.1', 'Queenstown', 'NUS', 'shagergham0@theatlantic.com', 'ayurenev5@icio.us',  'SBD0170' );
 insert into bid(is_win, s_date, s_time, amount, start_loc, end_loc, email_bidder, email_driver, vehicle) values ('false', '2018-12-24', '10:10:00', '28.5', 'Queenstown', 'NUS', 'shagergham0@theatlantic.com', 'ayurenev5@icio.us',  'SBD0170' );
-	
+
+/*discounts*/
+insert into discount(description, tier, amount) values ('a discount', 1, 5.0);
+insert into discount(description, tier, amount) values ('a discount', 2, 10.0);
+
+/*gets*/
+insert into gets(email, tier, is_used, exp_date) values ('ayurenev5@icio.us', 1, 'false', '2019-11-01');
+insert into gets(email, tier, is_used, exp_date) values ('ayurenev5@icio.us', 2, 'false', '2019-10-02');
+
+
 
 -- insert into bid(is_win, s_date, s_time, e_date, e_time, amount, start_loc, end_loc, email_bidder, email_driver, vehicle, rating) values ('true', '2018-12-21', '09:10:00', '2018-12-21', '10:10:00', '25.3', 'Queenstown', 'NUS', 'shagergham0@theatlantic.com', 'ayurenev5@icio.us', 'SBD0170', '3');
 -- insert into bid(is_win, s_date, s_time, e_date, e_time, amount, start_loc, end_loc, email_bidder, email_driver, vehicle, rating) values ('false', '2018-12-23', '12:20:00', '2018-12-24', '13:20:00', '19.5', 'Jurong', 'Yishun', 'ucramphorn1@netlog.com', 'rdoog6@yandex.ru', 'SAL4224', '5');
