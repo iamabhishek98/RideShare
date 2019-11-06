@@ -39,7 +39,7 @@ router.post("/basic", function(req, res, next) {
   var user_Message = req.body.user_Message;
   var d = new Date();
   var date = d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear();
-  var time = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+  var time = "00:00:00";
   console.log(sender, email, user_Message, date, time);
   
   pool.query(
