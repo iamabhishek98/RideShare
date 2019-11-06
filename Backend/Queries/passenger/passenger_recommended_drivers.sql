@@ -4,6 +4,8 @@ where B.is_win is true
 and P.email = B.email_driver
 and B.e_date is not null and B.e_time is not null) 
 
+/*need to do common playlist of songs also*/
+
 select email_driver, rating
 from R
 order by rating desc;
