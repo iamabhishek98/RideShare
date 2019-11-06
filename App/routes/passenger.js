@@ -41,13 +41,13 @@ sql.query = {
     bid_win: `select * from bid where is_win is true and e_date is null and e_time is null and email_bidder = $1`
 }
 
-
 var passenger_email;
 /* GET login page. */
 router.get('/', function(req, res, next) {
     console.log("passenger dashboard");
-    if(req.session.passport.user.email == undefined){
+    if(req.session.passport == undefined){
         console.log("user not logged in");
+        res.redirect('login');
     } else if(req.session.passport.user.id == "passenger"){
         //passenger success
         try {
@@ -93,7 +93,6 @@ router.post('/logout', function(req, res, next){
     req.session.passport.user.email = "";
     req.session.passport.user.password = "";
     req.session.passport.user.id = "";
-    console.log(session);
     res.redirect('../login');
 })
 
@@ -154,4 +153,25 @@ router.post('/start_trip', function(req, res, next){
     }
 })
 
+router.post('/inbox', function(req, res, next){
+    res.redirect('../inbox');
+})
+
+router.post('/message', function(req, res, next){
+    res.redirect('../message');
+})
+
+router.post('/fav_song', function(req, res, next){
+    var fav_song_name = req.body.fav_song;
+    var fav_song_playtime = req.body.fav_song_playtime;
+    var fav_song_artist = req.body.fav_song_artist;
+})
+
+router.post('/panalytics', function(req, res, next){
+    res.redirect('../panalytics');
+})
+
+router.post('/discount', function(req, res, next){
+    res.redirect('../discount');
+})
 module.exports = router;  

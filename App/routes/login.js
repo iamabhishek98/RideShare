@@ -83,11 +83,8 @@ router.post('/', passport.authenticate('local', { failureRedirect: '/login' }), 
       if(data.rows.length == 0){
         //user does not have a driver account and hence, cannot log in as driver
         console.log("User not driver");
-        req.session.passport.user.id = "";
-        req.session.passport.user.password = "";
-        req.session.passport.user.email = "";
-
-        res.redirect('/login');
+        req.session.passport.user.id = "passenger";
+        res.redirect('/becomeDriver');
       } else {
         req.session.passport.user.id = "driver";
         console.log(req.session);
@@ -101,5 +98,6 @@ router.post('/', passport.authenticate('local', { failureRedirect: '/login' }), 
     //     data: "hi"
     // })
 })
+
 
 module.exports = router;

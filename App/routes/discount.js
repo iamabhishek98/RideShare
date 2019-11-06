@@ -14,4 +14,8 @@ router.get('/', function(req, res, next) {
     res.render('discount', { title: 'Express' });
 });
 
+router.post('/dashboard', function(req, res, next){
+    res.redirect('../passenger');
+})
+
 module.exports = router;  

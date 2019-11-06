@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Page Title -->
+    <title>Become a Driver</title>
+    <!-- <link rel='stylesheet' href='/stylesheets/style.css' /> -->
+    <link rel='stylesheet' href='/stylesheets/login.css' />
+
+    <!-- CSS for Styling -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <!-- JavaScript for Interactivity -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+
+    <script>
+        function hello() {
+            window.open("/select", "_self");
+        }
+
+        // $(document).ready(function(){
+        //     $('#loginbtn').click(function(){
+        //     alert('validate login!');
+        //     })
+        // })
+
+    </script>
+
+</head>
+
+<body style="background-color: white; background-size:100%; background-position-y: -400px;">
+
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background:#2e2e2e;">
+        <a class="navbar-brand" href="/">Carpool</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+            aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="signup">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="login">Log In</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div
+        style="background-image: url('/images/boatImage.jpg'); background-position-y: -200px; background-size: cover; background-attachment: fixed;">
+        <div class="jumbotron jumbotron-fluid" style="background:rgba(0, 0, 0, .6);">
+            <div class="container" style="color:white;">
+                <h1 style="font-size: 64px;">CARPOOL@2019</h1>
+                <p class="lead">Share a Ride or Ride to Share</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="background:white">
+        <h2 className="my-5"> Register a Vehicle </h2>
+        <div style="height:20px;"></div>
+        
+        <form method="post" action="/becomeDriver/register_vehicle">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Vehicle Number</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" name="vehicleNumber" aria-describedby="emailHelp"
+                    placeholder="Vehicle Number">
+            </div>
+            <h5>Number of pax it can support: </h5>
+            <select class="selectpicker" data-style="btn-info" name="paxPicker">
+                            
+                    <option name="" value="6">6</option>
+                    <option name="table1" value="5">5</option>
+                    <option name="table2" value="4">4</option>
+                    <option name="" value="3">3</option>
+                    <option name="table1" value="2">2</option>
+                    <option name="table2" value="1">1</option>
+                
+            </select>
+            <br/>
+            <br/>
+            <button type="submit" class="btn btn-primary" id="loginbtn">Register</button>
+        </form>
+
+
+    </div>
+
+</body>
+
+</html>

@@ -239,27 +239,32 @@ sql.query = {
 /* GET signup page. */
 router.get('/', function(req, res, next) {
   console.log("danalytics");
-  if(req.session.passport.user.email == undefined){
+  if(req.session == undefined){
     console.log("driver not logged in");
+  } else if(req.session.passport.user.id == "driver"){
+    try{
+      // Construct Specific SQL Query
+      pool.query(sql.query.danalytics_basic,(err, data) => {
+        if (data != undefined) {
+          console.log(data.rows)
+          res.render('danalytics', {
+            result: data.rows, title: 'Express' 
+          })
+        } else {
+          console.log('data is undefined')
+        }
+      });
+    } catch {
+      console.log('danalytics basic error');
+    }
+  } else if(req.sessions.passport.user.id == "passenger"){
+    //no access to passenger
+    res.redirect('./passenger');
   } else {
-    driver_email = req.session.passport.user.email;
-    console.log(driver_email);
+    res.redirect('./login');
   }
-  try{
-    // Construct Specific SQL Query
-	  pool.query(sql.query.danalytics_basic,(err, data) => {
-      if (data != undefined) {
-        console.log(data.rows)
-        res.render('danalytics', {
-          result: data.rows, title: 'Express' 
-        })
-      } else {
-        console.log('data is undefined')
-      }
-    });
-  } catch {
-    console.log('danalytics basic error');
-  }
+  
+  
   // res.render('danalytics', { result: [], title: 'Express' });
 });
 
@@ -514,6 +519,10 @@ router.post('/22', function(req, res, next){
   } catch {
     console.log('danalytics decreasing error');
   }
+})
+
+router.post('/dashboard', function(req, res, next){
+  res.redirect('../driver');
 })
 
 module.exports = router;

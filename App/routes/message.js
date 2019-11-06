@@ -50,4 +50,23 @@ router.post("/basic", function(req, res, next) {
     }
   );
 });
+
+router.post("/logout", function(req, res, next){
+  req.session.passport.user.email = "";
+  req.session.passport.user.password = "";
+  req.session.passport.user.id = "";
+  res.redirect('../login');
+})
+
+router.post("/dashboard", function(req, res, next){
+  if(req.session.passport.user.id == "passenger"){
+    res.redirect("../passenger");
+  } else if (req.session.passport.user.id == "driver"){
+    res.redirect("../driver");
+  } else {
+    console.log("What are you doing here?")
+    res.redirect("../login");
+  }
+})
+
 module.exports = router;

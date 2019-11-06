@@ -19,7 +19,6 @@ create table passenger(
     name varchar(100) not null,
     password varchar(100) not null,
     credit_card_num varchar(100) not null
-    --Just include some fields in the form that can be set to null.. just for fun
 );
 
 create table driver(
@@ -44,11 +43,7 @@ create table message(
     msg_time time,
     msg_date date,
     check (sender_email <> receiver_email),
-    unique(msg_time, msg_date, sender_email, receiver_email) /* do we need this */
-    /*
-        how do i ensure that sender_email and receiver_email are unique for each tuple but allow
-        duplicates of this to exist in the table
-    */
+    primary key (msg_time, msg_date, sender_email, receiver_email) 
 );
 
 create table location(
@@ -89,12 +84,11 @@ create table bid(
     rating numeric,
     CHECK ((is_win is true and ((e_time > s_time) or (e_date > s_date))) or 
           ((is_win is false and e_time is null and e_date is null and review is null and rating is null))),
-    primary key(email_bidder, email_driver, start_loc, s_date, s_time),
-    foreign key (email_driver, vehicle, start_loc, s_date, s_time) references advertisesTrip(email, vehicle, start_loc, a_date, a_time)
+    primary key(email_bidder, email_driver, start_loc, s_date, s_time)
+    --foreign key (email_driver, vehicle, start_loc, s_date, s_time) references advertisesTrip(email, vehicle, start_loc, a_date, a_time)
 );
 
 create table discount(
-    exp_date date not null,
     description varchar(256),
     tier numeric not null,
     amount float not null,
@@ -105,6 +99,7 @@ create table gets (
     email varchar(256) references passenger(email),
     tier numeric references discount(tier),
     is_used boolean default false,
+    exp_date date not null,
     primary key(email, tier)
 );
 

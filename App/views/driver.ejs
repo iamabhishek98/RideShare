@@ -33,7 +33,6 @@
 </head>
 
 <body style="background-color: white; background-size:100%; background-position-y: -400px;">
-
     <nav class="navbar navbar-expand-lg navbar-dark" style="background:#2e2e2e;">
         <a class="navbar-brand" href="/">Carpool</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
@@ -42,7 +41,17 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                            <form method = "post" action="/driver/danalytics">
+                                <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Analytics</button>
+                            </form>
+                        </li>
                 <li class="nav-item">
+                        <form method = "post" action="/driver/inbox">
+                            <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Inbox</button>
+                        </form>
+                    </li>
+                    <li class="nav-item"></li>
                     <form method = "post" action="/driver/logout">
                     <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Log Out</button>
                 </form>
@@ -70,7 +79,7 @@
                     <label for="vehicle">
                         <h4>Choose your vehicle: </h4>
                     </label>
-                    <button class="btn btn-primary dropdown-toggle" id="vehicle" type="button" data-toggle="dropdown"
+                    <!-- <button class="btn btn-primary dropdown-toggle" id="vehicle" type="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="true">
                         Vehicle
                         <span class="caret"></span>
@@ -80,14 +89,50 @@
                         <li><a href="#" data-value="another action">Proton</a></li>
                         <li><a href="#" data-value="something else here">Neutron</a></li>
                         <li><a href="#" data-value="separated link">Electron</a></li>
-                    </ul>
+                    </ul> -->
+
+
+                    <select class="selectpicker" data-style="btn-info" name="selectpicker">
+                            <optgroup label="Select Vehicle">
+                            <% for (var i = 0; i < vehicles.length; i++) { %>
+                                        <option name="" value='<%= vehicles[i].license_plate%>'><%= vehicles[i].license_plate%></option>
+                            <% } %>
+                        </optgroup>
+                        </select>
                 </div>
+
+                <br/>
+                <br/>
+                <form method="post" action="/driver/add_vehicle">
+                <div class="form-group">
+                        <label for="exampleInputEmail1">Add a new vehicle:</label>
+                        <input type="text" class="form-control" id="newVehicleNum" name="newVehicleNum" aria-describedby="emailHelp" placeholder="Enter vehicle number">
+                      </div>
+
+
+                    <h6>Number of it can support: </h6>
+                    <select class="selectpicker" data-style="btn-info" name="paxPicker">
+                            
+                                <option name="" value="6">6</option>
+                                <option name="table1" value="5">5</option>
+                                <option name="table2" value="4">4</option>
+                                <option name="" value="3">3</option>
+                                <option name="table1" value="2">2</option>
+                                <option name="table2" value="1">1</option>
+                            
+                        </select>
+                        <br/>
+                        <br/>
+                      <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Add Vehicle</button>
+                    </form>
+
             </div>
             <div class="col">
 
                 <form method="post" action="/driver/advertise">
                 <form id="advertisetrip" method="post" action="/driver/basic">
                 <form id="acceptBid" method="post" action="/driver/advertise">
+                    <h4>Advertise a trip!</h4>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" name = "Origin" id="inputGroup-sizing-default">Origin</span>
@@ -116,6 +161,18 @@
 
         <br />
         <br />
+        <form method = "post" action="/driver/fav_song">
+            <input type="text" class="form-control" placeholder="Enter song name" name="fav_song" >
+            <br/>
+            <input type="text" class="form-control" placeholder="Enter song playtime" name="fav_song_playtime" >
+            <br/>
+            <input type="text" class="form-control" placeholder="Enter artist" name="fav_song_artist" >
+            <br/>
+            <button class="btn btn-primary" type="submit">Add Song to favourite</button>
+        </form>
+
+        <br />
+        <br/>
         <h3>Current Bids: </h3>
         <br />
         <table class="table">
