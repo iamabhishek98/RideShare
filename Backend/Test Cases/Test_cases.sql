@@ -12,13 +12,6 @@ insert into Passenger (email, name, password, credit_card_num) values ('vdequesn
 insert into Passenger (email, name, password, credit_card_num) values ('bmulligan9@networkadvertising.org', 'Bertrando', 'WC3J3qm', '3582676673571540');
 
 
--- /*Passenger*/
- insert into Passenger (email) values ('shagergham0@theatlantic.com');
- insert into Passenger (email) values ('ucramphorn1@netlog.com');
- insert into Passenger (email) values ('shutchence2@usnews.com');
- insert into Passenger (email) values ('tcrudgington3@godaddy.com');
- insert into Passenger (email) values ('cbramall4@ebay.co.uk');
-
 /*Driver*/
 insert into Driver (email) values ('ayurenev5@icio.us');
 insert into Driver (email) values ('rdoog6@yandex.ru');
@@ -78,7 +71,21 @@ insert into discount(description, tier, amount) values ('a discount', 2, 10.0);
 insert into gets(email, tier, is_used, exp_date) values ('ayurenev5@icio.us', 1, 'false', '2019-11-01');
 insert into gets(email, tier, is_used, exp_date) values ('ayurenev5@icio.us', 2, 'false', '2019-10-02');
 
+/*messages*/
+insert into message(sender_email, receiver_email, msg, msg_time, msg_date) values ('ayurenev5@icio.us','cbramall4@ebay.co.uk','hello1','09:10:00','2018-12-21');
+insert into message(sender_email, receiver_email, msg, msg_time, msg_date) values ('cbramall4@ebay.co.uk','rdoog6@yandex.ru','hello 2','19:41:30','2018-12-23');
+insert into message(sender_email, receiver_email, msg, msg_time, msg_date) values ('rdoog6@yandex.ru','ayurenev5@icio.us','hello 3','15:29:02','2018-11-11');
+insert into message(sender_email, receiver_email, msg, msg_time, msg_date) values ('ayurenev5@icio.us','rdoog6@yandex.ru','hello 4','10:10:00','2018-12-21');
+insert into message(sender_email, receiver_email, msg, msg_time, msg_date) values ('cbramall4@ebay.co.uk','ayurenev5@icio.us','hello 5','23:51:13','2018-12-21');
 
+insert into songs(name, duration, artist) values ('bang bang', '00:03:56', 'nirvana');
+insert into songs(name, duration, artist) values ('hello', '00:04:01', 'adele');
+insert into songs(name, duration, artist) values ('numb', '00:02:59', 'linkin park');
+
+insert into likes(email, name) values ('ayurenev5@icio.us','bang bang');
+insert into likes(email, name) values ('cbramall4@ebay.co.uk','hello');
+insert into likes(email, name) values ('rdoog6@yandex.ru','numb');
+insert into likes(email, name) values ('rdoog6@yandex.ru','bang bang');
 
 -- insert into bid(is_win, s_date, s_time, e_date, e_time, amount, start_loc, end_loc, email_bidder, email_driver, vehicle, rating) values ('true', '2018-12-21', '09:10:00', '2018-12-21', '10:10:00', '25.3', 'Queenstown', 'NUS', 'shagergham0@theatlantic.com', 'ayurenev5@icio.us', 'SBD0170', '3');
 -- insert into bid(is_win, s_date, s_time, e_date, e_time, amount, start_loc, end_loc, email_bidder, email_driver, vehicle, rating) values ('false', '2018-12-23', '12:20:00', '2018-12-24', '13:20:00', '19.5', 'Jurong', 'Yishun', 'ucramphorn1@netlog.com', 'rdoog6@yandex.ru', 'SAL4224', '5');
