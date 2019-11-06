@@ -88,12 +88,22 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Msg ID</th>
+                    <th scope="col">Msg Date</th>
+                    <th scope="col">Msg Time</th>
                     <th scope="col">From</th>
                     <th scope="col">To</th>
                     <th scope="col">Msg</th>
-                    <th scope="col">Msg Time</th>
-                    <th scope="col">Msg Date</th>
                 </tr>
+                <% for (var i = 0; i < message.length;  i++) { %>
+                    <tr>
+                      <td><%= i+1 %></td>  
+                      <td><%= message[i].msg_date %></td>
+                      <td><%= message[i].msg_time %></td>
+                      <td><%= message[i].sender %></td>
+                      <td><%= message[i].receiver %></td>
+                      <td><%= message[i].msg %></td>
+                    </tr>    
+                <% } %>
             </thead>
             <tbody>
                    
