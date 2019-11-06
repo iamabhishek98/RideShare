@@ -161,4 +161,17 @@ router.post('/message', function(req, res, next){
     res.redirect('../message');
 })
 
+router.post('/fav_song', function(req, res, next){
+    var fav_song_name = req.body.fav_song;
+    var fav_song_playtime = req.body.fav_song_playtime;
+    var fav_song_artist = req.body.fav_song_artist;
+})
+
+router.post('/panalytics', function(req, res, next){
+    res.redirect('../panalytics');
+})
+
+router.post('/discount', function(req, res, next){
+    res.redirect('../discount');
+})
 module.exports = router;  

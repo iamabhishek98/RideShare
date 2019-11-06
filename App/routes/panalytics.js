@@ -702,27 +702,33 @@ sql.query = {
 /* GET signup page. */
 router.get('/', function(req, res, next) {
   console.log("Passenger Analytics");
-  if(req.session.passport.user.email == undefined){
+  if(req.session == undefined){
     console.log("user not logged in");
+    res.redirect('login');
+  } else if(req.session.passport.user.id == "passenger"){
+    //passenger success
+    try{
+      // Construct Specific SQL Query
+      pool.query(sql.query.panalytics_basic,(err, data) => {
+        if (data != undefined) {
+          console.log(data.rows)
+          res.render('panalytics', {
+            result: data.rows, title: 'Express'  
+          })
+        } else {
+          console.log('data is undefined')
+        }
+      });
+    } catch {
+      console.log('panalytics basic error');
+    }
+  } else if(req.session.passport.user.id == "driver"){
+    //no access
+    res.redirect('./driver');
   } else {
-    passenger_email = req.session.passport.user.email;
-    console.log(passenger_email);
+    res.redirect('./login')
   }
-  try{
-    // Construct Specific SQL Query
-	  pool.query(sql.query.panalytics_basic,(err, data) => {
-      if (data != undefined) {
-        console.log(data.rows)
-        res.render('panalytics', {
-          result: data.rows, title: 'Express'  
-        })
-      } else {
-        console.log('data is undefined')
-      }
-    });
-  } catch {
-    console.log('panalytics basic error');
-  }
+  
   // res.render('panalytics', { result: [], title: 'Express' });
 });
 
@@ -980,4 +986,7 @@ router.post('/22', function(req, res, next){
   }
 })
 
+router.post('/dashboard', function(req, res, next){
+  res.redirect('../passenger');
+})
 module.exports = router;

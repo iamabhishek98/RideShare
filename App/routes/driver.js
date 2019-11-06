@@ -201,4 +201,16 @@ router.post('/advertise', function(req, res, next) {
 router.post('/inbox', function(req, res, next){
     res.redirect('../inbox');
 })
+
+router.post('/fav_song', function(req, res, next){
+    var fav_song_name = req.body.fav_song;
+    var fav_song_playtime = req.body.fav_song_playtime;
+    var fav_song_artist = req.body.fav_song_artist;
+})
+
+router.post('/danalytics', function(req, res, next){
+    res.redirect('../danalytics');
+})
+
+
 module.exports = router;  

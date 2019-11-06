@@ -41,6 +41,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                            <form method = "post" action="/driver/danalytics">
+                                <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Analytics</button>
+                            </form>
+                        </li>
                 <li class="nav-item">
                         <form method = "post" action="/driver/inbox">
                             <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Inbox</button>
@@ -156,6 +161,18 @@
 
         <br />
         <br />
+        <form method = "post" action="/driver/fav_song">
+            <input type="text" class="form-control" placeholder="Enter song name" name="fav_song" >
+            <br/>
+            <input type="text" class="form-control" placeholder="Enter song playtime" name="fav_song_playtime" >
+            <br/>
+            <input type="text" class="form-control" placeholder="Enter artist" name="fav_song_artist" >
+            <br/>
+            <button class="btn btn-primary" type="submit">Add Song to favourite</button>
+        </form>
+
+        <br />
+        <br/>
         <h3>Current Bids: </h3>
         <br />
         <table class="table">
