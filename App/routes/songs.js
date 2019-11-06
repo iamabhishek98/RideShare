@@ -31,6 +31,7 @@ router.post('/fav_song', function(req, res, next){
     console.log(fav_song_name);
     console.log(fav_song_playtime);
     console.log(fav_song_artist);
+    
     res.redirect('./');
 })
 
