@@ -41,13 +41,13 @@ sql.query = {
     bid_win: `select * from bid where is_win is true and e_date is null and e_time is null and email_bidder = $1`
 }
 
-
 var passenger_email;
 /* GET login page. */
 router.get('/', function(req, res, next) {
     console.log("passenger dashboard");
-    if(req.session.passport.user.email == undefined){
+    if(req.session.passport == undefined){
         console.log("user not logged in");
+        res.redirect('login');
     } else if(req.session.passport.user.id == "passenger"){
         //passenger success
         try {
@@ -93,7 +93,6 @@ router.post('/logout', function(req, res, next){
     req.session.passport.user.email = "";
     req.session.passport.user.password = "";
     req.session.passport.user.id = "";
-    console.log(session);
     res.redirect('../login');
 })
 
@@ -152,6 +151,14 @@ router.post('/start_trip', function(req, res, next){
     } catch {
         console.log('start trip error ')
     }
+})
+
+router.post('/inbox', function(req, res, next){
+    res.redirect('../inbox');
+})
+
+router.post('/message', function(req, res, next){
+    res.redirect('../message');
 })
 
 module.exports = router;  

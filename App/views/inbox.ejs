@@ -3,7 +3,7 @@
 
 <head>
     <!-- Page Title -->
-    <title>Become a Driver</title>
+    <title>Inbox</title>
     <!-- <link rel='stylesheet' href='/stylesheets/style.css' /> -->
     <link rel='stylesheet' href='/stylesheets/login.css' />
 
@@ -22,18 +22,6 @@
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
 
-    <script>
-        function hello() {
-            window.open("/select", "_self");
-        }
-
-        // $(document).ready(function(){
-        //     $('#loginbtn').click(function(){
-        //     alert('validate login!');
-        //     })
-        // })
-
-    </script>
 
 </head>
 
@@ -47,15 +35,15 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="signup">Sign Up</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="login">Log In</a>
-                </li>
+                    <form method = "post" action="/inbox/dashboard">
+                        <!--redirect user to passenger or driver dashboard based on how they logged in using session-->
+                        <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Dashboard</button>
+                    </form>
+                    
+                    <form method = "post" action="/inbox/logout">
+                        <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Log Out</button>
+                    </form>
+
             </ul>
         </div>
     </nav>
@@ -70,34 +58,37 @@
     </div>
 
     <div class="container" style="background:white">
-        <h2 className="my-5"> Register a Vehicle </h2>
+        <h2 className="my-5"> Welcome </h2>
         <div style="height:20px;"></div>
-        
-        <form method="post" action="/becomeDriver/register_vehicle">
-            <div class="form-group">
-                <label for="exampleInputEmail1">Vehicle Number</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" name="vehicleNumber" aria-describedby="emailHelp"
-                    placeholder="Vehicle Number">
-            </div>
-            <h5>Number of pax it can support: </h5>
-            <select class="selectpicker" data-style="btn-info" name="paxPicker">
-                            
-                    <option name="" value="6">6</option>
-                    <option name="table1" value="5">5</option>
-                    <option name="table2" value="4">4</option>
-                    <option name="" value="3">3</option>
-                    <option name="table1" value="2">2</option>
-                    <option name="table2" value="1">1</option>
-                
-            </select>
-            <br/>
-            <br/>
-            <button type="submit" class="btn btn-primary" id="loginbtn">Register</button>
+        <br/>
+        <form method = "post" action="/passenger/message">
+            <!--redirect user to passenger or driver dashboard based on how they logged in using session-->
+            <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Send New Message</button>
         </form>
-
-
+        <br />
+        <h3>Your Messages: </h3>
+        <br />
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">From</th>
+                    <th scope="col">Msg</th>
+                    <th scope="col">Msg Time</th>
+                    <th scope="col">Msg Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                   
+                <tr>
+                </tr>
+                
+            </tbody>
+        </table>
+        
     </div>
-
+    <br />
+    <br />
+    <br />
 </body>
 
 </html>

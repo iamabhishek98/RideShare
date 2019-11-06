@@ -75,13 +75,10 @@ router.get('/', function(req, res, next) {
             pool.query(sql.query.available_bids, ['rdoog6@yandex.ru'], (err, data) => {
                 if (data != undefined) {
                     console.log(data.rows)
-
                     pool.query(sql.query.get_drives, [req.session.passport.user.email], (err, result) => {
                         console.log(result);
                         res.render('driver', {bid: data.rows, vehicles: result.rows, title : 'Express'})
                     })
-
-                    
                 } else {
                     console.log('data is undefined')
                 }
@@ -199,5 +196,9 @@ router.post('/advertise', function(req, res, next) {
     } catch {
         console.log('driver advertise error')
     }
+})
+
+router.post('/inbox', function(req, res, next){
+    res.redirect('../inbox');
 })
 module.exports = router;  

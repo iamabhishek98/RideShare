@@ -76,17 +76,14 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/"
-              >Home <span class="sr-only">(current)</span></a
-            >
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="signup">Sign Up</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="login">Log In</a>
-          </li>
+            <form method = "post" action="/message/dashboard">
+              <!--redirect user to passenger or driver dashboard based on how they logged in using session-->
+              <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Dashboard</button>
+          </form>
+          
+          <form method = "post" action="/message/logout">
+              <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Log Out</button>
+          </form>
         </ul>
       </div>
     </nav>
