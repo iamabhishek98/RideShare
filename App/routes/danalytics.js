@@ -241,6 +241,7 @@ router.get('/', function(req, res, next) {
   console.log("danalytics");
   if(req.session == undefined){
     console.log("driver not logged in");
+    res.redirect('login');
   } else if(req.session.passport.user.id == "driver"){
     try{
       // Construct Specific SQL Query

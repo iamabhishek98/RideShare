@@ -161,6 +161,7 @@ router.post('/message', function(req, res, next){
     res.redirect('../message');
 })
 
+//FAV_SONG changed to a dedicated page
 router.post('/fav_song', function(req, res, next){
     var fav_song_name = req.body.fav_song;
     var fav_song_playtime = req.body.fav_song_playtime;
@@ -173,5 +174,9 @@ router.post('/panalytics', function(req, res, next){
 
 router.post('/discount', function(req, res, next){
     res.redirect('../discount');
+})
+
+router.post('/songs', function(req, res, next){
+    res.redirect('../songs');
 })
 module.exports = router;  
