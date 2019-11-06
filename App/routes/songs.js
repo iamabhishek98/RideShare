@@ -71,8 +71,6 @@ router.post('/delete_song', async function(req, res, next){
     }
     var deleted_song = fav_songs_data.rows[delete_id]
     var name = deleted_song.name;
-    var artist = deleted_song.artist;
-    var duration = deleted_song.duration;
     var delete_song_likes = await pool.query(sql.query.delete_likes, [user_email, name]);
     if (delete_song_likes != undefined) {
         console.log(delete_song_likes)
@@ -80,7 +78,9 @@ router.post('/delete_song', async function(req, res, next){
         console.log('delete song likes data is undefined')
     }
     // reason has been mentioned above
-    /*var delete_song = await pool.query(sql.query.delete_song, [name, artist, duration])
+    /*var artist = deleted_song.artist;
+    var duration = deleted_song.duration;
+    var delete_song = await pool.query(sql.query.delete_song, [name, artist, duration])
     if (delete_song != undefined) {
         console.log(delete_song)
     } else {
