@@ -12,6 +12,7 @@ sql.query = {
                 and L.email = $1;`,
     insert_song : `INSERT INTO songs(name, duration, artist) VALUES($1, $2, $3);`,
     insert_song_likes : `INSERT INTO likes(email, name) VALUES($1, $2);`,
+    insert_song_plays: "insert into plays(email, name) values($1, $2)",
     delete_likes : `DELETE FROM likes WHERE email = $1 and name = $2;`
     // not adding delete song coz other users might be liking the same song
 }
@@ -52,12 +53,33 @@ router.post('/fav_song', async function(req, res, next){
     } else {
         console.log('insert song data is undefined')
     }
-    var insert_song_likes = await pool.query(sql.query.insert_song_likes, [user_email,name])
-    if (insert_song_likes != undefined) {
-        console.log(insert_song_likes)
+
+    /**
+     * Code that determines if user is driver or passenger
+     * useful for u to note
+     */
+    if(req.session.passport.user.id == "driver"){
+        //user is driver
+        var insert_song_play = await pool.query(sql.query.insert_song_plays, [user_email, name]);
+        if(insert_song != undefined){
+            console.log(insert_song_play);
+        } else {
+            console.log("inserting into plays has failed");
+        }
+    } else if (req.session.passport.user.id == "passenger"){
+        var insert_song_likes = await pool.query(sql.query.insert_song_likes, [user_email,name])
+        if (insert_song_likes != undefined) {
+            console.log(insert_song_likes)
+        } else {
+            console.log('insert likes song data is undefined')
+        }
     } else {
-        console.log('insert likes song data is undefined')
+        //gtfo of here
+        res.redirect('login');
     }
+
+
+
     res.redirect('./');
 })
 
