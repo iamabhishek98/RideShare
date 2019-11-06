@@ -51,4 +51,11 @@ router.post("/logout", function(req, res, next){
     }
   })
 
+router.post('/delete_msg', function(req, res, next){
+    var to_delete = req.body.delete_id;
+    //@Abhi, write ur SQL code to delete message here
+    console.log(to_delete);
+    res.redirect('./');
+})
+
 module.exports = router;

@@ -61,20 +61,39 @@
         <h2 className="my-5"> Welcome </h2>
         <div style="height:20px;"></div>
         <br/>
+        <div class = "row">
+            <div class ="col">
         <form method = "post" action="/passenger/message">
             <!--redirect user to passenger or driver dashboard based on how they logged in using session-->
             <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Send New Message</button>
         </form>
+            </div>
+
+            <div class ="col">
+                    <form method = "post" action="/inbox/delete_msg">
+                        <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Enter msg id to delete" name="delete_id" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                  <button class="btn btn-outline-secondary" type="submit">Delete</button>
+                                </div>
+                              </div>
+                    </form>
+                        </div>
+        </div>
+        
         <br />
         <h3>Your Messages: </h3>
         <br />
         <table class="table">
             <thead class="thead-dark">
                 <tr>
+                    <th scope="col">Msg ID</th>
                     <th scope="col">From</th>
+                    <th scope="col">To</th>
                     <th scope="col">Msg</th>
                     <th scope="col">Msg Time</th>
                     <th scope="col">Msg Date</th>
+
                 </tr>
             </thead>
             <tbody>
