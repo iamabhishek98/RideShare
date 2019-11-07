@@ -11,34 +11,39 @@ const sql = []
 sql.query = {
 
     check_driver: 'select * from driver where email = $1',
-    advertise: `INSERT INTO advertisesTrip (start_loc, end_loc, email, a_date, a_time) VALUES($1, $2, $3, $4, $5)`,   
+    advertise: `INSERT INTO advertisesTrip (start_loc, end_loc, email, vehicle, a_date,a_time) VALUES($1, $2, $3, $4, $5, $6)`,   
     
     available_bids: `select distinct N.name, CP.current_pax, B.email_bidder, B.vehicle, B.start_loc, B.end_loc, B.amount, B.s_date, B.s_time
-    from Bid B, 
-        (select distinct P.name, P.email
-            from passenger P, bid B
-            where P.email = B.email_bidder) N,
-        (select distinct P.email_driver, P.vehicle, P.pax-W.count as current_pax
-            from 
-                (select Q1.email_driver, count(Q2.email_driver)
-                    from 
-                        (select distinct email_driver, count(*)
-                        from bid
-                        group by email_driver) Q1
-                    left join 
-                        (select distinct email_driver, count(*) 
-                        from bid 
-                        where is_win is true
-                        group by email_driver) Q2
-                    on Q1.email_driver = Q2.email_driver
-                    group by Q1.email_driver) W,  
-                (select distinct B.email_driver, B.vehicle, V.pax
-                    from vehicles V, bid B 
-                    where V.license_plate = B.vehicle) P
-    where W.email_driver = P.email_driver) CP
-    where B.email_bidder = N.email
-    and B.email_driver = CP.email_driver
-    and B.email_driver = $1;`,
+                        from Bid B, 
+                            (select distinct P.name, P.email
+                                from passenger P, bid B
+                                where P.email = B.email_bidder) N,
+                            (select distinct P.email_driver, P.vehicle, P.pax-W.count as current_pax
+                                from  (select distinct Q1.email_driver, count(Q2.email_driver)
+                                                from 
+                                                    (select distinct email_driver, count(*)
+                                                    from bid
+                                                    group by email_driver) Q1
+                                                left join 
+                                                    (select distinct email_driver, count(*) 
+                                                    from bid 
+                                                    where is_win is true
+                                                    group by email_driver) Q2
+                                                on Q1.email_driver = Q2.email_driver
+                                                group by Q1.email_driver
+                                            union
+                                            select distinct D.email as email_driver, 0 as count 
+                                                from driver D left join bid B
+                                                on D.email = B.email_driver
+                                                where B.email_driver is null) W, 
+                                        (select distinct A.email as email_driver, A.vehicle, V.pax
+                                            from vehicles V, advertisestrip A 
+                                            where V.license_plate = A.vehicle) P
+                                where W.email_driver = P.email_driver) CP
+                        where B.email_bidder = N.email
+                        and B.email_driver = CP.email_driver
+                        and B.vehicle = CP.vehicle
+                        and B.email_driver = $1;`,
 
     bid_win: `update bid set is_win = true
     where email_bidder = $1 and email_driver = $2
@@ -63,6 +68,7 @@ var driver_email;
 
 /* GET login page. */
 router.get('/', function(req, res, next) {
+    driver_email = req.session.passport.user.email;
     console.log("driver dashboard");
     console.log(req.session);
     if(req.session.passport.user.email==undefined){
@@ -72,7 +78,7 @@ router.get('/', function(req, res, next) {
         try {
             // need to only load driver related bids
         
-            pool.query(sql.query.available_bids, ['rdoog6@yandex.ru'], (err, data) => {
+            pool.query(sql.query.available_bids, [driver_email], (err, data) => {
                 if (data != undefined) {
                     console.log(data.rows)
                     pool.query(sql.query.get_drives, [req.session.passport.user.email], (err, result) => {
@@ -91,33 +97,6 @@ router.get('/', function(req, res, next) {
     } else {
         res.redirect('./login');
     }
-    
-    
-    
-    
-    /*
-    else {
-        driver_email = req.session.passport.user.email;
-        console.log(driver_email);
-    }
-    pool.query(sql.query.check_driver, [driver_email], async (err, data) => {
-        if(data.rows.length == 0){
-            console.log("This user cannot access the driver dashboard");
-            res.redirect('./passenger');
-        } else {
-            console.log("This is a driver account");
-            try {
-                // need to only load driver related bids
-                pool.query(sql.query.available_bids, ['rdoog6@yandex.ru'], (err, data) => {
-                    console.log(data.rows)
-                    res.render('driver', {bid: data.rows, title : 'Express'})
-                })
-            } catch {
-                console.log('driver available bids error')
-            }
-        }
-    })
-    */
 })
 
 router.post('/logout', function(req, res, next){
@@ -145,13 +124,12 @@ router.post('/add_vehicle', function(req, res, next){
 router.post('/bid_true', async function(req, res, next) {
     console.log(req.body.bid_true);
     var index = req.body.bid_true-1;
-    var data = await pool.query(sql.query.available_bids, ['rdoog6@yandex.ru'])
+    var data = await pool.query(sql.query.available_bids, [driver_email])
     if (data != undefined) {
         var bids = data.rows
-        if (index >= 0 && index < bids.length) {
             var email_bidder = bids[index].email_bidder;
             // to be changed to current user
-            var email_driver = 'rdoog6@yandex.ru';
+            var email_driver = driver_email;
             var vehicle = bids[index].vehicle;
             var start_loc = bids[index].start_loc;
             var amount = bids[index].amount;
@@ -169,29 +147,25 @@ router.post('/bid_true', async function(req, res, next) {
             } catch {
                 console.log('driver set bid true error')
             }
-        } else {
-            console.log('invalid index');
-        }
     } else {
         console.log('data is undefined.')
     }
-
+    res.redirect("./");
 })
 
+/////////////if location does not exist, insert location
 router.post('/advertise', function(req, res, next) {
     var origin = req.body.origin;
     var destination = req.body.destination;
     var vehicle_num = req.body.selectpicker;
     console.log("vehicle num :"+vehicle_num);
 
-    // email to be changed to logged in user
-    var email = 'ayurenev5@icio.us';
     var date = req.body.datetime.split("T")[0].split("-")[2]+"/"+req.body.datetime.split("T")[0].split("-")[1]+"/"+req.body.datetime.split("T")[0].split("-")[0]
     var time = req.body.datetime.split("T")[1]+":00";
     try {
-        pool.query(sql.query.advertise, [origin, destination, email, date, time], (err, data) => {
+        pool.query(sql.query.advertise, [origin, destination, driver_email, vehicle_num, date, time], (err, data) => {
             if (data != undefined) {
-                console.log(data.rows)
+                console.log(data)
             } else {
                 console.log('data is undefined.')
             }
@@ -199,16 +173,11 @@ router.post('/advertise', function(req, res, next) {
     } catch {
         console.log('driver advertise error')
     }
+    res.redirect("./");
 })
 
 router.post('/inbox', function(req, res, next){
     res.redirect('../inbox');
-})
-
-router.post('/fav_song', function(req, res, next){
-    var fav_song_name = req.body.fav_song;
-    var fav_song_playtime = req.body.fav_song_playtime;
-    var fav_song_artist = req.body.fav_song_artist;
 })
 
 router.post('/danalytics', function(req, res, next){

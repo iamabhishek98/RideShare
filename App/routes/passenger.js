@@ -29,28 +29,32 @@ sql.query = {
                                     from passenger P, advertisesTrip A
                                     where P.email = A.email) N, 
                                 (select distinct P.email_driver, P.vehicle, P.pax-W.count as current_pax
-                                    from 
-                                        (select Q1.email_driver, count(Q2.email_driver)
-                                            from 
-                                                (select distinct email_driver, count(*)
-                                                from bid
-                                                group by email_driver) Q1
-                                            left join 
-                                                (select distinct email_driver, count(*) 
-                                                from bid 
-                                                where is_win is true
-                                                group by email_driver) Q2
-                                            on Q1.email_driver = Q2.email_driver
-                                            group by Q1.email_driver) W,  
-                                        (select distinct B.email_driver, B.vehicle, V.pax
-                                            from vehicles V, bid B 
-                                            where V.license_plate = B.vehicle) P
+                                    from  (select distinct Q1.email_driver, count(Q2.email_driver)
+                                                    from 
+                                                        (select distinct email_driver, count(*)
+                                                        from bid
+                                                        group by email_driver) Q1
+                                                    left join 
+                                                        (select distinct email_driver, count(*) 
+                                                        from bid 
+                                                        where is_win is true
+                                                        group by email_driver) Q2
+                                                    on Q1.email_driver = Q2.email_driver
+                                                    group by Q1.email_driver
+                                                union
+                                                select distinct D.email as email_driver, 0 as count 
+                                                    from driver D left join bid B
+                                                    on D.email = B.email_driver
+                                                    where B.email_driver is null) W, 
+                                            (select distinct A.email as email_driver, A.vehicle, V.pax
+                                                from vehicles V, advertisestrip A 
+                                                where V.license_plate = A.vehicle) P
                                     where W.email_driver = P.email_driver) CP
                             where N.email = A.email
                             and CP.email_driver = A.email
                             order by A.a_date desc, A.a_time desc;`,
 
-    bid_advertisements: `select * from advertisesTrip;`,
+    avail_vehicle: `select distinct vehicle from advertisesTrip where email = $1 and start_loc = $2 and end_loc = $3 and a_date = $4 and a_time = $5`,
 
     insert_bid: `INSERT INTO bid (amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time) VALUES($1, $2, $3, $4, $5, $6, $7, $8)`,
     
@@ -123,23 +127,27 @@ router.post('/logout', function(req, res, next){
 
 router.post('/bid', async function(req, res, next) {
     var bids = req.body.bid;
-    var data = await pool.query(sql.query.bid_advertisements)
+    var data = await pool.query(sql.query.avail_advertisements)
     if (data != undefined) {
         var advertisements = data.rows
         for (var i = 0; i < bids.length; i++) {
             if (bids[i] != '') {
                 console.log(i+' '+bids[i])
-                // check if amount is a number
-                // if (bids[i]<0) break;
                 var amount = bids[i];
                 var start_loc = advertisements[i].start_loc;
                 var end_loc = advertisements[i].end_loc; 
-                // to be changed to current user
-                var email_bidder = 'shagergham0@theatlantic.com'
+                var email_bidder = passenger_email
                 var email_driver = advertisements[i].email
-                var vehicle = advertisements[i].vehicle
                 var s_date = advertisements[i].a_date
                 var s_time = advertisements[i].a_time
+                var vehicle_data = await pool.query(sql.query.avail_vehicle, [email_driver, start_loc, end_loc, s_date, s_time]);
+                var vehicle;
+                if (vehicle_data != undefined) {
+                    console.log(vehicle_data.rows)
+                    vehicle = vehicle_data.rows[0].vehicle
+                } else {
+                    console.log('vehicle data is undefined')
+                }
                 console.log(amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time);
                 try {
                     var result = await pool.query(sql.query.insert_bid, [amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time]);
@@ -156,6 +164,7 @@ router.post('/bid', async function(req, res, next) {
     } else {
         console.log('data is undefined')
     }
+    res.redirect("./");
 })
 
 
