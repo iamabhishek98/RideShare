@@ -696,8 +696,25 @@ sql.query = {
   select L.loc_name as location, WB.successful_bids, WP.percent, AB.average_bid
   from Location L, AVG_BID AB, WIN_BIDS WB, WIN_PERCENT WP
   where L.loc_name = AB.location and L.loc_name = WB.location and L.loc_name = WP.location;
-    `
+    `,
+  
+  own_analytics : `select distinct T.email_bidder, T.expenditure, A.avg_price
+  from (select distinct email_bidder, sum(amount) as expenditure
+          from bid 
+          where is_win is true 
+          and e_time is not null 
+          and e_date is not null
+          group by email_bidder) T,
+      (select distinct email_bidder, avg(amount) as avg_price
+          from bid 
+          where is_win is true
+          and e_time is not null
+          and e_date is not null
+          group by email_bidder) A
+  where T.email_bidder = A.email_bidder and T.email_bidder = $1;`
 }
+
+// do the passport.js shit here to get user email
 
 /* GET signup page. */
 router.get('/', function(req, res, next) {
@@ -709,16 +726,24 @@ router.get('/', function(req, res, next) {
     //passenger success
     try{
       // Construct Specific SQL Query
-      pool.query(sql.query.panalytics_basic,(err, data) => {
+      pool.query(sql.query.own_analytics, ['shagergham0@theatlantic.com'], (err, data) => {
         if (data != undefined) {
           console.log(data.rows)
-          res.render('panalytics', {
-            result: data.rows, title: 'Express'  
-          })
+          pool.query(sql.query.panalytics_basic,(err, data2) => {
+            if (data2 != undefined) {
+              console.log(data2.rows)
+              res.render('panalytics', {
+                own_analytics: data.rows, result: data2.rows, title: 'Express'  
+              })
+            } else {
+              console.log('bid analytics data is undefined')
+            }
+          });
         } else {
-          console.log('data is undefined')
+          console.log('own analytics data is undefined')
         }
       });
+      
     } catch {
       console.log('panalytics basic error');
     }
