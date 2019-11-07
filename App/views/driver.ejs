@@ -103,7 +103,27 @@
                         <br/>
                       <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Add Vehicle</button>
                     </form>
+                    <br/>
 
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Vehicle Id</th>
+                                <th scope="col">License Plate Number</th>
+                                <th scope="col">Capacity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <% for (var i = 0; i < all_vehicles.length;  i++) { %>
+                                    <tr>
+                                        <th scope="row"><%= i+1 %></td>
+                                        <td><%= all_vehicles[i].license_plate %></td>
+                                        <td><%= all_vehicles[i].pax %></td>
+                                    </tr>    
+                                <% } %>
+                            </tr>                
+                        </tbody>
+                    </table>
             </div>
             <div class="col">
 
@@ -172,12 +192,12 @@
         <table class="table">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Bid Index</th>
+                    <th scope="col">Bid Id</th>
                     <th scope="col">Bidder Name</th>
                     <th scope="col">Start Location</th>
                     <th scope="col">End Location</th>
                     <th scope="col">Vehicle</th>
-                    <th scope="col">Current Pax</th>
+                    <th scope="col">Current Capacity</th>
                     <th scope="col">Bid</th>
                 </tr>
             </thead>

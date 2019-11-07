@@ -60,7 +60,6 @@ var becomeDriverRouter = require("./routes/becomeDriver");
 var inboxRouter = require("./routes/inbox");
 var songRouter = require("./routes/songs");
 
-
 var app = express();
 
 // view engine setup

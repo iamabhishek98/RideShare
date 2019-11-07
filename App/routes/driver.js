@@ -11,6 +11,10 @@ const sql = []
 sql.query = {
 
     check_driver: 'select * from driver where email = $1',
+    all_vehicles: `select distinct D.license_plate, V.pax
+                    from drives D, vehicles V
+                    where D.license_plate = V.license_plate
+                    and D.email = $1;`,
     advertise: `INSERT INTO advertisesTrip (start_loc, end_loc, email, vehicle, a_date,a_time) VALUES($1, $2, $3, $4, $5, $6)`,   
     
     available_bids: `select distinct N.name, CP.current_pax, B.email_bidder, B.vehicle, B.start_loc, B.end_loc, B.amount, B.s_date, B.s_time
@@ -77,18 +81,25 @@ router.get('/', function(req, res, next) {
         console.log("This is a driver account");
         try {
             // need to only load driver related bids
-        
-            pool.query(sql.query.available_bids, [driver_email], (err, data) => {
+            pool.query(sql.query.all_vehicles, [driver_email], (err, data) => {
                 if (data != undefined) {
                     console.log(data.rows)
-                    pool.query(sql.query.get_drives, [req.session.passport.user.email], (err, result) => {
-                        console.log(result);
-                        res.render('driver', {bid: data.rows, vehicles: result.rows, title : 'Express'})
+                    pool.query(sql.query.available_bids, [driver_email], (err, data2) => {
+                        if (data2 != undefined) {
+                            console.log(data2.rows)
+                            pool.query(sql.query.get_drives, [req.session.passport.user.email], (err, result) => {
+                                console.log(result);
+                                res.render('driver', {bid: data2.rows, all_vehicles: data.rows, vehicles: result.rows, title : 'Express'})
+                            })
+                        } else {
+                            console.log('available bids data is undefined')
+                        }
                     })
                 } else {
-                    console.log('data is undefined')
+                    console.log('all vehicles data is undefined')
                 }
             })
+            
         } catch {
             console.log('driver available bids error')
         }
