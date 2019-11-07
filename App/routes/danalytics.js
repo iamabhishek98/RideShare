@@ -248,8 +248,6 @@ sql.query = {
                               group by email_driver) R
                       where A.email_driver = R.email_driver
                       and A.email_driver = $1;`
-
-    
 }
 //////////replace email with actual driver_email
 /* GET signup page. */

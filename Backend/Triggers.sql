@@ -32,7 +32,7 @@ for each row
 execute procedure advertise();
 
 
---checks if a bid has been accepted by the driver before deleting the advertistment
+--checks if a bid has been accepted by the driver before deleting the advertisement
 create or replace function won()
 returns trigger as $$
 declare count NUMERIC;

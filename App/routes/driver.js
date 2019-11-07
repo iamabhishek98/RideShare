@@ -181,6 +181,8 @@ router.post('/bid_true', async function(req, res, next) {
 router.post('/advertise', function(req, res, next) {
     var origin = req.body.origin;
     var destination = req.body.destination;
+    var vehicle_num = req.body.selectpicker;
+    console.log(vehicle_num)
     // email to be changed to logged in user
     var email = 'ayurenev5@icio.us';
     var date = req.body.datetime.split("T")[0].split("-")[2]+"/"+req.body.datetime.split("T")[0].split("-")[1]+"/"+req.body.datetime.split("T")[0].split("-")[0]
