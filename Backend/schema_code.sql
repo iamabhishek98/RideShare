@@ -25,7 +25,7 @@ create table driver(
     email varchar(256) primary key references passenger(email)
 );
 
-/*check constraint that capacity cannot be more than 8*/
+/*check constraint that capacity cannot be more than 6*/
 create table vehicles(
     license_plate varchar(50) primary key,
     pax integer not null
