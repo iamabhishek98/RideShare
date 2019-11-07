@@ -25,6 +25,7 @@ create table driver(
     email varchar(256) primary key references passenger(email)
 );
 
+/*check constraint that capacity cannot be more than 8*/
 create table vehicles(
     license_plate varchar(50) primary key,
     pax integer not null
@@ -68,6 +69,7 @@ create table advertisesTrip(
     primary key(email, vehicle, start_loc, a_date, a_time)
 );
 
+/*changed bid recently*/
 create table bid(
     is_win boolean default false,
     amount float not null,
@@ -82,10 +84,11 @@ create table bid(
     e_time time,
     review varchar(1024),
     rating numeric,
-    CHECK ((is_win is true and ((e_time > s_time) or (e_date > s_date))) or 
-          ((is_win is false and e_time is null and e_date is null and review is null and rating is null))),
-    primary key(email_bidder, email_driver, start_loc, s_date, s_time)
-    --foreign key (email_driver, vehicle, start_loc, s_date, s_time) references advertisesTrip(email, vehicle, start_loc, a_date, a_time)
+    CHECK (((is_win is true and ((e_time > s_time) or (e_date > s_date))) or 
+          ((is_win is false and e_time is null and e_date is null and review is null and rating is null)))
+          and email_bidder <> email_driver),
+    primary key(email_bidder, email_driver, start_loc, s_date, s_time),
+    foreign key (email_driver, vehicle, start_loc, s_date, s_time) references advertisesTrip(email, vehicle, start_loc, a_date, a_time)
 );
 
 create table discount(
