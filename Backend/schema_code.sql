@@ -29,7 +29,7 @@ create table driver(
 create table vehicles(
     license_plate varchar(50) primary key,
     pax integer not null
-    check (pax <= 6)
+    check (pax >= 1 and pax <= 6)
 );
 
 create table drives(
