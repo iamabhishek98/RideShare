@@ -1,5 +1,6 @@
-select P.name, B.email_driver, B.rating 
-from bid B, passenger P
-where B.is_win is true 
-and P.email = B.email_driver
-and B.e_date is not null and B.e_time is not null;
+select distinct email_driver, avg(rating) 
+from bid
+where is_win is true 
+and e_date is not null 
+and e_time is not null
+group by email_driver;

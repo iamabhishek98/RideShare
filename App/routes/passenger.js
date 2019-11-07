@@ -8,11 +8,11 @@ const pool = new Pool({connectionString:process.env.DATABASE_URL})
 const sql = []
 sql.query = {
     recommended_drivers : `select distinct P.name, R.email_driver, R.rating, Q.common_songs
-                            from (select distinct P.name, B.email_driver, B.rating 
-                                    from bid B, passenger P
+                            from (select distinct email_driver, avg(rating) as rating 
+                                    from bid B
                                     where B.is_win is true 
-                                    and P.email = B.email_driver
-                                    and B.e_date is not null and B.e_time is not null) R, 
+                                    and B.e_date is not null and B.e_time is not null
+                                    group by email_driver) R, 
                                 (select distinct P.email, count(*) as common_songs
                                     from likes L inner join plays P 
                                     on L.name = P.name
@@ -24,31 +24,31 @@ sql.query = {
                             order by rating desc, common_songs desc;`,
 
     avail_advertisements: `select distinct N.name, A.email, CP.current_pax, A.start_loc, A.end_loc, A.a_date, A.a_time
-    from advertisesTrip A, 
-        (select distinct P.name, P.email 
-            from passenger P, advertisesTrip A
-            where P.email = A.email) N, 
-        (select distinct P.email_driver, P.vehicle, P.pax-W.count as current_pax
-            from 
-                (select Q1.email_driver, count(Q2.email_driver)
-                    from 
-                        (select distinct email_driver, count(*)
-                        from bid
-                        group by email_driver) Q1
-                    left join 
-                        (select distinct email_driver, count(*) 
-                        from bid 
-                        where is_win is true
-                        group by email_driver) Q2
-                    on Q1.email_driver = Q2.email_driver
-                    group by Q1.email_driver) W,  
-                (select distinct B.email_driver, B.vehicle, V.pax
-                    from vehicles V, bid B 
-                    where V.license_plate = B.vehicle) P
-            where W.email_driver = P.email_driver) CP
-    where N.email = A.email
-    and CP.email_driver = A.email
-    order by A.a_date desc, A.a_time desc;`,
+                            from advertisesTrip A, 
+                                (select distinct P.name, P.email 
+                                    from passenger P, advertisesTrip A
+                                    where P.email = A.email) N, 
+                                (select distinct P.email_driver, P.vehicle, P.pax-W.count as current_pax
+                                    from 
+                                        (select Q1.email_driver, count(Q2.email_driver)
+                                            from 
+                                                (select distinct email_driver, count(*)
+                                                from bid
+                                                group by email_driver) Q1
+                                            left join 
+                                                (select distinct email_driver, count(*) 
+                                                from bid 
+                                                where is_win is true
+                                                group by email_driver) Q2
+                                            on Q1.email_driver = Q2.email_driver
+                                            group by Q1.email_driver) W,  
+                                        (select distinct B.email_driver, B.vehicle, V.pax
+                                            from vehicles V, bid B 
+                                            where V.license_plate = B.vehicle) P
+                                    where W.email_driver = P.email_driver) CP
+                            where N.email = A.email
+                            and CP.email_driver = A.email
+                            order by A.a_date desc, A.a_time desc;`,
 
     bid_advertisements: `select * from advertisesTrip;`,
 
