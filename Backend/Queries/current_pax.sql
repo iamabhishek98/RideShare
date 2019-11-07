@@ -1,4 +1,4 @@
-select distinct P.email_driver, P.vehicle, P.pax-W.count as current_pax
+select distinct P.email_driver as drive, P.vehicle as car, P.pax-W.count as current_pax
 from  (select distinct Q1.email_driver, count(Q2.email_driver)
                 from 
                     (select distinct email_driver, count(*)
@@ -20,3 +20,7 @@ from  (select distinct Q1.email_driver, count(Q2.email_driver)
             from vehicles V, advertisestrip A 
             where V.license_plate = A.vehicle) P
 where W.email_driver = P.email_driver;
+
+
+
+delete from advertisesTrip where email = drive and current_pax = (select V.pax from Vehicles V where V.vehicle = car)
