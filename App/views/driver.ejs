@@ -103,6 +103,12 @@
                         <br/>
                       <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Add Vehicle</button>
                     </form>
+                    <form method = "post" action = "/driver/delete_vehicle">
+                        <div>
+                        <input type="text" class="form-control" placeholder="Vehicle Id" style ="width:19%"
+                                        aria-label="Recipient's username" aria-describedby="button-addon2" name = "delete_vehicle_id">
+                                        <button class="btn btn-primary" type="submit" id="submit-button" value = "submit">Delete</button>
+                    </div></form>
                     <br/>
 
                     <table class="table">
@@ -204,7 +210,7 @@
             <tbody>
                 <form method = "post" action = "/driver/bid_true">
                     <div>
-                    <input type="text" class="form-control" placeholder="Bid Index" style ="width:9%"
+                    <input type="text" class="form-control" placeholder="Bid Id" style ="width:9%"
                                     aria-label="Recipient's username" aria-describedby="button-addon2" name = "bid_true">
                                     <button class="btn btn-primary" type="submit" id="submit-button" value = "submit">Accept</button>
                 </div></form>
