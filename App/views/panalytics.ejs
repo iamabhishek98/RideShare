@@ -86,22 +86,17 @@
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">Average Rating</th>
+                            <th scope="col">Total Expenditure</th>
                             <th scope="col">Average Price per Trip</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <!--Abhi use ejs to update this to reflect driver's own analytics-->
-                            <td>sample data</td>
-                            <td>sample data</td>
-                        </tr>
-                        <!-- <% for (var i = 0; i < result.length;  i++) { %>
-                                    <tr>
-                                        <td><%= result[i].location %></td>
-                                        <td><%= result[i].total_bids %></td>
-                                    </tr>    
-                                <% } %> -->
+                        <% for (var i = 0; i < own_analytics.length;  i++) { %>
+                            <tr>
+                                <td><%= own_analytics[i].expenditure %></td>
+                                <td><%= own_analytics[i].avg_price %></td>
+                            </tr>    
+                        <% } %>
                     </tbody>
                 </table>
     

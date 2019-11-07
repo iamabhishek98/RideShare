@@ -233,9 +233,25 @@ sql.query = {
     where L.loc_name = AB.location and L.loc_name = T.location;
     `,
 
+    own_analytics : `select A.email_driver, A.avg_price, R.rating
+                      from (select distinct email_driver, avg(amount) as avg_price
+                              from bid 
+                              where is_win is true
+                              and e_time is not null
+                              and e_date is not null
+                              group by email_driver) A, 
+                          (select distinct email_driver, avg(rating) as rating
+                              from bid
+                              where is_win is true 
+                              and e_date is not null 
+                              and e_time is not null
+                              group by email_driver) R
+                      where A.email_driver = R.email_driver
+                      and A.email_driver = $1;`
+
     
 }
-
+//////////replace email with actual driver_email
 /* GET signup page. */
 router.get('/', function(req, res, next) {
   console.log("danalytics");
@@ -244,17 +260,25 @@ router.get('/', function(req, res, next) {
     res.redirect('login');
   } else if(req.session.passport.user.id == "driver"){
     try{
-      // Construct Specific SQL Query
-      pool.query(sql.query.danalytics_basic,(err, data) => {
+      pool.query(sql.query.own_analytics, ['jcashen7@aboutads.info'], (err, data) => {
         if (data != undefined) {
           console.log(data.rows)
-          res.render('danalytics', {
-            result: data.rows, title: 'Express' 
-          })
+          pool.query(sql.query.danalytics_basic,(err, data2) => {
+            if (data2 != undefined) {
+              console.log(data2.rows)
+              res.render('danalytics', {
+                own_analytics: data.rows, result: data2.rows, title: 'Express' 
+              })
+            } else {
+              console.log('danalytics data is undefined')
+            }
+          });
         } else {
-          console.log('data is undefined')
+          console.log('driver own analytics data is undefined')
         }
-      });
+      })
+      // Construct Specific SQL Query
+      
     } catch {
       console.log('danalytics basic error');
     }
