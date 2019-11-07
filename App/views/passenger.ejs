@@ -143,11 +143,11 @@
                         <form method = "post" action = "/passenger/recc_drivers">
                     <tr>
                         <!--Abhishek, change the ejs here to show recommended drivers details-->
-                    <% for (var i = 0; i < advertisements.length;  i++) { %>
+                    <% for (var i = 0; i < recommended.length;  i++) { %>
                         <tr>
-                            <th scope="row"><%= advertisements[i].name %></td>
-                            <td><%= advertisements[i].start_loc %></td>
-                            <td><%= advertisements[i].end_loc %></td>
+                            <th scope="row"><%= recommended[i].name %></td>
+                            <td><%= recommended[i].rating %></td>
+                            <td><%= recommended[i].common_songs %></td>
                         </tr>    
                         <% } %>
                     </tr>

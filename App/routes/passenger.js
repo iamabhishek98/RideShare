@@ -7,6 +7,22 @@ const pool = new Pool({connectionString:process.env.DATABASE_URL})
 
 const sql = []
 sql.query = {
+    recommended_drivers : `select distinct P.name, R.email_driver, R.rating, Q.common_songs
+                            from (select distinct P.name, B.email_driver, B.rating 
+                                    from bid B, passenger P
+                                    where B.is_win is true 
+                                    and P.email = B.email_driver
+                                    and B.e_date is not null and B.e_time is not null) R, 
+                                (select distinct P.email, count(*) as common_songs
+                                    from likes L inner join plays P 
+                                    on L.name = P.name
+                                    where L.email = $1
+                                    group by P.email) Q, 
+                                passenger P
+                            where R.email_driver = Q.email
+                            and P.email = R.email_driver
+                            order by rating desc, common_songs desc;`,
+
     avail_advertisements: `select distinct N.name, A.email, CP.current_pax, A.start_loc, A.end_loc, A.a_date, A.a_time
     from advertisesTrip A, 
         (select distinct P.name, P.email 
@@ -45,22 +61,31 @@ var passenger_email;
 /* GET login page. */
 router.get('/', function(req, res, next) {
     console.log("passenger dashboard");
+    passenger_email = req.session.passport.user.email;
     if(req.session.passport == undefined){
         console.log("user not logged in");
         res.redirect('login');
     } else if(req.session.passport.user.id == "passenger"){
         //passenger success
         try {
-            pool.query(sql.query.avail_advertisements, (err, data) => {
+            pool.query(sql.query.recommended_drivers, [passenger_email], (err, data) => {
                 if (data != undefined) {
-                    console.log(data.rows)
-                    res.render('passenger', {
-                        advertisements: data.rows, title : 'Express'
+                    console.log(data.rows);
+                    pool.query(sql.query.avail_advertisements, (err, data2) => {
+                        if (data2 != undefined) {
+                            console.log(data2.rows)
+                            res.render('passenger', {
+                                recommended : data.rows, advertisements: data2.rows, title : 'Express'
+                            })
+                        } else {
+                            console.log('available advertisements data is undefined')
+                        }
                     })
                 } else {
-                    console.log('data is undefined')
+                    console.log('recommended_drivers data is undefined')
                 }
             })
+            
         } catch {
             console.log('passenger bid error')
         }
