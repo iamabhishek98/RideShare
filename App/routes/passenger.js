@@ -58,7 +58,10 @@ sql.query = {
 
     insert_bid: `INSERT INTO bid (amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time) VALUES($1, $2, $3, $4, $5, $6, $7, $8)`,
     
-    bid_win: `select * from bid where is_win is true and e_date is null and e_time is null and email_bidder = $1`
+    bid_win: `select * from bid where is_win is true and e_date is null and e_time is null and email_bidder = $1`,
+
+    favourite_location: "select * from favouriteLocation where email_passenger = $1"
+
 }
 
 var passenger_email;
@@ -76,14 +79,19 @@ router.get('/', function(req, res, next) {
                 if (data != undefined) {
                     console.log(data.rows);
                     pool.query(sql.query.avail_advertisements, (err, data2) => {
-                        if (data2 != undefined) {
-                            console.log(data2.rows)
-                            res.render('passenger', {
-                                recommended : data.rows, advertisements: data2.rows, title : 'Express'
-                            })
-                        } else {
-                            console.log('available advertisements data is undefined')
-                        }
+                        pool.query(sql.query.favourite_location, [passenger_email], (err, data3) => {                           
+                            if (data2 != undefined && data3 != undefined) {
+                                console.log(data2.rows);
+                                console.log(data3.rows);
+                                res.render('passenger', {
+                                    recommended : data.rows, 
+                                    advertisements: data2.rows, title : 'Express',
+                                    locations: data3.rows
+                                })
+                            } else {
+                                console.log('available advertisements data is undefined')
+                            }
+                        })
                     })
                 } else {
                     console.log('recommended_drivers data is undefined')
@@ -123,6 +131,16 @@ router.post('/logout', function(req, res, next){
     req.session.passport.user.password = "";
     req.session.passport.user.id = "";
     res.redirect('../login');
+})
+
+router.post('/bid2', function(req, res, next){
+    var bid_num = req.body.bid_num;
+    var bid_val = req.body.bid_val;
+
+    console.log(bid_num);
+    console.log(bid_val);
+
+    res.redirect('./');
 })
 
 router.post('/bid', async function(req, res, next) {
@@ -231,4 +249,9 @@ router.post('/search_advertisements', function(req, res, next){
     res.redirect('/passenger');
 
 })
+
+router.post('/locations', function(req, res, next){
+    res.redirect('../locations');
+})
+
 module.exports = router;  

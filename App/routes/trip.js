@@ -36,14 +36,13 @@ var driver_email;
 var start_trip_id; //@Abhi, look at this variable for the start-trip-id
 
 
-
 /* GET login page. */
 router.get('/', async function(req, res, next) {
     driver_email = req.session.passport.user.email;
     console.log("trip dashboard");
     console.log(req)
     console.log(req.session);
-    if(req.session.passport.user.email==undefined){
+    if(req.session.passport==undefined){
         console.log("driver not logged in");
     } else if(req.session.passport.user.id == "driver"){
         //have access

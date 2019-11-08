@@ -43,6 +43,11 @@
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav ml-auto">
                     <li class = "nav-item">
+                            <form method = "post" action="/passenger/locations">
+                                <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Locations</button>
+                            </form>
+                        </li>
+                    <li class = "nav-item">
                             <form method = "post" action="/passenger/feedback">
                                 <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Feedback</button>
                             </form>
@@ -90,32 +95,24 @@
         <div style="height:20px;"></div>
         <div class = "row">
             <div class = "col">
+                <h5>Search for a Ride!</h5>
         <form method="post" action="/passenger/search_advertisements">
 
                 <label>Enter your start location:
                         <input list="s_locations" name="start_location" /></label>
                         <datalist id="s_locations">
-                            <!--@Abhi, use ejs to generate all the recommended locations from the favourite list -->
-                          <option value="Chrome">
-                          <option value="Firefox">
-                          <option value="Internet Explorer">
-                          <option value="Opera">
-                          <option value="Safari">
-                          <option value="Microsoft Edge">
+                            <% for (var i = 0; i < locations.length;  i++) { %>
+                                <option value="<%= locations[i].loc_name %>">
+                            <% } %>
                         </datalist>
-
                         <br/>
                         
                 <label>Enter your End location:
                         <input list="e_locations" name="end_location" /></label>
                         <datalist id="e_locations">
-                            <!--@Abhi, use ejs to generate all the recommended locations from the favourite list -->
-                          <option value="Chrome">
-                          <option value="Firefox">
-                          <option value="Internet Explorer">
-                          <option value="Opera">
-                          <option value="Safari">
-                          <option value="Microsoft Edge">
+                                <% for (var i = 0; i < locations.length;  i++) { %>
+                                    <option value="<%= locations[i].loc_name %>">
+                                <% } %>
                         </datalist>
 
             <!-- <div class="input-group mb-3">
@@ -138,6 +135,23 @@
             <button type="submit" class="btn btn-primary" id="loginbtn">Search</button>
         
         </form>
+    </div>
+
+    <div class = "col">
+        <h5>Bid for a Ride!</h5>
+        
+        <form method="post" action="/passenger/bid2">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Bid Number</label>
+                  <input type="text" class="form-control" id="exampleInputEmail1" name = "bid_num" placeholder="Bid Number">
+                
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Bid Value</label>
+                  <input type="text" class="form-control" id="exampleInputPassword1" name="bid_val" placeholder="Bid Amount">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
     </div>
 
     <!-- <div class = "col">
@@ -196,8 +210,19 @@
 
         <br />
         <h3>Available Advertisements</h3>
-        
-        <br />
+        <br/>
+
+        <!-- <form method = "post" action = "/passenger/bid">
+        <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Your bid"
+                    aria-label="Recipient's username" aria-describedby="button-addon2" name = "bid">
+                    <input type="text" class="form-control" placeholder="Your bid"
+                    aria-label="Recipient's username" aria-describedby="button-addon2" name = "bid">
+                    <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit" id="submit-button">Bid!</button>
+                </div>
+            </form> -->
+
         <table class="table">
             <thead class="thead-dark">
                 <tr>
@@ -207,11 +232,11 @@
                     <th scope="col">Est. Arrival Date</th>
                     <th scope="col">Est. Arrival Time</th>
                     <th scope="col">Current Pax</th>
-                    <th scope="col">Your Bid ($)</th>
+                    <!-- <th scope="col">Your Bid ($)</th> -->
                 </tr>
             </thead>
             <tbody>
-                    <form method = "post" action = "/passenger/bid">
+                    
                 <tr>
                 <% for (var i = 0; i < advertisements.length;  i++) { %>
                     <tr>
@@ -221,17 +246,16 @@
                         <td><%= advertisements[i].a_date %></td>
                         <td><%= advertisements[i].a_time %></td>
                         <td><%= advertisements[i].current_pax %></td>
-                        <td><div class="input-group mb-3">
+                        <!-- <td><div class="input-group mb-3">
                                 <input type="text" class="form-control" placeholder="Your bid"
                                     aria-label="Recipient's username" aria-describedby="button-addon2" name = "bid">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="submit" id="submit-button">Bid!</button>
                                 </div>
-                        </td>
+                        </td> -->
                     </tr>    
                     <% } %>
                 </tr>
-                </form>
             </tbody>
         </table>
         
