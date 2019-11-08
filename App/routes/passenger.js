@@ -133,6 +133,16 @@ router.post('/logout', function(req, res, next){
     res.redirect('../login');
 })
 
+router.post('/bid2', function(req, res, next){
+    var bid_num = req.body.bid_num;
+    var bid_val = req.body.bid_val;
+
+    console.log(bid_num);
+    console.log(bid_val);
+
+    res.redirect('./');
+})
+
 router.post('/bid', async function(req, res, next) {
     var bids = req.body.bid;
     var data = await pool.query(sql.query.avail_advertisements)

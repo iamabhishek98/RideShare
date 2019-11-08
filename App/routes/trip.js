@@ -25,13 +25,12 @@ var bid_val;
 var start_trip_id; //@Abhi, look at this variable for the start-trip-id
 
 
-
 /* GET login page. */
 router.get('/', function(req, res, next) {
     console.log("trip dashboard");
     console.log(req)
     console.log(req.session);
-    if(req.session.passport.user.email==undefined){
+    if(req.session.passport==undefined){
         console.log("driver not logged in");
     } else if(req.session.passport.user.id == "driver"){
         //have access
@@ -39,7 +38,7 @@ router.get('/', function(req, res, next) {
         bid_val = req.session.passport.user.bid;
         start_trip_id = req.session.passport.user.start_trip_id;
         console.log("you are now in the trip page: --------");
-        console.log(bid_val);
+        console.log(parseInt(start_trip_id)*2);
         console.log("trip id");
         console.log(start_trip_id);
     } else if(req.session.passport.user.id == "passenger"){
