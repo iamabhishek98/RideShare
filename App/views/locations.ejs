@@ -63,9 +63,9 @@
         <br/>
         <div class = "row">
             <div class ="col">
-        <form method = "post" action="/locations/add_fav">
+        <form method = "post" action="/locations/add_fav" id="add_fav_loc">
             <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Enter Location Name" name="fav_location">
+                    <input type="text" class="form-control" id="fav_loc_val" placeholder="Enter Location Name" name="fav_location">
                     <div class="input-group-append">
                       <button class="btn btn-outline-secondary" type="submit">Add to Favourites</button>
                     </div>
@@ -73,16 +73,39 @@
                  </form>
             </div>
 
+            <script>
+                const form = document.getElementById("add_fav_loc");
+                const val = document.getElementById("fav_loc_val");
+                form.addEventListener('submit', (e) => {
+                    if(val.value === ''){
+                        e.preventDefault();
+                        alert("You need to enter a location first");
+                    }
+                })
+            </script>
+
             <div class ="col">
-                    <form method = "post" action="/locations/del_fav">
+                    <form method = "post" action="/locations/del_fav" id="del_fav_loc">
                         <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="Enter location to delete" name="del_location">
+                                <input type="text" class="form-control" id = "del_loc_input" placeholder="Enter location to delete" name="del_location">
                                 <div class="input-group-append">
                                   <button class="btn btn-outline-secondary" type="submit">Delete</button>
                                 </div>
                               </div>
                     </form>
+
                         </div>
+
+                        <script>
+                            const form2 = document.getElementById("del_fav_loc");
+                            const val2 = document.getElementById("del_loc_input");
+                            form2.addEventListener('submit', (e) => {
+                                if(val2.value === ''){
+                                    e.preventDefault();
+                                    alert("You need to enter a location first");
+                                }
+                            })
+                        </script>
         </div>
         
         <br />
