@@ -212,8 +212,43 @@
     </div>
             
         <br/>
-    
-        <h3>Your Current bids</h3>
+
+        <div class = "row">
+            <div class = "col">
+                <h3>Your Current bids</h3>
+            </div>
+            
+            <div class = "col">
+                    <form method="post" action="/passenger/del_bid" id="del_bid_form">
+                    <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Bid Num to Delete" name="del_index" id="del_bid_input">
+                            <div class="input-group-append">
+                              <button class="btn btn-primary" type="submit">Delete</button>
+                            </div>
+                            
+                          </div>
+                        </form>
+            </div>
+        </div>
+
+        <script>
+            
+            const del_bid_form = document.getElementById("del_bid_form");
+            const del_bid_input = document.getElementById("del_bid_input");
+            //Samuel, implement ejs to do data verification here
+
+            del_bid_form.addEventListener('submit', (e) => {
+                if(parseInt(del_bid_input.value) === NaN){
+                    e.preventDefault();
+                    alert("Invalid bid index to delete");
+                } else if(parseInt(del_bid_input.value) < 1){
+                    e.preventDefault();
+                    alert("Bid index to delete has to be more than 1");
+                }
+            })
+        </script>
+
+
         <br/>
         <table class="table">
                 <thead class="thead-dark">
