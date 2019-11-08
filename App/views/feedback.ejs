@@ -102,21 +102,21 @@
     </div>
 
     <div class="container" style="background:white" id="message">
-      <form id="sendMessage" action="/feedback/submit_review" role="form" method="post">
+      <form id="sendFeedback" action="/feedback/submit_review" role="form" method="post">
 
 
         <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text" id="basic-addon1">Trip ID</span>
                 </div>
-                <input type="text" class="form-control" name = "trip_id" placeholder="id" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="text" id="trip_id_num" class="form-control" name = "trip_id" placeholder="id" aria-label="Username" aria-describedby="basic-addon1">
               </div>
         
 <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text">Review</span>
         </div>
-        <textarea class="form-control" name = "review" placeholder= "Enter your review here" aria-label="With textarea"></textarea>
+        <textarea class="form-control" id="review_area" name = "review" placeholder= "Enter your review here" aria-label="With textarea"></textarea>
       </div>
 
       <br/>
@@ -125,7 +125,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="basic-addon1">Rating</span>
             </div>
-            <input type="text" class="form-control" name = "rating" placeholder="Rating out of 5" aria-label="Username" aria-describedby="basic-addon1">
+            <input type="text" id="rating_num" class="form-control" name = "rating" placeholder="Rating out of 5" aria-label="Username" aria-describedby="basic-addon1">
           </div>
           <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Review</button>
           <br/>
@@ -175,10 +175,30 @@
         <div style="height:20px"></div>
       </form>
 
-      <!-- <script>
-        var x = "<%= list_trips.length %>";
-        console.log(x);
-      </script> -->
+      <script>
+        var num_trips = "<%= list_trips.length %>";
+        console.log(num_trips);
+        const form = document.getElementById('sendFeedback');
+        const trip_id = document.getElementById('trip_id_num');
+        const review = document.getElementById('review_area');
+        const rating = document.getElementById('rating_num');
+
+        form.addEventListener('submit', (e) => {
+          if(parseInt(trip_id.value) == NaN
+              || parseFloat(rating.value) == NaN){
+                e.preventDefault();
+                alert("Trip ID must a an integer more than 0 and at most the total number of trips listed. Rating can be a float from 0 to 5");
+          } else if (parseInt(trip_id.value) < 0 || parseInt(trip_id.value) > num_trips){
+            e.preventDefault();
+            alert("Trip ID must be strictly between from 1 to " + num_trips);
+          } else if (parseFloat(rating.value) < 0 || parseFloat(rating.value) > 5){
+            e.preventDefault();
+            alert("Rating must be a float strictly from 0 to 5!");
+          }
+            
+        })
+        
+      </script>
 
 
 

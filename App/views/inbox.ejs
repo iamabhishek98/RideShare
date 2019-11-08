@@ -70,15 +70,31 @@
             </div>
 
             <div class ="col">
-                    <form method = "post" action="/inbox/delete_msg">
+                    <form method = "post" action="/inbox/delete_msg" id = "delete_form">
                         <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="Enter msg id to delete" name="delete_id" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <input type="text" class="form-control" id = "id_to_del" placeholder="Enter msg id to delete" name="delete_id" required>
                                 <div class="input-group-append">
                                   <button class="btn btn-outline-secondary" type="submit">Delete</button>
                                 </div>
                               </div>
                     </form>
                         </div>
+
+
+            <script>
+                var num_msg = "<%= message.length %>";
+                console.log("number of messages: "+num_msg);
+                const del_form = document.getElementById("delete_form");
+                const del_index = document.getElementById("id_to_del");
+                
+                del_form.addEventListener('submit', (e) => {
+                    if(parseInt(del_index.value) === NaN || parseInt(del_index.value) < 1 || parseInt(del_index.value) > num_msg){
+                        e.preventDefault();
+                        alert("Invalid index of message to delete. Ensure message index is in range.");
+                    }
+                })
+                
+            </script>
         </div>
         
         <br />

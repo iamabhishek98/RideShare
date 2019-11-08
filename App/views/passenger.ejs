@@ -179,6 +179,8 @@
         const form = document.getElementById("bid_ride_form");
         const bid_number = document.getElementById("bid_num");
         const bid_value = document.getElementById("bid_val");
+        var num_advertisements = "<%= advertisements.length %>";
+        console.log(num_advertisements);
 
         form.addEventListener('submit', (e) => {
             if(bid_number.value === '' || bid_value.value === ''){
@@ -188,9 +190,9 @@
             else if(!Number.isInteger(parseInt(bid_number.value)) || parseFloat(bid_value.value) === NaN){
                 e.preventDefault();
                 alert("Invalid input");
-            } else if(parseInt(bid_number.value) < 1 || parseFloat(bid_value.value) < 0){
+            } else if(parseInt(bid_number.value) < 1 || parseInt(bid_number.value) > num_advertisements || parseFloat(bid_value.value) < 0){
                 e.preventDefault();
-                alert("Bid Number must be integer and at least one. Also, Bid value cannot be less than 0");
+                alert("Bid Number must be integer and at least one. Cannot be more than " + num_advertisements+" Also, Bid value cannot be less than 0");
             }
         })
 
@@ -211,6 +213,21 @@
             
         <br/>
     
+
+        <h3>Your Current bids</h3>
+        <br/>
+        <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Driver Name</th>
+                        <th scope="col">Average Rating</th>
+                        <th scope="col">Common Songs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        <br/>
     
         <!-- <form method="post" action="/passenger/start_trip">
                 <button type="submit" class="btn btn-primary" id="loginbtn">Start Trip</button>
