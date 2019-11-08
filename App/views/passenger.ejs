@@ -160,7 +160,7 @@
     <div class = "col">
         <h5>Bid for a Ride!</h5>
         
-        <form method="post" action="/passenger/bid2" id="bid_ride_form">
+        <form method="post" action="/passenger/bid" id="bid_ride_form">
                 <div class="form-group">
                   <label for="exampleInputEmail1">Bid Number</label>
                   <input type="text" class="form-control" id="bid_num" name = "bid_num" placeholder="Bid Number">
@@ -284,6 +284,7 @@
         <table class="table">
             <thead class="thead-dark">
                 <tr>
+                    <th scope="col">Id</th>
                     <th scope="col">Driver Name</th>
                     <th scope="col">Start Location</th>
                     <th scope="col">End Location</th>
@@ -298,10 +299,11 @@
                 <tr>
                 <% for (var i = 0; i < advertisements.length;  i++) { %>
                     <tr>
-                        <th scope="row"><%= advertisements[i].name %></td>
+                        <th scope="row"><%= i+1 %></th>
+                        <td><%= advertisements[i].name %></td>
                         <td><%= advertisements[i].start_loc %></td>
                         <td><%= advertisements[i].end_loc %></td>
-                        <td><%= advertisements[i].a_date %></td>
+                        <td><%= String(advertisements[i].a_date).substring(0,11) %></td>
                         <td><%= advertisements[i].a_time %></td>
                         <td><%= advertisements[i].current_pax %></td>
                         <!-- <td><div class="input-group mb-3">

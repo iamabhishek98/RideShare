@@ -28,28 +28,45 @@ sql.query = {
                                 (select distinct P.name, P.email 
                                     from passenger P, advertisesTrip A
                                     where P.email = A.email) N, 
-                                (select distinct P.email_driver, P.vehicle, P.pax-W.count as current_pax
-                                    from  (select distinct Q1.email_driver, count(Q2.email_driver)
-                                                    from 
-                                                        (select distinct email_driver, count(*)
-                                                        from bid
-                                                        group by email_driver) Q1
-                                                    left join 
-                                                        (select distinct email_driver, count(*) 
-                                                        from bid 
-                                                        where is_win is true
-                                                        group by email_driver) Q2
-                                                    on Q1.email_driver = Q2.email_driver
-                                                    group by Q1.email_driver
-                                                union
-                                                select distinct D.email as email_driver, 0 as count 
-                                                    from driver D left join bid B
-                                                    on D.email = B.email_driver
-                                                    where B.email_driver is null) W, 
-                                            (select distinct A.email as email_driver, A.vehicle, V.pax
-                                                from vehicles V, advertisestrip A 
-                                                where V.license_plate = A.vehicle) P
-                                    where W.email_driver = P.email_driver) CP
+                                (select T.email_driver, T.vehicle, (T.pax - O.occupancy) as current_pax
+                                    from (select D.email as email_driver, D.license_plate as vehicle, V.pax
+                                            from drives D, vehicles V
+                                            where D.license_plate = V.license_plate) T,
+                                    ((select email as email_driver, license_plate as vehicle, 0 as occupancy 
+                                        from drives 
+                                        where (email, license_plate) 
+                                            not in (select Q1.email_driver, Q1.vehicle
+                                                        from 
+                                                            (select email_driver, vehicle, count(*)
+                                                            from bid
+                                                            where e_date is null
+                                                            group by email_driver, vehicle) Q1
+                                                        left join 
+                                                            (select email_driver, vehicle, count(*) 
+                                                            from bid 
+                                                            where is_win is true
+                                                            and e_date is null
+                                                            group by email_driver, vehicle) Q2
+                                                        on  Q1.vehicle = Q2.vehicle
+                                                        and Q1.email_driver = Q2.email_driver
+                                                        group by Q1.email_driver, Q1.vehicle))
+                                    union 
+                                    (select Q1.email_driver, Q1.vehicle, coalesce(sum(Q2.count),0) as occupancy
+                                        from 
+                                            (select email_driver, vehicle, count(*)
+                                            from bid
+                                            where e_date is null
+                                            group by email_driver, vehicle) Q1
+                                        left join 
+                                            (select email_driver, vehicle, count(*) 
+                                            from bid 
+                                            where is_win is true
+                                            and e_date is null
+                                            group by email_driver, vehicle) Q2
+                                        on  Q1.vehicle = Q2.vehicle
+                                        and Q1.email_driver = Q2.email_driver
+                                        group by Q1.email_driver, Q1.vehicle)) O
+                                    where T.email_driver = O.email_driver and T.vehicle = O.vehicle) CP
                             where N.email = A.email
                             and CP.email_driver = A.email
                             order by A.a_date desc, A.a_time desc;`,
@@ -133,16 +150,50 @@ router.post('/logout', function(req, res, next){
     res.redirect('../login');
 })
 
-router.post('/bid2', function(req, res, next){
+router.post('/bid', async function(req, res, next){
     var bid_num = req.body.bid_num;
     var bid_val = req.body.bid_val;
 
-    console.log(bid_num);
-    console.log(bid_val);
+    var avail_data = await pool.query(sql.query.avail_advertisements)
+    if (avail_data != undefined) {
+        console.log(avail_data.rows)
+        var advertisement = avail_data.rows[bid_num-1]
+        var amount = bid_val;
+        var start_loc = advertisement.start_loc;
+        var end_loc = advertisement.end_loc; 
+        var email_bidder = passenger_email
+        var email_driver = advertisement.email
+        var s_date = advertisement.a_date
+        var s_time = advertisement.a_time
+        var vehicle_data = await pool.query(sql.query.avail_vehicle, [email_driver, start_loc, end_loc, s_date, s_time]);
+        var vehicle;
+        if (vehicle_data != undefined) {
+            console.log(vehicle_data.rows)
+            vehicle = vehicle_data.rows[0].vehicle
+        } else {
+            console.log('vehicle data is undefined')
+        }
+        console.log(amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time);
+        try {
+            var result = await pool.query(sql.query.insert_bid, [amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time]);
+            if (result != undefined) {
+                console.log(result)
+            } else {
+                console.log('result is undefined')
+            }
+        } catch {
+            console.log('insert bid error')
+        }
+    } else {
+        console.log("avail data is undefined")
+    }
+    // console.log(bid_num);
+    // console.log(bid_val);
 
     res.redirect('./');
 })
 
+/*
 router.post('/bid', async function(req, res, next) {
     var bids = req.body.bid;
     var data = await pool.query(sql.query.avail_advertisements)
@@ -184,26 +235,7 @@ router.post('/bid', async function(req, res, next) {
     }
     res.redirect("./");
 })
-
-
-// router.post('/start_trip', function(req, res, next){
-//     /**
-//      * the code to check for any matching and winning bids
-//      */
-//     try {
-//         pool.query(sql.query.bid_win, ['shagergham0@theatlantic.com'], (err, data) => {
-//             if (data != undefined) {
-//                 console.log(data.rows)
-//                 req.session.passport.user.bid = data.rows[0];
-//                 res.redirect('../trip');
-//             } else {
-//                 console.log('data is undefined')
-//             }
-//         })
-//     } catch {
-//         console.log('start trip error ')
-//     }
-// })
+*/
 
 router.post('/inbox', function(req, res, next){
     res.redirect('../inbox');

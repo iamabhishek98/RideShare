@@ -206,6 +206,37 @@
 
         <br/>
         <br/>
+        <h3>Advertised Trips: </h3>
+        <br />
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Trip Id</th>
+                    <th scope="col">Start Location</th>
+                    <th scope="col">End Location</th>
+                    <th scope="col">Vehicle</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">Start Time</th>
+                    <th scope="col">Current Capacity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--@Abhi, do ur ejs here-->
+                <tr>
+                    <% for (var i = 0; i < advertised.length;  i++) { %>
+                        <tr>
+                            <th scope="row"><%= i+1 %></td>
+                            <td><%= advertised[i].start_loc %></td>
+                            <td><%= advertised[i].end_loc %></td>
+                            <td><%= advertised[i].vehicle %></td>
+                            <td><%= String(advertised[i].a_date).substring(0,11) %></td>
+                            <td><%= advertised[i].a_time %></td>
+                            <td><%= advertised[i].current_pax %></td>
+                        </tr>    
+                    <% } %>
+                </tr>                
+            </tbody>
+        </table>
 
         <br/>
         <h3>Accepted Bids: </h3>
@@ -213,30 +244,24 @@
         <table class="table">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Bid Id</th>
                     <th scope="col">Bidder Name</th>
                     <th scope="col">Start Location</th>
                     <th scope="col">End Location</th>
                     <th scope="col">Vehicle</th>
-                    <th scope="col">Current Capacity</th>
                     <th scope="col">Bid</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-
-                    <!--@Abhi, create the ejs to populate table with current accepted bids-->
-                    <!-- <% for (var i = 0; i < bid.length;  i++) { %>
+                    <% for (var i = 0; i < accepted_bids.length;  i++) { %>
                         <tr>
-                            <th scope="row"><%= i+1 %></td>
-                            <td><%= bid[i].name %></td>
-                            <td><%= bid[i].start_loc %></td>
-                            <td><%= bid[i].end_loc %></td>
-                            <td><%= bid[i].vehicle %></td>
-                            <td><%= bid[i].current_pax %></td>
-                            <td>$<%= bid[i].amount %></td>
+                            <th scope="row"><%= accepted_bids[i].name %></td>
+                            <td><%= accepted_bids[i].start_loc %></td>
+                            <td><%= accepted_bids[i].end_loc %></td>
+                            <td><%= accepted_bids[i].vehicle %></td>
+                            <td>$<%= accepted_bids[i].amount %></td>
                         </tr>    
-                    <% } %> -->
+                    <% } %>
                 </tr>                
             </tbody>
         </table>
@@ -266,15 +291,15 @@
                                     <button class="btn btn-primary" type="submit" id="submit-button" value = "submit">Accept</button>
                 </div></form>
                 <tr>
-                    <% for (var i = 0; i < bid.length;  i++) { %>
+                    <% for (var i = 0; i < available_bids.length;  i++) { %>
                         <tr>
                             <th scope="row"><%= i+1 %></td>
-                            <td><%= bid[i].name %></td>
-                            <td><%= bid[i].start_loc %></td>
-                            <td><%= bid[i].end_loc %></td>
-                            <td><%= bid[i].vehicle %></td>
-                            <td><%= bid[i].current_pax %></td>
-                            <td>$<%= bid[i].amount %></td>
+                            <td><%= available_bids[i].name %></td>
+                            <td><%= available_bids[i].start_loc %></td>
+                            <td><%= available_bids[i].end_loc %></td>
+                            <td><%= available_bids[i].vehicle %></td>
+                            <td><%= available_bids[i].current_pax %></td>
+                            <td>$<%= available_bids[i].amount %></td>
                         </tr>    
                     <% } %>
                 </tr>                
@@ -286,37 +311,7 @@
 
         <br/>
         <br/>
-        <h3>Advertised Trips: </h3>
-        <br />
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Bid Id</th>
-                    <th scope="col">Bidder Name</th>
-                    <th scope="col">Start Location</th>
-                    <th scope="col">End Location</th>
-                    <th scope="col">Vehicle</th>
-                    <th scope="col">Current Capacity</th>
-                    <th scope="col">Bid</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!--@Abhi, do ur ejs here-->
-                <!-- <tr>
-                    <% for (var i = 0; i < bid.length;  i++) { %>
-                        <tr>
-                            <th scope="row"><%= i+1 %></td>
-                            <td><%= bid[i].name %></td>
-                            <td><%= bid[i].start_loc %></td>
-                            <td><%= bid[i].end_loc %></td>
-                            <td><%= bid[i].vehicle %></td>
-                            <td><%= bid[i].current_pax %></td>
-                            <td>$<%= bid[i].amount %></td>
-                        </tr>    
-                    <% } %>
-                </tr>                 -->
-            </tbody>
-        </table>
+        
     </div>
 </body>
 
