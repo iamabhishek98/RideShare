@@ -218,4 +218,8 @@ router.post('/recc_drivers', function(req, res, next){
     //code for recommended drivers goes here
     
 })
+
+router.post('/feedback', function(req, res, next){
+    res.redirect('../feedback');
+})
 module.exports = router;  

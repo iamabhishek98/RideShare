@@ -102,27 +102,61 @@
     </div>
 
     <div class="container" style="background:white" id="message">
-      <form id="sendMessage" action="/message/basic" role="form" method="post">
-        <div class="form-group">
-          <label for="inputEmail4">Email</label>
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            name="email"
-            placeholder="Email"
-          />
+      <form id="sendMessage" action="/feedback/submit_review" role="form" method="post">
+
+
+        <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">Trip ID</span>
+                </div>
+                <input type="text" class="form-control" name = "trip_id" placeholder="id" aria-label="Username" aria-describedby="basic-addon1">
+              </div>
+        
+<div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Review</span>
         </div>
-        <div class="form-group">
-          <label for="inputCity">Message</label>
-          <input
-            type="text"
-            class="form-control"
-            id="userMessage"
-            name="user_Message"
-            placeholder="Write your message here"
-          />
-        </div>
+        <textarea class="form-control" name = "review" placeholder= "Enter your review here" aria-label="With textarea"></textarea>
+      </div>
+
+      <br/>
+
+      <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">Rating</span>
+            </div>
+            <input type="text" class="form-control" name = "rating" placeholder="Rating out of 5" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+          <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Review</button>
+          <br/>
+          <br/>
+
+          <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Driver</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">End Time</th>
+                    <th scope="col">Start Location</th>
+                    <th scope="col">End Location</th>
+                    <th scope="col">Review</th>
+                    <th scope="col">Rating</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td>Mark</td>
+                  </tr>
+                </tbody>
+              </table>
 
         <!-- <div class="form-check">
             <input class="form-check-input" type="radio" name="exampleRadios" id="passengerRadio" name="passenger" value="passenger"
@@ -134,9 +168,6 @@
 
         <br />
         <div style="height:20px"></div>
-        <button type="submit" class="btn btn-primary" id="submitbtn">
-          SEND :)
-        </button>
       </form>
     </div>
     <div style="height:40px"></div>
