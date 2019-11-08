@@ -1,4 +1,12 @@
-with B as (select P.email_driver as drive, P.vehicle as car, P.pax-W.count as current_pax
+delete from advertisesTrip 
+where email = 'saiabhishek.karnati@gmail.com'
+and vehicle = 'sgx2271ewds'
+and start_loc = 'NUS'
+and end_loc = 'Yishun'
+and a_date = '2019-01-01'
+and a_time = '01:01:00';
+
+/*with B as (select P.email_driver as drive, P.vehicle as car, P.pax-W.count as current_pax
 from  (select distinct Q1.email_driver, count(Q2.email_driver)
                 from 
                     (select distinct email_driver, count(*)
@@ -24,4 +32,4 @@ where W.email_driver = P.email_driver and W.email_driver = email)
 
 
 delete from advertisesTrip where B.current_pax
- = (select V.pax from Vehicles V where V.vehicle = B.car) and B.drive = A.email;
+ = (select V.pax from Vehicles V where V.vehicle = B.car) and B.drive = A.email;*/

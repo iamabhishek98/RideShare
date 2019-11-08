@@ -88,7 +88,7 @@ create table bid(
     CHECK (((is_win is true and ((e_time > s_time) or (e_date > s_date))) or 
           ((is_win is false and e_time is null and e_date is null and review is null and rating is null)))
           and email_bidder <> email_driver),
-    primary key(email_bidder, email_driver, start_loc, s_date, s_time),
+    primary key(email_bidder, email_driver, start_loc, s_date, s_time)
     --foreign key (email_driver, vehicle, start_loc, s_date, s_time) references advertisesTrip(email, vehicle, start_loc, a_date, a_time)
 );
 
