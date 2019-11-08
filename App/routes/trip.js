@@ -30,14 +30,14 @@ router.get('/', function(req, res, next) {
     console.log(req.session);
     if(req.session.passport.user.email==undefined){
         console.log("driver not logged in");
-    } else if(req.session.passport.user.id == "passenger"){
+    } else if(req.session.passport.user.id == "driver"){
         //have access
         res.render('trip');
         bid_val = req.session.passport.user.bid;
         console.log("you are now in the trip page: --------");
         console.log(bid_val);
-    } else if(req.session.passport.user.id == "driver"){
-        res.redirect('./driver');
+    } else if(req.session.passport.user.id == "passenger"){
+        res.redirect('./passenger');
     } else {
         res.redirect('./login');
     }

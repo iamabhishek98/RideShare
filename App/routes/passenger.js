@@ -168,24 +168,24 @@ router.post('/bid', async function(req, res, next) {
 })
 
 
-router.post('/start_trip', function(req, res, next){
-    /**
-     * the code to check for any matching and winning bids
-     */
-    try {
-        pool.query(sql.query.bid_win, ['shagergham0@theatlantic.com'], (err, data) => {
-            if (data != undefined) {
-                console.log(data.rows)
-                req.session.passport.user.bid = data.rows[0];
-                res.redirect('../trip');
-            } else {
-                console.log('data is undefined')
-            }
-        })
-    } catch {
-        console.log('start trip error ')
-    }
-})
+// router.post('/start_trip', function(req, res, next){
+//     /**
+//      * the code to check for any matching and winning bids
+//      */
+//     try {
+//         pool.query(sql.query.bid_win, ['shagergham0@theatlantic.com'], (err, data) => {
+//             if (data != undefined) {
+//                 console.log(data.rows)
+//                 req.session.passport.user.bid = data.rows[0];
+//                 res.redirect('../trip');
+//             } else {
+//                 console.log('data is undefined')
+//             }
+//         })
+//     } catch {
+//         console.log('start trip error ')
+//     }
+// })
 
 router.post('/inbox', function(req, res, next){
     res.redirect('../inbox');
