@@ -15,7 +15,9 @@ sql.query = {
     //registering
     check: 'select * from passenger where email = $1',
     register: 'INSERT INTO passenger VALUES($1,$2,$3,$4)',
-    driver: 'insert into driver values($1)'
+    driver: 'insert into driver values($1)',
+    insert_vehicle: "insert into vehicles(license_plate, pax) values($1, $2)",
+    insert_drives: "insert into drives(email, license_plate) values($1, $2)"
 }
 
 /* GET signup page. */
@@ -31,6 +33,8 @@ router.post('/', async function(req, res, next){
   var email = req.body.email;
   var credit_card = req.body.credit_card;
   var vehicle_num = req.body.vehicleNum;
+  var veh_pax_num = parseInt(req.body.vehPaxNum);
+
 
   pool.query(sql.query.check, [email], async (err, data) => {
     console.log("this is the inital data: t ");
@@ -39,13 +43,16 @@ router.post('/', async function(req, res, next){
       try{
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
         // Construct Specific SQL Query
-        pool.query(sql.query.register, [email, name, hashedPassword, credit_card],(err, data) => {
+        pool.query(sql.query.register, [email, name, hashedPassword, credit_card], async (err, data) => {
           console.log("login query success");
-          if(vehicle_num.trim()){
+          if(vehicle_num.trim() && veh_pax_num){
             console.log("there is a vehicle number");
             pool.query(sql.query.driver, [email], (err, data) => {
               console.log("Driver account added");
             })
+            
+            var d1 = await pool.query(sql.query.insert_vehicle, [vehicle_num, veh_pax_num]);
+            var d2 = await pool.query(sql.query.insert_drives, [email, vehicle_num]);
           }
           res.redirect('./login')
         });
