@@ -18,7 +18,13 @@ sql.query = {
     delete_losing_bids: `delete from bid where email_driver = $1 and vehicle = $2 and start_loc = $3 
                             and end_loc = $4 and s_date = $5 and s_time = $6 and is_win is false;`,
     delete_advertisement: `delete from advertisesTrip where email = $1 and vehicle = $2 and start_loc = $3 
-                            and end_loc = $4 and a_date = $5 and a_time = $6;`
+                            and end_loc = $4 and a_date = $5 and a_time = $6;`,
+    list_trips : `select distinct P.name as passenger, B.email_bidder, B.email_driver, B.e_date, B.e_time, B.start_loc, B.end_loc, B.review, B.rating 
+                    from bid B, passenger P
+                    where B.e_date is not null
+                    and P.email = B.email_bidder 
+                    and B.email_driver = $1
+                    order by B.e_date desc, B.e_time desc;`
 
     /*
     update bid set e_date = '31/12/2019', e_time = '12:00:00', rating = '5' where email_driver = 'ayurenev5@icio.us' and vehicle = 'SBD0170' and start_loc = 'Queenstown' and s_date = '21/12/2018' and s_time = '09:10:00';
@@ -41,7 +47,16 @@ router.get('/', async function(req, res, next) {
         console.log("driver not logged in");
     } else if(req.session.passport.user.id == "driver"){
         //have access
-        res.render('trip');
+        pool.query(sql.query.list_trips, [driver_email], (err, data) => {
+            if (data != undefined) {
+                console.log(data.rows)
+                res.render('trip', {
+                    trips: data.rows
+                });
+            } else {
+                console.log('list of trips data is undefined')
+            }
+        });
         start_trip_id = req.session.passport.user.start_trip_id;
         console.log("you are now in the trip page: --------");
         console.log("trip id");
