@@ -43,6 +43,11 @@
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav ml-auto">
                     <li class = "nav-item">
+                            <form method = "post" action="/passenger/locations">
+                                <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Locations</button>
+                            </form>
+                        </li>
+                    <li class = "nav-item">
                             <form method = "post" action="/passenger/feedback">
                                 <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Feedback</button>
                             </form>
@@ -95,13 +100,9 @@
                 <label>Enter your start location:
                         <input list="s_locations" name="start_location" /></label>
                         <datalist id="s_locations">
-                            <!--@Abhi, use ejs to generate all the recommended locations from the favourite list -->
-                          <option value="Chrome">
-                          <option value="Firefox">
-                          <option value="Internet Explorer">
-                          <option value="Opera">
-                          <option value="Safari">
-                          <option value="Microsoft Edge">
+                            <% for (var i = 0; i < locations.length;  i++) { %>
+                                <option value="<%= locations[i].loc_name %>">
+                            <% } %>
                         </datalist>
 
                         <br/>
@@ -109,13 +110,9 @@
                 <label>Enter your End location:
                         <input list="e_locations" name="end_location" /></label>
                         <datalist id="e_locations">
-                            <!--@Abhi, use ejs to generate all the recommended locations from the favourite list -->
-                          <option value="Chrome">
-                          <option value="Firefox">
-                          <option value="Internet Explorer">
-                          <option value="Opera">
-                          <option value="Safari">
-                          <option value="Microsoft Edge">
+                                <% for (var i = 0; i < locations.length;  i++) { %>
+                                    <option value="<%= locations[i].loc_name %>">
+                                <% } %>
                         </datalist>
 
             <!-- <div class="input-group mb-3">
