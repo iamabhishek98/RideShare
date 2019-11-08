@@ -145,16 +145,21 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    <td>Mark</td>
-                  </tr>
+                    <tr>
+                        <% for (var i = 0; i < list_trips.length;  i++) { %>
+                        <tr>
+                            <th scope="row"><%= i+1 %></th>
+                            <td><%= list_trips[i].driver %></td>
+                            <td><%= list_trips[i].e_date %></td>
+                            <td><%= list_trips[i].e_time %></td>
+                            <td><%= list_trips[i].start_loc %></td>
+                            <td><%= list_trips[i].end_loc %></td>
+                            <td><%= list_trips[i].review %></td>
+                            <td><%= list_trips[i].rating %></td>
+        
+                        </tr>    
+                        <% } %>
+                    </tr>  
                 </tbody>
               </table>
 
