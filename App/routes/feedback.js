@@ -17,7 +17,7 @@ sql.query = {
                     and B.email_bidder = $1
                     order by B.e_date desc, B.e_time desc;`,
     insert_feedback: `update bid set review = $1, rating = $2 where s_date = $3 and s_time = $4 
-                        and email_bidder = $5 and email_driver = $6 and start_loc = $7;`,
+                        and email_bidder = $5 and email_driver = $6 and start_loc = $7 and is_win is true and e_date is not null;`,
 }
 var passenger_email;
 router.get('/', function(req, res, next){
