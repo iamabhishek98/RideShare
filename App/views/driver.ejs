@@ -206,86 +206,6 @@
 
         <br/>
         <br/>
-
-        <br/>
-        <h3>Accepted Bids: </h3>
-        <br />
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Bid Id</th>
-                    <th scope="col">Bidder Name</th>
-                    <th scope="col">Start Location</th>
-                    <th scope="col">End Location</th>
-                    <th scope="col">Vehicle</th>
-                    <th scope="col">Current Capacity</th>
-                    <th scope="col">Bid</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-
-                    <!--@Abhi, create the ejs to populate table with current accepted bids-->
-                    <!-- <% for (var i = 0; i < bid.length;  i++) { %>
-                        <tr>
-                            <th scope="row"><%= i+1 %></td>
-                            <td><%= bid[i].name %></td>
-                            <td><%= bid[i].start_loc %></td>
-                            <td><%= bid[i].end_loc %></td>
-                            <td><%= bid[i].vehicle %></td>
-                            <td><%= bid[i].current_pax %></td>
-                            <td>$<%= bid[i].amount %></td>
-                        </tr>    
-                    <% } %> -->
-                </tr>                
-            </tbody>
-        </table>
-
-
-        <br/>
-        <br/>
-        <h3>Current Bids: </h3>
-        <br />
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Bid Id</th>
-                    <th scope="col">Bidder Name</th>
-                    <th scope="col">Start Location</th>
-                    <th scope="col">End Location</th>
-                    <th scope="col">Vehicle</th>
-                    <th scope="col">Current Capacity</th>
-                    <th scope="col">Bid</th>
-                </tr>
-            </thead>
-            <tbody>
-                <form method = "post" action = "/driver/bid_true">
-                    <div>
-                    <input type="text" class="form-control" placeholder="Bid Id" style ="width:9%"
-                                    aria-label="Recipient's username" aria-describedby="button-addon2" name = "bid_true">
-                                    <button class="btn btn-primary" type="submit" id="submit-button" value = "submit">Accept</button>
-                </div></form>
-                <tr>
-                    <% for (var i = 0; i < bid.length;  i++) { %>
-                        <tr>
-                            <th scope="row"><%= i+1 %></td>
-                            <td><%= bid[i].name %></td>
-                            <td><%= bid[i].start_loc %></td>
-                            <td><%= bid[i].end_loc %></td>
-                            <td><%= bid[i].vehicle %></td>
-                            <td><%= bid[i].current_pax %></td>
-                            <td>$<%= bid[i].amount %></td>
-                        </tr>    
-                    <% } %>
-                </tr>                
-            </tbody>
-        </table>
-
-
-
-
-        <br/>
-        <br/>
         <h3>Advertised Trips: </h3>
         <br />
         <table class="table">
@@ -317,6 +237,85 @@
                 </tr>                
             </tbody>
         </table>
+
+        <br/>
+        <h3>Accepted Bids: </h3>
+        <br />
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Bid Id</th>
+                    <th scope="col">Bidder Name</th>
+                    <th scope="col">Start Location</th>
+                    <th scope="col">End Location</th>
+                    <th scope="col">Vehicle</th>
+                    <th scope="col">Current Capacity</th>
+                    <th scope="col">Bid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <% for (var i = 0; i < accepted_bids.length;  i++) { %>
+                        <tr>
+                            <th scope="row"><%= i+1 %></td>
+                            <td><%= accepted_bids[i].name %></td>
+                            <td><%= accepted_bids[i].start_loc %></td>
+                            <td><%= accepted_bids[i].end_loc %></td>
+                            <td><%= accepted_bids[i].vehicle %></td>
+                            <td><%= accepted_bids[i].current_pax %></td>
+                            <td>$<%= accepted_bids[i].amount %></td>
+                        </tr>    
+                    <% } %>
+                </tr>                
+            </tbody>
+        </table>
+
+
+        <br/>
+        <br/>
+        <h3>Current Bids: </h3>
+        <br />
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Bid Id</th>
+                    <th scope="col">Bidder Name</th>
+                    <th scope="col">Start Location</th>
+                    <th scope="col">End Location</th>
+                    <th scope="col">Vehicle</th>
+                    <th scope="col">Current Capacity</th>
+                    <th scope="col">Bid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <form method = "post" action = "/driver/bid_true">
+                    <div>
+                    <input type="text" class="form-control" placeholder="Bid Id" style ="width:9%"
+                                    aria-label="Recipient's username" aria-describedby="button-addon2" name = "bid_true">
+                                    <button class="btn btn-primary" type="submit" id="submit-button" value = "submit">Accept</button>
+                </div></form>
+                <tr>
+                    <% for (var i = 0; i < available_bids.length;  i++) { %>
+                        <tr>
+                            <th scope="row"><%= i+1 %></td>
+                            <td><%= available_bids[i].name %></td>
+                            <td><%= available_bids[i].start_loc %></td>
+                            <td><%= available_bids[i].end_loc %></td>
+                            <td><%= available_bids[i].vehicle %></td>
+                            <td><%= available_bids[i].current_pax %></td>
+                            <td>$<%= available_bids[i].amount %></td>
+                        </tr>    
+                    <% } %>
+                </tr>                
+            </tbody>
+        </table>
+
+
+
+
+        <br/>
+        <br/>
+        
     </div>
 </body>
 

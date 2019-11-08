@@ -49,7 +49,42 @@ sql.query = {
                         where B.email_bidder = N.email
                         and B.email_driver = CP.email_driver
                         and B.vehicle = CP.vehicle
-                        and B.email_driver = $1;`,
+                        and B.email_driver = $1
+                        and B.is_win is false;`,
+
+    accepted_bids: `select distinct N.name, CP.current_pax, B.email_bidder, B.vehicle, B.start_loc, B.end_loc, B.amount, B.s_date, B.s_time
+                        from Bid B, 
+                            (select distinct P.name, P.email
+                                from passenger P, bid B
+                                where P.email = B.email_bidder) N,
+                            (select distinct P.email_driver, P.vehicle, P.pax-W.count as current_pax
+                                from  (select distinct Q1.email_driver, count(Q2.email_driver)
+                                                from 
+                                                    (select distinct email_driver, count(*)
+                                                    from bid
+                                                    group by email_driver) Q1
+                                                left join 
+                                                    (select distinct email_driver, count(*) 
+                                                    from bid 
+                                                    where is_win is true
+                                                    group by email_driver) Q2
+                                                on Q1.email_driver = Q2.email_driver
+                                                group by Q1.email_driver
+                                            union
+                                            select distinct D.email as email_driver, 0 as count 
+                                                from driver D left join bid B
+                                                on D.email = B.email_driver
+                                                where B.email_driver is null) W, 
+                                        (select distinct A.email as email_driver, A.vehicle, V.pax
+                                            from vehicles V, advertisestrip A 
+                                            where V.license_plate = A.vehicle) P
+                                where W.email_driver = P.email_driver) CP
+                        where B.email_bidder = N.email
+                        and B.email_driver = CP.email_driver
+                        and B.vehicle = CP.vehicle
+                        and B.email_driver = $1
+                        and B.is_win is true;`,
+
     available_adverts : `select distinct A.start_loc, A.end_loc, A.a_date, A.a_time, CP.email_driver, CP.vehicle, CP.current_pax
                             from advertisestrip A, 
                                 (select distinct P.email_driver, P.vehicle, P.pax-W.count as current_pax
@@ -76,7 +111,8 @@ sql.query = {
                                 where W.email_driver = P.email_driver) CP
                             where A.email = CP.email_driver
                             and A.vehicle = CP.vehicle
-                            and A.email = $1;`,
+                            and A.email = $1
+                            order by A.a_date desc, A.a_time desc;`,
 
     bid_win: `update bid set is_win = true
     where email_bidder = $1 and email_driver = $2
@@ -116,11 +152,19 @@ router.get('/', function(req, res, next) {
                             console.log(data2.rows)
                             pool.query(sql.query.get_drives, [driver_email], (err, result) => {
                                 console.log(result);
-                                pool.query(sql.query.available_adverts, [driver_email], (err, result2) => {
-                                    if (result2 != undefined) {
-                                        console.log(result2.rows)
-                                        res.render('driver', {bid: data2.rows, all_vehicles: data.rows, 
-                                            vehicles: result.rows, advertised: result2.rows, title : 'Express'})
+                                pool.query(sql.query.available_adverts, [driver_email], (err, data3) => {
+                                    if (data3 != undefined) {
+                                        console.log(data3.rows)
+                                        pool.query(sql.query.accepted_bids, [driver_email], (err, data4) => {
+                                            if (data4 != undefined) {
+                                                console.log(data4.rows)
+                                                res.render('driver', {available_bids: data2.rows, accepted_bids: data4.rows, all_vehicles: data.rows, 
+                                                    vehicles: result.rows, advertised: data3.rows, title : 'Express'})
+                                            } else {
+                                                console.log('accepted bids data is undefined')
+                                            }
+                                        })
+                                        
                                     } else {
                                         console.log('available advertisement data is undefined')
                                     }

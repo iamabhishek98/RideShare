@@ -10,7 +10,34 @@ const pool = new Pool({connectionString:process.env.DATABASE_URL})
 const sql = []
 
 sql.query = {
-    all_advertisements: `select * from advertisestrip;`,
+    all_advertisements: `select distinct A.start_loc, A.end_loc, A.a_date, A.a_time, CP.email_driver, CP.vehicle, CP.current_pax
+                            from advertisestrip A, 
+                                (select distinct P.email_driver, P.vehicle, P.pax-W.count as current_pax
+                                from  (select distinct Q1.email_driver, count(Q2.email_driver)
+                                                from 
+                                                    (select distinct email_driver, count(*)
+                                                    from bid
+                                                    group by email_driver) Q1
+                                                left join 
+                                                    (select distinct email_driver, count(*) 
+                                                    from bid 
+                                                    where is_win is true
+                                                    group by email_driver) Q2
+                                                on Q1.email_driver = Q2.email_driver
+                                                group by Q1.email_driver
+                                            union
+                                            select distinct D.email as email_driver, 0 as count 
+                                                from driver D left join bid B
+                                                on D.email = B.email_driver
+                                                where B.email_driver is null) W, 
+                                        (select distinct A.email as email_driver, A.vehicle, V.pax
+                                            from vehicles V, advertisestrip A 
+                                            where V.license_plate = A.vehicle) P
+                                where W.email_driver = P.email_driver) CP
+                            where A.email = CP.email_driver
+                            and A.vehicle = CP.vehicle
+                            and A.email = $1
+                            order by A.a_date desc, A.a_time desc;`,
     complete_trip: `update bid set e_date = $1, e_time = $2 where email_driver = $3 and vehicle = $4 
                         and start_loc = $5 and end_loc = $6 and s_date = $7 and s_time = $8`,
     add_review: `update bid set review = $6 where email_driver = $1 and vehicle = $2 and start_loc = $3 and s_date = $4 and s_time = $5`,

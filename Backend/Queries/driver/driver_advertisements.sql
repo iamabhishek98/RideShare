@@ -1,4 +1,4 @@
-select distinct CP.email_driver, CP.vehicle, CP.current_pax
+select distinct A.start_loc, A.end_loc, A.a_date, A.a_time, CP.email_driver, CP.vehicle, CP.current_pax
 from advertisestrip A, 
     (select distinct P.email_driver, P.vehicle, P.pax-W.count as current_pax
     from  (select distinct Q1.email_driver, count(Q2.email_driver)
@@ -22,6 +22,7 @@ from advertisestrip A,
                 from vehicles V, advertisestrip A 
                 where V.license_plate = A.vehicle) P
     where W.email_driver = P.email_driver) CP
-where A.email_driver = CP.email_driver
+where A.email = CP.email_driver
 and A.vehicle = CP.vehicle
-and A.email_driver = $1;
+and A.email = 'e@u.nus.edu'
+order by A.a_date desc, A.a_time desc;

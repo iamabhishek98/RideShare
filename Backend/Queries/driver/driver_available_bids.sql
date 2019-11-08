@@ -28,4 +28,5 @@ from Bid B,
 where B.email_bidder = N.email
 and B.email_driver = CP.email_driver
 and B.vehicle = CP.vehicle
-and B.email_driver = $1;
+and B.email_driver = $1
+and B.is_win is false;
