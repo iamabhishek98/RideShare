@@ -69,6 +69,7 @@ sql.query = {
                                     where T.email_driver = O.email_driver and T.vehicle = O.vehicle) CP
                             where N.email = A.email
                             and CP.email_driver = A.email
+                            and CP.vehicle = A.vehicle
                             order by A.a_date desc, A.a_time desc;`,
 
     avail_vehicle: `select distinct vehicle from advertisesTrip where email = $1 and start_loc = $2 and end_loc = $3 and a_date = $4 and a_time = $5`,
@@ -83,7 +84,9 @@ sql.query = {
                     from bid B, passenger P 
                     where B.email_driver = P.email 
                     and B.e_date is null 
-                    and B.email_bidder = $1;`
+                    and B.email_bidder = $1;`,
+
+    search_advertisements: `select * from advertisestrip where start_loc = $1 and end_loc = $2`
 
 }
 
@@ -245,7 +248,35 @@ router.post('/search_advertisements', function(req, res, next){
     var end_location = req.body.end_location;
     console.log(start_location);
     console.log(end_location);
-    res.redirect('/passenger');
+
+    pool.query(sql.query.recommended_drivers, [passenger_email], (err, data) => {
+        if (data != undefined) {
+            console.log(data.rows);
+            pool.query(sql.query.search_advertisements, [start_location, end_location], (err, data2) => {
+                pool.query(sql.query.favourite_location, [passenger_email], (err, data3) => {                           
+                    pool.query(sql.query.current_bids, [passenger_email], (err, data4) => {
+                        if (data2 != undefined && data3 != undefined && data4 != undefined) {
+                            console.log(data2.rows);
+                            console.log(data3.rows);
+                            console.log(data4.rows)
+                            res.render('passenger', {
+                                recommended : data.rows, 
+                                advertisements: data2.rows,
+                                locations: data3.rows,
+                                current_bids: data4.rows
+                            })
+                        } else {
+                            console.log('available advertisements data is undefined')
+                        }
+                    })
+                    
+                })
+            })
+        } else {
+            console.log('recommended_drivers data is undefined')
+        }
+    })
+    // res.redirect('./');
 
 })
 
