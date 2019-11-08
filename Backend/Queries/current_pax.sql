@@ -40,7 +40,6 @@ union
     group by Q1.email_driver, Q1.vehicle)) O
 where T.email_driver = O.email_driver and T.vehicle = O.vehicle;
 
-
 /*
 select distinct P.email_driver, P.vehicle, P.pax-W.count as current_pax
 from  (select Q1.email_driver, coalesce(sum(Q2.count),0) as count

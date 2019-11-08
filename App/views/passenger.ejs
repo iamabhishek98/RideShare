@@ -245,7 +245,7 @@
                         <td><%= advertisements[i].name %></td>
                         <td><%= advertisements[i].start_loc %></td>
                         <td><%= advertisements[i].end_loc %></td>
-                        <td><%= advertisements[i].a_date %></td>
+                        <td><%= String(advertisements[i].a_date).substring(0,11) %></td>
                         <td><%= advertisements[i].a_time %></td>
                         <td><%= advertisements[i].current_pax %></td>
                         <!-- <td><div class="input-group mb-3">
