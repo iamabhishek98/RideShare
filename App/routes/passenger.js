@@ -77,7 +77,13 @@ sql.query = {
     
     bid_win: `select * from bid where is_win is true and e_date is null and e_time is null and email_bidder = $1`,
 
-    favourite_location: "select * from favouriteLocation where email_passenger = $1"
+    favourite_location: `select * from favouriteLocation where email_passenger = $1`,
+
+    current_bids:`select P.name as driver, B.email_bidder, B.email_driver, B.start_loc, B.end_loc, B.s_date, B.s_time 
+                    from bid B, passenger P 
+                    where B.email_driver = P.email 
+                    and B.e_date is null 
+                    and B.email_bidder = $1;`
 
 }
 
@@ -97,17 +103,22 @@ router.get('/', function(req, res, next) {
                     console.log(data.rows);
                     pool.query(sql.query.avail_advertisements, (err, data2) => {
                         pool.query(sql.query.favourite_location, [passenger_email], (err, data3) => {                           
-                            if (data2 != undefined && data3 != undefined) {
-                                console.log(data2.rows);
-                                console.log(data3.rows);
-                                res.render('passenger', {
-                                    recommended : data.rows, 
-                                    advertisements: data2.rows, title : 'Express',
-                                    locations: data3.rows
-                                })
-                            } else {
-                                console.log('available advertisements data is undefined')
-                            }
+                            pool.query(sql.query.current_bids, [passenger_email], (err, data4) => {
+                                if (data2 != undefined && data3 != undefined && data4 != undefined) {
+                                    console.log(data2.rows);
+                                    console.log(data3.rows);
+                                    console.log(data4.rows)
+                                    res.render('passenger', {
+                                        recommended : data.rows, 
+                                        advertisements: data2.rows,
+                                        locations: data3.rows,
+                                        current_bids: data4.rows
+                                    })
+                                } else {
+                                    console.log('available advertisements data is undefined')
+                                }
+                            })
+                            
                         })
                     })
                 } else {
@@ -192,50 +203,6 @@ router.post('/bid', async function(req, res, next){
 
     res.redirect('./');
 })
-
-/*
-router.post('/bid', async function(req, res, next) {
-    var bids = req.body.bid;
-    var data = await pool.query(sql.query.avail_advertisements)
-    if (data != undefined) {
-        var advertisements = data.rows
-        for (var i = 0; i < bids.length; i++) {
-            if (bids[i] != '') {
-                console.log(i+' '+bids[i])
-                var amount = bids[i];
-                var start_loc = advertisements[i].start_loc;
-                var end_loc = advertisements[i].end_loc; 
-                var email_bidder = passenger_email
-                var email_driver = advertisements[i].email
-                var s_date = advertisements[i].a_date
-                var s_time = advertisements[i].a_time
-                var vehicle_data = await pool.query(sql.query.avail_vehicle, [email_driver, start_loc, end_loc, s_date, s_time]);
-                var vehicle;
-                if (vehicle_data != undefined) {
-                    console.log(vehicle_data.rows)
-                    vehicle = vehicle_data.rows[0].vehicle
-                } else {
-                    console.log('vehicle data is undefined')
-                }
-                console.log(amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time);
-                try {
-                    var result = await pool.query(sql.query.insert_bid, [amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time]);
-                    if (result != undefined) {
-                        console.log(result)
-                    } else {
-                        console.log('result is undefined')
-                    }
-                } catch {
-                    console.log('insert bid error')
-                }
-            }
-        }
-    } else {
-        console.log('data is undefined')
-    }
-    res.redirect("./");
-})
-*/
 
 router.post('/inbox', function(req, res, next){
     res.redirect('../inbox');

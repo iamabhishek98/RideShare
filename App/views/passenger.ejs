@@ -218,12 +218,27 @@
         <table class="table">
                 <thead class="thead-dark">
                     <tr>
+                        <th scope="col">Id</th>
                         <th scope="col">Driver Name</th>
-                        <th scope="col">Average Rating</th>
-                        <th scope="col">Common Songs</th>
+                        <th scope="col">Start Location</th>
+                        <th scope="col">End Location</th>
+                        <th scope="col">Est. Arrival Date</th>
+                        <th scope="col">Est. Arrival Time</th>
                     </tr>
                 </thead>
                 <tbody>
+                 <tr>
+                    <% for (var i = 0; i < current_bids.length;  i++) { %>
+                        <tr>
+                            <th scope="row"><%= i+1 %></th>
+                            <td><%= current_bids[i].driver %></td>
+                            <td><%= current_bids[i].start_loc %></td>
+                            <td><%= current_bids[i].end_loc %></td>
+                            <td><%= String(current_bids[i].s_date).substring(0,11) %></td>
+                            <td><%= current_bids[i].s_time %></td>
+                        </tr>    
+                        <% } %>
+                    </tr>
                 </tbody>
             </table>
         <br/>
@@ -232,7 +247,6 @@
                 <button type="submit" class="btn btn-primary" id="loginbtn">Start Trip</button>
         </form> -->
 
-        <br/>
         <h3>Recommended Drivers</h3>
         <br/>
         <table class="table">
@@ -247,13 +261,12 @@
                     <!--Do u want it to be a form? If not, just remove the corresponding form tags-->
                         <form method = "post" action = "/passenger/recc_drivers">
                     <tr>
-                        <!--Abhishek, change the ejs here to show recommended drivers details-->
-                    <% for (var i = 0; i < recommended.length;  i++) { %>
-                        <tr>
-                            <th scope="row"><%= recommended[i].name %></td>
-                            <td><%= recommended[i].rating %></td>
-                            <td><%= recommended[i].common_songs %></td>
-                        </tr>    
+                         <% for (var i = 0; i < recommended.length;  i++) { %>
+                            <tr>
+                                <th scope="row"><%= recommended[i].name %></td>
+                                <td><%= recommended[i].rating %></td>
+                                <td><%= recommended[i].common_songs %></td>
+                            </tr>    
                         <% } %>
                     </tr>
                     </form>
