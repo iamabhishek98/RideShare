@@ -206,6 +206,72 @@
 
         <br/>
         <br/>
+        <div class = "row">
+                <div class = "col">
+                    <h3>Advertised Trips: </h3>
+                </div>
+    
+                <div class = "col">
+                        <form method="post" action="/driver/del_ad" id="del_ad_form">
+                            <div class="input-group mb-3">
+                                    <input type="text" class="form-control" placeholder="Ad Num to Delete" name="del_index" id="del_ad_input">
+                                    <div class="input-group-append">
+                                      <button class="btn btn-primary" type="submit">Delete</button>
+                                    </div>
+                                    
+                                  </div>
+                                </form>
+                </div>
+            </div>
+    
+    
+            <script>
+                
+                    const del_ad_form = document.getElementById("del_ad_form");
+                    const del_ad_input = document.getElementById("del_ad_input");
+                    //Samuel, implement ejs to do data verification here
+                    
+                    del_ad_form.addEventListener('submit', (e) => {
+                        if(parseInt(del_ad_input.value) === NaN){
+                            e.preventDefault();
+                            alert("Invalid ad index to delete");
+                        } else if(parseInt(del_ad_input.value) < 1){
+                            e.preventDefault();
+                            alert("Ad index to delete has to be more than 1");
+                        }
+                    })
+                </script>
+        
+        <br />
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Trip Id</th>
+                    <th scope="col">Start Location</th>
+                    <th scope="col">End Location</th>
+                    <th scope="col">Vehicle</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">Start Time</th>
+                    <th scope="col">Current Capacity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--@Abhi, do ur ejs here-->
+                <tr>
+                    <% for (var i = 0; i < advertised.length;  i++) { %>
+                        <tr>
+                            <th scope="row"><%= i+1 %></td>
+                            <td><%= advertised[i].start_loc %></td>
+                            <td><%= advertised[i].end_loc %></td>
+                            <td><%= advertised[i].vehicle %></td>
+                            <td><%= String(advertised[i].a_date).substring(0,11) %></td>
+                            <td><%= advertised[i].a_time %></td>
+                            <td><%= advertised[i].current_pax %></td>
+                        </tr>    
+                    <% } %>
+                </tr>                
+            </tbody>
+        </table>
 
         <br/>
         <h3>Accepted Bids: </h3>
@@ -213,30 +279,24 @@
         <table class="table">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Bid Id</th>
                     <th scope="col">Bidder Name</th>
                     <th scope="col">Start Location</th>
                     <th scope="col">End Location</th>
                     <th scope="col">Vehicle</th>
-                    <th scope="col">Current Capacity</th>
                     <th scope="col">Bid</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-
-                    <!--@Abhi, create the ejs to populate table with current accepted bids-->
-                    <!-- <% for (var i = 0; i < bid.length;  i++) { %>
+                    <% for (var i = 0; i < accepted_bids.length;  i++) { %>
                         <tr>
-                            <th scope="row"><%= i+1 %></td>
-                            <td><%= bid[i].name %></td>
-                            <td><%= bid[i].start_loc %></td>
-                            <td><%= bid[i].end_loc %></td>
-                            <td><%= bid[i].vehicle %></td>
-                            <td><%= bid[i].current_pax %></td>
-                            <td>$<%= bid[i].amount %></td>
+                            <th scope="row"><%= accepted_bids[i].name %></td>
+                            <td><%= accepted_bids[i].start_loc %></td>
+                            <td><%= accepted_bids[i].end_loc %></td>
+                            <td><%= accepted_bids[i].vehicle %></td>
+                            <td>$<%= accepted_bids[i].amount %></td>
                         </tr>    
-                    <% } %> -->
+                    <% } %>
                 </tr>                
             </tbody>
         </table>
@@ -244,6 +304,7 @@
 
         <br/>
         <br/>
+
         <h3>Current Bids: </h3>
         <br />
         <table class="table">
@@ -266,15 +327,15 @@
                                     <button class="btn btn-primary" type="submit" id="submit-button" value = "submit">Accept</button>
                 </div></form>
                 <tr>
-                    <% for (var i = 0; i < bid.length;  i++) { %>
+                    <% for (var i = 0; i < available_bids.length;  i++) { %>
                         <tr>
                             <th scope="row"><%= i+1 %></td>
-                            <td><%= bid[i].name %></td>
-                            <td><%= bid[i].start_loc %></td>
-                            <td><%= bid[i].end_loc %></td>
-                            <td><%= bid[i].vehicle %></td>
-                            <td><%= bid[i].current_pax %></td>
-                            <td>$<%= bid[i].amount %></td>
+                            <td><%= available_bids[i].name %></td>
+                            <td><%= available_bids[i].start_loc %></td>
+                            <td><%= available_bids[i].end_loc %></td>
+                            <td><%= available_bids[i].vehicle %></td>
+                            <td><%= available_bids[i].current_pax %></td>
+                            <td>$<%= available_bids[i].amount %></td>
                         </tr>    
                     <% } %>
                 </tr>                
@@ -286,72 +347,7 @@
 
         <br/>
         <br/>
-        <div class = "row">
-            <div class = "col">
-                <h3>Advertised Trips: </h3>
-            </div>
-
-            <div class = "col">
-                    <form method="post" action="/driver/del_ad" id="del_ad_form">
-                        <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="Ad Num to Delete" name="del_index" id="del_ad_input">
-                                <div class="input-group-append">
-                                  <button class="btn btn-primary" type="submit">Delete</button>
-                                </div>
-                                
-                              </div>
-                            </form>
-            </div>
-        </div>
-
-
-        <script>
-            
-                const del_ad_form = document.getElementById("del_ad_form");
-                const del_ad_input = document.getElementById("del_ad_input");
-                //Samuel, implement ejs to do data verification here
-                
-                del_ad_form.addEventListener('submit', (e) => {
-                    if(parseInt(del_ad_input.value) === NaN){
-                        e.preventDefault();
-                        alert("Invalid ad index to delete");
-                    } else if(parseInt(del_ad_input.value) < 1){
-                        e.preventDefault();
-                        alert("Ad index to delete has to be more than 1");
-                    }
-                })
-            </script>
-    
-        <br />
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Bid Id</th>
-                    <th scope="col">Bidder Name</th>
-                    <th scope="col">Start Location</th>
-                    <th scope="col">End Location</th>
-                    <th scope="col">Vehicle</th>
-                    <th scope="col">Current Capacity</th>
-                    <th scope="col">Bid</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!--@Abhi, do ur ejs here-->
-                <!-- <tr>
-                    <% for (var i = 0; i < bid.length;  i++) { %>
-                        <tr>
-                            <th scope="row"><%= i+1 %></td>
-                            <td><%= bid[i].name %></td>
-                            <td><%= bid[i].start_loc %></td>
-                            <td><%= bid[i].end_loc %></td>
-                            <td><%= bid[i].vehicle %></td>
-                            <td><%= bid[i].current_pax %></td>
-                            <td>$<%= bid[i].amount %></td>
-                        </tr>    
-                    <% } %>
-                </tr>                 -->
-            </tbody>
-        </table>
+        
     </div>
 </body>
 
