@@ -139,7 +139,8 @@
                   } else if(parseInt(song_mins.value) === NaN || parseInt(song_secs.value) === NaN){
                     e.preventDefault();
                     alert("Minutes and seconds are not integer numbers");
-                  } else if(parseInt(song_mins.value) < 0 || parseInt(song_secs.value) < 0){
+                  } else if(parseInt(song_mins.value) < 0 || parseInt(song_secs.value) < 0
+                          || parseInt(song_mins.value) > 60 || parseInt(song_secs.value) > 59){
                     e.preventDefault();
                     alert("Invalid song playtime input");
                   }

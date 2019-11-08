@@ -48,11 +48,12 @@ router.get('/', async function(req, res, next){
 router.post('/fav_song', async function(req, res, next){
     try {
         var name = req.body.fav_song;
-        var duration = req.body.fav_song_duration;
+        //var duration = req.body.fav_song_duration;
 
 
         var mins = req.body.fav_song_mins;
         var secs = req.body.fav_song_secs;
+        var duration = "00:"+mins+":"+secs;
 
 
 
