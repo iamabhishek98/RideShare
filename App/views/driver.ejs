@@ -229,7 +229,7 @@
                             <td><%= advertised[i].start_loc %></td>
                             <td><%= advertised[i].end_loc %></td>
                             <td><%= advertised[i].vehicle %></td>
-                            <td><%= advertised[i].a_date %></td>
+                            <td><%= String(advertised[i].a_date).substring(0,11) %></td>
                             <td><%= advertised[i].a_time %></td>
                             <td><%= advertised[i].current_pax %></td>
                         </tr>    
@@ -244,12 +244,10 @@
         <table class="table">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Bid Id</th>
                     <th scope="col">Bidder Name</th>
                     <th scope="col">Start Location</th>
                     <th scope="col">End Location</th>
                     <th scope="col">Vehicle</th>
-                    <th scope="col">Current Capacity</th>
                     <th scope="col">Bid</th>
                 </tr>
             </thead>
@@ -257,12 +255,10 @@
                 <tr>
                     <% for (var i = 0; i < accepted_bids.length;  i++) { %>
                         <tr>
-                            <th scope="row"><%= i+1 %></td>
-                            <td><%= accepted_bids[i].name %></td>
+                            <th scope="row"><%= accepted_bids[i].name %></td>
                             <td><%= accepted_bids[i].start_loc %></td>
                             <td><%= accepted_bids[i].end_loc %></td>
                             <td><%= accepted_bids[i].vehicle %></td>
-                            <td><%= accepted_bids[i].current_pax %></td>
                             <td>$<%= accepted_bids[i].amount %></td>
                         </tr>    
                     <% } %>
