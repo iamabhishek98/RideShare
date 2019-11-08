@@ -187,6 +187,34 @@ router.post('/advertise', function(req, res, next) {
     res.redirect("./");
 })
 
+router.post('/start_trip', function(req, res, next){
+    /**
+     * the code to check for any matching and winning bids
+     */
+    // try {
+    //     pool.query(sql.query.bid_win, ['shagergham0@theatlantic.com'], (err, data) => {
+    //         if (data != undefined) {
+    //             console.log(data.rows)
+    //             req.session.passport.user.bid = data.rows[0];
+    //             res.redirect('../trip');
+    //         } else {
+    //             console.log('data is undefined');
+    //             //@Abhi, this is where the code ends up now
+    //         }
+    //     })
+    // } catch {
+    //     console.log('start trip error ')
+    // }
+
+    if(req.session.passport.user.id == "driver"){
+        res.redirect('../trip');
+    } else if (req.session.passport.user.bid == "passenger") {
+        res.redirect('../passenger');
+    } else {
+        res.redirect('../login');
+    }
+})
+
 router.post('/delete_vehicle', async function(req, res, next) {
     var delete_id = req.body.delete_vehicle_id-1;
     var all_vehicles_data = await pool.query(sql.query.all_vehicles, [driver_email]);

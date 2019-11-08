@@ -30,14 +30,14 @@ router.get('/', function(req, res, next) {
     console.log(req.session);
     if(req.session.passport.user.email==undefined){
         console.log("driver not logged in");
-    } else if(req.session.passport.user.id == "passenger"){
+    } else if(req.session.passport.user.id == "driver"){
         //have access
         res.render('trip');
         bid_val = req.session.passport.user.bid;
         console.log("you are now in the trip page: --------");
         console.log(bid_val);
-    } else if(req.session.passport.user.id == "driver"){
-        res.redirect('./driver');
+    } else if(req.session.passport.user.id == "passenger"){
+        res.redirect('./passenger');
     } else {
         res.redirect('./login');
     }
@@ -75,6 +75,18 @@ router.post('/logout', function(req, res, next){
     res.redirect('../login');
 })
 
+router.post('/endtrip', function(req, res, next){
+    var start_date_time = req.body.start_datetime;
+    var end_date_time = req.body.end_datetime;
+    console.log(start_date_time);
+    console.log(end_date_time);
+
+    /**
+     * Logic goes here
+     */
+    res.redirect('../driver');
+})
+
 
 router.post('/endtrip', function(req, res, next){
     var email_driver = bid_val.email_driver
@@ -100,4 +112,13 @@ router.post('/endtrip', function(req, res, next){
     // })
 })
 
+router.post('/dashboard', function(req, res, next){
+    if(req.session.passport.user.id == "driver"){
+        res.redirect('../driver');
+    } else if(req.session.passport.user.id == "passenger"){
+        res.redirect('../passenger');
+    } else {
+        res.redirect('../login');
+    }
+})
 module.exports = router;
