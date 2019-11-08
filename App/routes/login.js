@@ -45,7 +45,7 @@ passport.use(new LocalStrategy(
             try{
               if (await bcrypt.compare(password, data.rows[0].password)){
                 console.log("success");
-                return done(null, {email, password, id: '221341242', bid: ""});
+                return done(null, {email, password, id: '221341242', bid: "", start_trip_id: ""});
               } else {
                 console.log("failure");
                 return done(null, false, {email});  

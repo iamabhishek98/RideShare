@@ -27,6 +27,9 @@ sql.query = {
 
 var driver_email;
 var bid_val;
+var start_trip_id; //@Abhi, look at this variable for the start-trip-id
+
+
 
 /* GET login page. */
 router.get('/', async function(req, res, next) {
@@ -40,8 +43,11 @@ router.get('/', async function(req, res, next) {
         //have access
         res.render('trip');
         bid_val = req.session.passport.user.bid;
+        start_trip_id = req.session.passport.user.start_trip_id;
         console.log("you are now in the trip page: --------");
         console.log(bid_val);
+        console.log("trip id");
+        console.log(start_trip_id);
     } else if(req.session.passport.user.id == "passenger"){
         res.redirect('./passenger');
     } else {

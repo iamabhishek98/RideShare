@@ -218,4 +218,17 @@ router.post('/recc_drivers', function(req, res, next){
     //code for recommended drivers goes here
     
 })
+
+router.post('/feedback', function(req, res, next){
+    res.redirect('../feedback');
+})
+
+router.post('/search_advertisements', function(req, res, next){
+    var start_location = req.body.start_location;
+    var end_location = req.body.end_location;
+    console.log(start_location);
+    console.log(end_location);
+    res.redirect('/passenger');
+
+})
 module.exports = router;  

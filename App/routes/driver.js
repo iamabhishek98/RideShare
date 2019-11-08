@@ -215,6 +215,9 @@ router.post('/start_trip', function(req, res, next){
     // }
 
     if(req.session.passport.user.id == "driver"){
+        var num = req.body.start_trip_id;
+        console.log(num);
+        req.session.passport.user.start_trip_id = num;
         res.redirect('../trip');
     } else if (req.session.passport.user.bid == "passenger") {
         res.redirect('../passenger');
