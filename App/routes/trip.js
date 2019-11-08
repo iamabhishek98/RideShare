@@ -10,9 +10,14 @@ const pool = new Pool({connectionString:process.env.DATABASE_URL})
 const sql = []
 
 sql.query = {
+    all_advertisements: `select * from advertisements;`,
     complete_trip: `update bid set e_date = $1, e_time = $2, rating = $3 where email_driver = $4 and vehicle = $5 and start_loc = $6 and s_date = $7 and s_time = $8`,
     add_review: `update bid set review = $6 where email_driver = $1 and vehicle = $2 and start_loc = $3 and s_date = $4 and s_time = $5`,
-    add_rating: `update bid set rating = $6 where email_driver = $1 and vehicle = $2 and start_loc = $3 and s_date = $4 and s_time = $5`
+    add_rating: `update bid set rating = $6 where email_driver = $1 and vehicle = $2 and start_loc = $3 and s_date = $4 and s_time = $5`, 
+    delete_losing_bids: `delete from Bid where email_driver = $1 and vehicle = $2 and start_loc = $3 
+                            and end_loc = $4 and s_date = $5 and s_time = $6 and is_win is false;`,
+    delete_advertisement: `delete from advertisesTrip where email = $1 and vehicle = $2 and start_loc = $3 
+                            and end_loc = $4 and a_date = $5 and a_time = $6;`
 
     /*
     update bid set e_date = '31/12/2019', e_time = '12:00:00', rating = '5' where email_driver = 'ayurenev5@icio.us' and vehicle = 'SBD0170' and start_loc = 'Queenstown' and s_date = '21/12/2018' and s_time = '09:10:00';
@@ -24,7 +29,8 @@ var driver_email;
 var bid_val;
 
 /* GET login page. */
-router.get('/', function(req, res, next) {
+router.get('/', async function(req, res, next) {
+    driver_email = req.session.passport.user.email;
     console.log("trip dashboard");
     console.log(req)
     console.log(req.session);
@@ -41,30 +47,6 @@ router.get('/', function(req, res, next) {
     } else {
         res.redirect('./login');
     }
-    
-    /*
-    else {
-        driver_email = req.session.passport.user.email;
-        console.log(driver_email);
-    }
-    pool.query(sql.query.check_driver, [driver_email], async (err, data) => {
-        if(data.rows.length == 0){
-            console.log("This user cannot access the driver dashboard");
-            res.redirect('./passenger');
-        } else {
-            console.log("This is a driver account");
-            try {
-                // need to only load driver related bids
-                pool.query(sql.query.available_bids, ['rdoog6@yandex.ru'], (err, data) => {
-                    console.log(data.rows)
-                    res.render('driver', {bid: data.rows, title : 'Express'})
-                })
-            } catch {
-                console.log('driver available bids error')
-            }
-        }
-    })
-    */
 })
 
 router.post('/logout', function(req, res, next){
@@ -76,14 +58,21 @@ router.post('/logout', function(req, res, next){
 })
 
 router.post('/endtrip', function(req, res, next){
-    var start_date_time = req.body.start_datetime;
     var end_date_time = req.body.end_datetime;
-    console.log(start_date_time);
-    console.log(end_date_time);
-
-    /**
-     * Logic goes here
-     */
+    // console.log(end_date_time);
+    var delete_ad = pool.query(sql.query.delete_advertisement, [driver_email, vehicle, start_loc, end_loc, a_date, a_time])
+    if (delete_ad != undefined) {
+        console.log(delete_ad);
+    } else {
+        console.log('delete advertisement data is undefined')
+    }
+    var delete_losing_bids = pool.query(sql.query.delete_losing_bids, [driver_email, vehicle, start_loc, end_loc, s_date, s_time])
+    if (delete_losing_bids != undefined) {
+        console.log(delete_losing_bids)
+    } else {
+        console.log('delete losing bids data is undefined')
+    }
+   
     res.redirect('../driver');
 })
 

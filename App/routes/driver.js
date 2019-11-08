@@ -87,7 +87,7 @@ router.get('/', function(req, res, next) {
                     pool.query(sql.query.available_bids, [driver_email], (err, data2) => {
                         if (data2 != undefined) {
                             console.log(data2.rows)
-                            pool.query(sql.query.get_drives, [req.session.passport.user.email], (err, result) => {
+                            pool.query(sql.query.get_drives, [driver_email], (err, result) => {
                                 console.log(result);
                                 res.render('driver', {bid: data2.rows, all_vehicles: data.rows, vehicles: result.rows, title : 'Express'})
                             })
@@ -118,17 +118,25 @@ router.post('/logout', function(req, res, next){
     res.redirect('../login');
 })
 
-router.post('/add_vehicle', function(req, res, next){
+router.post('/add_vehicle', async function(req, res, next){
     console.log(req.session.passport.user.email);
     console.log(req.body.newVehicleNum);
     console.log(req.body.paxPicker);
 
-    var email = req.session.passport.user.email;
     var vehicleNum = req.body.newVehicleNum;
     var paxPicker = req.body.paxPicker;
-    pool.query(sql.query.insert_vehicle, [vehicleNum, paxPicker]);
-    pool.query(sql.query.insert_drives, [email, vehicleNum]);
-    console.log("inserted data already");
+    var insert_vehicle = await pool.query(sql.query.insert_vehicle, [vehicleNum, paxPicker]);
+    if (insert_vehicle != undefined) {
+        console.log(insert_vehicle)
+    } else {
+        console.log('insert vehicle data is undefined')
+    }
+    var insert_drives = await pool.query(sql.query.insert_drives, [driver_email, vehicleNum]);
+    if (insert_drives != undefined) {
+        console.log(insert_drives)
+    } else {
+        console.log('insert drives data is undefined')
+    }
     res.redirect('../driver');
 })
 
@@ -164,7 +172,7 @@ router.post('/bid_true', async function(req, res, next) {
     res.redirect("./");
 })
 
-/////////////if location does not exist, insert location
+/////////////if location does not exist, insert location (might make sense for location must be preloaded)
 router.post('/advertise', function(req, res, next) {
     var origin = req.body.origin;
     var destination = req.body.destination;
