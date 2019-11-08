@@ -1,4 +1,4 @@
-select distinct P.email_driver as drive, P.vehicle as car, P.pax-W.count as current_pax
+select distinct P.email_driver, P.vehicle, P.pax-W.count as current_pax
 from  (select distinct Q1.email_driver, count(Q2.email_driver)
                 from 
                     (select distinct email_driver, count(*)
