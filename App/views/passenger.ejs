@@ -90,8 +90,35 @@
         <div style="height:20px;"></div>
         <div class = "row">
             <div class = "col">
-        <form method="post" action="passenger">
-            <div class="input-group mb-3">
+        <form method="post" action="/passenger/search_advertisements">
+
+                <label>Enter your start location:
+                        <input list="s_locations" name="start_location" /></label>
+                        <datalist id="s_locations">
+                            <!--@Abhi, use ejs to generate all the recommended locations from the favourite list -->
+                          <option value="Chrome">
+                          <option value="Firefox">
+                          <option value="Internet Explorer">
+                          <option value="Opera">
+                          <option value="Safari">
+                          <option value="Microsoft Edge">
+                        </datalist>
+
+                        <br/>
+                        
+                <label>Enter your End location:
+                        <input list="e_locations" name="end_location" /></label>
+                        <datalist id="e_locations">
+                            <!--@Abhi, use ejs to generate all the recommended locations from the favourite list -->
+                          <option value="Chrome">
+                          <option value="Firefox">
+                          <option value="Internet Explorer">
+                          <option value="Opera">
+                          <option value="Safari">
+                          <option value="Microsoft Edge">
+                        </datalist>
+
+            <!-- <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Start Location" aria-label="Recipient's username"
                     aria-describedby="button-addon2">
                 <div class="input-group-append">
@@ -105,7 +132,8 @@
                 <div class="input-group-append">
                     <button class="btn btn-primary" type="button" id="button-addon2">Favourite It</button>
                 </div>
-            </div>
+            </div> -->
+            <br/>
 
             <button type="submit" class="btn btn-primary" id="loginbtn">Search</button>
         

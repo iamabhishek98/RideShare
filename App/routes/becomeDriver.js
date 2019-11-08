@@ -38,7 +38,7 @@ router.post('/', async function(req, res, next){
 
 })
 
-router.post('/register_vehicle', function(req, res, next){
+router.post('/register_vehicle', async function(req, res, next){
     console.log(req.body.vehicleNumber);
     console.log(req.body.paxPicker);
     if(req.body.vehicleNumber){
@@ -46,26 +46,34 @@ router.post('/register_vehicle', function(req, res, next){
         // pool.query(sql.query.insert_driver, [req.session.passport.user.email]);
         // pool.query(sql.query.insert_drives, [req.session.passport.user.email, req.body.vehicleNumber]);
         //pool.query(sql.query.add_driver, [req.body.vehicleNumber, req.body.paxPicker, req.session.passport.user.email]);
-        pool.query(sql.query.insert_vehicle, [req.body.vehicleNumber, req.body.paxPicker], async (err, data) => {
-            if(err){
-                console.log("NOOOOOOOOOOOOOOOOOOOO1");
-            } else {
-                pool.query(sql.query.insert_driver, [req.session.passport.user.email], async (err, data) =>{
-                    if(err){
-                        console.log("NOOOOOOOOOO2");
-                    } else {
-                        pool.query(sql.query.insert_drives, [req.session.passport.user.email, rSeq.body.vehicleNumber], async (err, data) => {
-                            if(err){
-                                console.log("NOOOOOOOOOOOO3")
-                            } else {
-                                console.log("All QUERIES SUCCESSSSSS");
-                            }
-                        });
+
+
+
+        // pool.query(sql.query.insert_vehicle, [req.body.vehicleNumber, req.body.paxPicker], async (err, data) => {
+        //     if(err){
+        //         console.log("NOOOOOOOOOOOOOOOOOOOO1");
+        //     } else {
+        //         pool.query(sql.query.insert_driver, [req.session.passport.user.email], async (err, data) =>{
+        //             if(err){
+        //                 console.log("NOOOOOOOOOO2");
+        //             } else {
+        //                 pool.query(sql.query.insert_drives, [req.session.passport.user.email, rSeq.body.vehicleNumber], async (err, data) => {
+        //                     if(err){
+        //                         console.log("NOOOOOOOOOOOO3")
+        //                     } else {
+        //                         console.log("All QUERIES SUCCESSSSSS");
+        //                     }
+        //                 });
                         
-                    }
-                });
-            }   
-        });
+        //             }
+        //         });
+        //     }   
+        // });
+
+
+        var data1 = await pool.query(sql.query.insert_vehicle, [req.body.vehicleNumber, req.body.paxPicker]);
+        var data2 = await pool.query(sql.query.insert_driver, [req.session.passport.user.email]);
+        var data3 = await pool.query(sql.query.insert_drives, [req.session.passport.user.email, rSeq.body.vehicleNumber]);
         
         console.log("query successs");
         req.session.passport.user.id="driver";
