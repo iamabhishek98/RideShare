@@ -226,7 +226,7 @@
     
     
             <script>
-                
+                    const num_ads = "<%= advertised.length %>";
                     const del_ad_form = document.getElementById("del_ad_form");
                     const del_ad_input = document.getElementById("del_ad_input");
                     //Samuel, implement ejs to do data verification here
@@ -238,6 +238,9 @@
                         } else if(parseInt(del_ad_input.value) < 1){
                             e.preventDefault();
                             alert("Ad index to delete has to be more than 1");
+                        } else if(parseInt(del_ad_input.value) > num_ads){
+                            e.preventDefault();
+                            alert("Ad index to delete is out of range");
                         }
                     })
                 </script>
