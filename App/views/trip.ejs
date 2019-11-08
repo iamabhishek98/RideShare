@@ -43,6 +43,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                            <form method = "post" action="/trip/dashboard">
+                            <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Dashboard</button>
+                        </form>
+                            <!-- <a class="nav-link" href="login">Log In</a> -->
+                        </li>
+
                 <li class="nav-item">
                     <form method = "post" action="/driver/logout">
                     <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Log Out</button>
@@ -66,42 +73,58 @@
         <h2 className="my-5"> Welcome </h2>
 
         <form method = "post" action ="trip/endtrip">
-        <div class='input-group date' id='datetimepicker1'>
-                <!-- <input type='datetime-local' name = "Date" class="form-control"> -->
-                <input type='datetime-local' class="form-control" name = "datetime" />
-        </div>
-        
-     <br/>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">Start Date and Time</span>
+                </div>
+                <input type="datetime-local" class="form-control" name = "start_datetime">
+              </div>
 
-     <div class="form-group">
-             <label for="comment">Review your trip:</label>
-             <textarea class="form-control" rows="5" id="comment" name="text_area"></textarea>
-     </div>
-              <br/>
-                <h5>Rate your driver:</h5>
-                <br/>
-              <select class="selectpicker" data-style="btn-info" name="selectpicker">
-                    <optgroup label="Rate your driver">
-                        <option name="" value="5">5</option>
-                        <option name="table1" value="4">4</option>
-                        <option name="table2" value="3">3</option>
-                        <option name="table3" value="2">2</option>
-                        <option name="table3" value="1">1</option>
-                    </optgroup>
-                </select>
-              <br/>
-              <br/>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">End Date and Time</span>
+                </div>
+                <input type="datetime-local" class="form-control" name = "end_datetime">
+              </div>
+
 
         <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">End Trip</button>
     
     
     </form>
 
-
-
     <br/>
     <br/>
 
+    <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Passenger</th>
+            <th scope="col">End Date</th>
+            <th scope="col">End Time</th>
+            <th scope="col">Start Location</th>
+            <th scope="col">End Location</th>
+            <th scope="col">Review</th>
+            <th scope="col">Rating</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+            <td>Mark</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <br/>
+      <br/>
 </body>
 
 </html>
