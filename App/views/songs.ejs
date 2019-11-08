@@ -105,28 +105,82 @@
     <div class="container" style="background:white" id="message">
         <div class="row">
             <div class = "col">
-                    <form method = "post" action="/songs/fav_song">
-                        <input type="text" class="form-control" placeholder="Enter song name" name="fav_song" >
+                    <form method = "post" action="/songs/fav_song" id="add_song_form">
+                        <input type="text" id = "song_name" class="form-control" placeholder="Enter song name" name="fav_song" >
                         <br/>
                         <label for="fav_song_playtime">Song Play Time:</label>
-                        <input type="time" class="form-control" placeholder="Enter song duration" name="fav_song_duration" >
-
+                        <div class = "row">
+                          <div class = "col">
+                        <input type="text" id="song_mins" class="form-control" placeholder="mins" name="fav_song_mins" >
+                      </div>
+                      <div class = "col">
+                        <input type="text" id="song_secs" class="form-control" placeholder="secs" name="fav_song_secs" >
+                      </div>
+                      </div>
                         <br/>
-                        <input type="text" class="form-control" placeholder="Enter artist" name="fav_song_artist" >
+                        <input type="text" id="song_artist" class="form-control" placeholder="Enter artist" name="fav_song_artist" >
                         <br/>
                         <button class="btn btn-primary" type="submit">Add Song to favourite</button>
                     </form>
             </div>
+
+            <script>
+              const add_song_form = document.getElementById("add_song_form");
+              const song_name = document.getElementById('song_name');
+              const song_mins = document.getElementById('song_mins');
+              const song_secs = document.getElementById('song_secs');
+              const song_artist = document.getElementById('song_artist');
+
+              add_song_form.addEventListener('submit', (e) => {
+                if(song_name.value === '' || song_mins.value === '' || song_secs.value === '' || 
+                  song_artist.value === ''){
+                    e.preventDefault();
+                    alert("Not all the fields are complete");
+                  } else if(parseInt(song_mins.value) === NaN || parseInt(song_secs.value) === NaN){
+                    e.preventDefault();
+                    alert("Minutes and seconds are not integer numbers");
+                  } else if(parseInt(song_mins.value) < 0 || parseInt(song_secs.value) < 0
+                          || parseInt(song_mins.value) > 60 || parseInt(song_secs.value) > 59){
+                    e.preventDefault();
+                    alert("Invalid song playtime input");
+                  }
+              })
+            </script>
+
+
+
+
+
+
             <div class="col">
-                    <form method = "post" action="/songs/delete_song">
+                    <form method = "post" action="/songs/delete_song" id="del_song_form">
                         <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="Enter song id to remove from favourite" name="delete_id" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <input type="text" id="song_id_to_del" class="form-control" placeholder="Enter song id to remove from favourite" name="delete_id">
                                 <div class="input-group-append">
                                   <button class="btn btn-primary" type="submit">Delete</button>
                                 </div>
                               </div>
                     </form>
             </div>
+
+
+            <script>  
+              var num_songs = "<%= songs.length %>";
+              console.log("number of songs: "+ num_songs);
+              const del_song_form = document.getElementById('del_song_form');
+              const del_song_id = document.getElementById('song_id_to_del');
+
+              del_song_form.addEventListener('submit', (e) => {
+                if(parseInt(del_song_id.value) === NaN 
+                    || parseInt(del_song_id.value) < 1
+                    || parseInt(del_song_id.value) > num_songs){
+                      e.preventDefault();
+                      alert("invalid song index to delete");
+                    }
+              })
+
+              
+            </script>
         </div>
 
             <br/>
