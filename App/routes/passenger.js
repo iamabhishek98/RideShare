@@ -133,16 +133,50 @@ router.post('/logout', function(req, res, next){
     res.redirect('../login');
 })
 
-router.post('/bid2', function(req, res, next){
+router.post('/bid', async function(req, res, next){
     var bid_num = req.body.bid_num;
     var bid_val = req.body.bid_val;
 
-    console.log(bid_num);
-    console.log(bid_val);
+    var avail_data = await pool.query(sql.query.avail_advertisements)
+    if (avail_data != undefined) {
+        console.log(avail_data.rows)
+        var advertisement = avail_data.rows[bid_num-1]
+        var amount = bid_val;
+        var start_loc = advertisement.start_loc;
+        var end_loc = advertisement.end_loc; 
+        var email_bidder = passenger_email
+        var email_driver = advertisement.email
+        var s_date = advertisement.a_date
+        var s_time = advertisement.a_time
+        var vehicle_data = await pool.query(sql.query.avail_vehicle, [email_driver, start_loc, end_loc, s_date, s_time]);
+        var vehicle;
+        if (vehicle_data != undefined) {
+            console.log(vehicle_data.rows)
+            vehicle = vehicle_data.rows[0].vehicle
+        } else {
+            console.log('vehicle data is undefined')
+        }
+        console.log(amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time);
+        try {
+            var result = await pool.query(sql.query.insert_bid, [amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time]);
+            if (result != undefined) {
+                console.log(result)
+            } else {
+                console.log('result is undefined')
+            }
+        } catch {
+            console.log('insert bid error')
+        }
+    } else {
+        console.log("avail data is undefined")
+    }
+    // console.log(bid_num);
+    // console.log(bid_val);
 
     res.redirect('./');
 })
 
+/*
 router.post('/bid', async function(req, res, next) {
     var bids = req.body.bid;
     var data = await pool.query(sql.query.avail_advertisements)
@@ -184,26 +218,7 @@ router.post('/bid', async function(req, res, next) {
     }
     res.redirect("./");
 })
-
-
-// router.post('/start_trip', function(req, res, next){
-//     /**
-//      * the code to check for any matching and winning bids
-//      */
-//     try {
-//         pool.query(sql.query.bid_win, ['shagergham0@theatlantic.com'], (err, data) => {
-//             if (data != undefined) {
-//                 console.log(data.rows)
-//                 req.session.passport.user.bid = data.rows[0];
-//                 res.redirect('../trip');
-//             } else {
-//                 console.log('data is undefined')
-//             }
-//         })
-//     } catch {
-//         console.log('start trip error ')
-//     }
-// })
+*/
 
 router.post('/inbox', function(req, res, next){
     res.redirect('../inbox');

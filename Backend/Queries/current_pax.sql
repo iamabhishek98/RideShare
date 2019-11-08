@@ -3,11 +3,13 @@ from  (select distinct Q1.email_driver, count(Q2.email_driver)
                 from 
                     (select distinct email_driver, count(*)
                     from bid
+                    where e_date is null
                     group by email_driver) Q1
                 left join 
                     (select distinct email_driver, count(*) 
                     from bid 
                     where is_win is true
+                    and e_date is null
                     group by email_driver) Q2
                 on Q1.email_driver = Q2.email_driver
                 group by Q1.email_driver
