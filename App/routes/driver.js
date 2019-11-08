@@ -181,6 +181,7 @@ router.post('/advertise', function(req, res, next) {
 
     var date = req.body.datetime.split("T")[0].split("-")[2]+"/"+req.body.datetime.split("T")[0].split("-")[1]+"/"+req.body.datetime.split("T")[0].split("-")[0]
     var time = req.body.datetime.split("T")[1]+":00";
+    console.log(origin, destination, driver_email, vehicle_num, date, time)
     try {
         pool.query(sql.query.advertise, [origin, destination, driver_email, vehicle_num, date, time], (err, data) => {
             if (data != undefined) {

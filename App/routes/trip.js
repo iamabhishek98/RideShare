@@ -10,11 +10,12 @@ const pool = new Pool({connectionString:process.env.DATABASE_URL})
 const sql = []
 
 sql.query = {
-    all_advertisements: `select * from advertisements;`,
-    complete_trip: `update bid set e_date = $1, e_time = $2, rating = $3 where email_driver = $4 and vehicle = $5 and start_loc = $6 and s_date = $7 and s_time = $8`,
+    all_advertisements: `select * from advertisestrip;`,
+    complete_trip: `update bid set e_date = $1, e_time = $2 where email_driver = $3 and vehicle = $4 
+                        and start_loc = $5 and end_loc = $6 and s_date = $7 and s_time = $8`,
     add_review: `update bid set review = $6 where email_driver = $1 and vehicle = $2 and start_loc = $3 and s_date = $4 and s_time = $5`,
     add_rating: `update bid set rating = $6 where email_driver = $1 and vehicle = $2 and start_loc = $3 and s_date = $4 and s_time = $5`, 
-    delete_losing_bids: `delete from Bid where email_driver = $1 and vehicle = $2 and start_loc = $3 
+    delete_losing_bids: `delete from bid where email_driver = $1 and vehicle = $2 and start_loc = $3 
                             and end_loc = $4 and s_date = $5 and s_time = $6 and is_win is false;`,
     delete_advertisement: `delete from advertisesTrip where email = $1 and vehicle = $2 and start_loc = $3 
                             and end_loc = $4 and a_date = $5 and a_time = $6;`
@@ -26,7 +27,6 @@ sql.query = {
 }
 
 var driver_email;
-var bid_val;
 var start_trip_id; //@Abhi, look at this variable for the start-trip-id
 
 
@@ -42,10 +42,8 @@ router.get('/', async function(req, res, next) {
     } else if(req.session.passport.user.id == "driver"){
         //have access
         res.render('trip');
-        bid_val = req.session.passport.user.bid;
         start_trip_id = req.session.passport.user.start_trip_id;
         console.log("you are now in the trip page: --------");
-        console.log(bid_val);
         console.log("trip id");
         console.log(start_trip_id);
     } else if(req.session.passport.user.id == "passenger"){
@@ -63,48 +61,68 @@ router.post('/logout', function(req, res, next){
     res.redirect('../login');
 })
 
-router.post('/endtrip', function(req, res, next){
+router.post('/endtrip', async function(req, res, next){
+    var index = (start_trip_id)-1;
+    console.log(index)
     var end_date_time = req.body.end_datetime;
-    // console.log(end_date_time);
-    var delete_ad = pool.query(sql.query.delete_advertisement, [driver_email, vehicle, start_loc, end_loc, a_date, a_time])
-    if (delete_ad != undefined) {
-        console.log(delete_ad);
-    } else {
-        console.log('delete advertisement data is undefined')
-    }
-    var delete_losing_bids = pool.query(sql.query.delete_losing_bids, [driver_email, vehicle, start_loc, end_loc, s_date, s_time])
-    if (delete_losing_bids != undefined) {
-        console.log(delete_losing_bids)
-    } else {
-        console.log('delete losing bids data is undefined')
-    }
-   
-    res.redirect('../driver');
-})
+    var vehicle;
+    var start_loc;
+    var end_loc;
+    var s_date;
+    var s_time;
 
-
-router.post('/endtrip', function(req, res, next){
-    var email_driver = bid_val.email_driver
-    var vehicle = bid_val.vehicle
-    var start_loc = bid_val.start_loc.split(" ")[0]
-    var temp = bid_val.s_date
-    var s_date = new Date(temp).getDate()+"/"+new Date(temp).getMonth()+"/"+new Date(temp).getFullYear()
-    var s_time = bid_val.s_time
-    var date = req.body.datetime.split("T")[0].split("-")[2]+"/"+req.body.datetime.split("T")[0].split("-")[1]+"/"+req.body.datetime.split("T")[0].split("-")[0]
-    var time = req.body.datetime.split("T")[1]+":00";
-    var review = req.body.text_area
-    var rating = req.body.selectpicker
-    console.log(email_driver, vehicle, start_loc, s_date, s_time, date, time, rating)
-    pool.query(sql.query.complete_trip, [date, time, rating, email_driver, vehicle, start_loc, s_date, s_time], (err, data) => {
-        if (data != undefined) {
-            console.log(data)
-        } else {
-            console.log('data is undefined')
+    //get trip information
+    var all_adverts = await pool.query(sql.query.all_advertisements);
+    if (all_adverts != undefined) {
+        console.log(all_adverts.rows)
+        try {
+            var current_advert_data = all_adverts.rows;
+            current_advert = current_advert_data[index]
+            vehicle = current_advert.vehicle;
+            start_loc = current_advert.start_loc;
+            end_loc = current_advert.end_loc;
+            s_date = current_advert.a_date;
+            s_time = current_advert.a_time;
+        } catch (err) {
+            res.redirect('../driver');
+            console.log('no advertisements')
         }
-    })
-    // pool.query(sql.query.add_review, [email_driver, vehicle, start_loc, s_date, s_date, review], (err, data) => {
-    //     console.log(data.rows)
-    // })
+    } else {
+        console.log('all advertisements data is undefined')
+    }
+
+    if (vehicle != undefined && start_loc != undefined && end_loc != undefined && s_date != undefined && s_time != undefined) {
+        //delete advertisement
+        var delete_ad = await pool.query(sql.query.delete_advertisement, [driver_email, vehicle, start_loc, end_loc, s_date, s_time])
+        if (delete_ad != undefined) {
+            console.log(delete_ad);
+        } else {
+            console.log('delete advertisement data is undefined')
+        }
+
+        // delete losing bids first
+        var delete_losing_bids = await pool.query(sql.query.delete_losing_bids, [driver_email, vehicle, start_loc, end_loc, s_date, s_time])
+        if (delete_losing_bids != undefined) {
+            console.log(delete_losing_bids)
+        } else {
+            console.log('delete losing bids data is undefined')
+        }
+
+        console.log('dates', end_date_time)
+    
+        // ending the actual trip
+        var e_date = end_date_time.split("T")[0]
+        var e_time = end_date_time.split("T")[1]
+        console.log(e_date, e_time)
+        var complete_trip = await pool.query(sql.query.complete_trip, [e_date, e_time, driver_email, vehicle, start_loc, end_loc, s_date, s_time])
+        if (complete_trip != undefined) {
+            console.log(complete_trip)
+        } else {
+            console.log('complete trip data is undefined')
+        }
+    }
+
+    res.redirect('./');
 })
 
 router.post('/dashboard', function(req, res, next){
