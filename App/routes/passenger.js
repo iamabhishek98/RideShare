@@ -278,18 +278,11 @@ router.post('/bid', async function(req, res, next){
 
     var discount_val = req.body.discountpicker;
 
-
-
-    console.log("Start of Abhhi method");
-
     var discount = await pool.query(sql.query.avail_discount, [passenger_email]);
 
     if (discount != undefined) {
            console.log(discount.rows);
            var discounted = discount.rows;
-
-
-           console.log("samuel start");
            console.log(parseFloat(bid_val));
            console.log(discounted[discount_val].discount);
            console.log(parseFloat(bid_val) * parseFloat(discounted[discount_val].discount));
@@ -301,17 +294,6 @@ router.post('/bid', async function(req, res, next){
        } else {
            console.log('discount data is undefined')
        }
-    console.log("END OF ABHI METHOD");
-
-
-
-
-
-
-
-
-
-
 
     console.log("discount index" + discount_val);
     var avail_data = await pool.query(sql.query.avail_advertisements)
