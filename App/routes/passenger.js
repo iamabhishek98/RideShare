@@ -277,18 +277,54 @@ router.post('/bid', async function(req, res, next){
     var bid_val = req.body.bid_val;
     //@Abhi discount val returns the index of the selection
     var discount_val = req.body.discountpicker;
+
+
+
+    console.log("Start of Abhhi method");
+
+    var discount = await pool.query(sql.query.avail_discount, [passenger_email]);
+
+    if (discount != undefined) {
+           console.log(discount.rows);
+           var discounted = discount.rows;
+
+
+           console.log("samuel start");
+           console.log(parseFloat(bid_val));
+           console.log(discounted[discount_val].discount);
+           console.log(parseFloat(bid_val) * parseFloat(discounted[discount_val].discount));
+          console.log("samuel end");
+
+           bid_val = parseFloat(bid_val) - (parseFloat(bid_val)*parseFloat(discounted[discount_val].discount));
+
+           console.log(bid_val);
+       } else {
+           console.log('discount data is undefined')
+       }
+    console.log("END OF ABHI METHOD");
+
+
+
+
+
+
+
+
+
+
+
     console.log("discount index" + discount_val);
     var avail_data = await pool.query(sql.query.avail_advertisements)
     if (avail_data != undefined) {
         console.log(avail_data.rows)
         var advertisement = avail_data.rows[bid_num-1]
-        var amount = bid_val;
+        var amount = parseFloat(bid_val);
         var start_loc = advertisement.start_loc;
         var end_loc = advertisement.end_loc; 
         var email_bidder = passenger_email
         var email_driver = advertisement.email
-        var s_date = advertisement.a_date
-        var s_time = advertisement.a_time
+        var s_date = advertisement.a_date;split("T")[0];
+        var s_time = advertisement.a_time;
         var vehicle_data = await pool.query(sql.query.avail_vehicle, [email_driver, start_loc, end_loc, s_date, s_time]);
         var vehicle;
         if (vehicle_data != undefined) {

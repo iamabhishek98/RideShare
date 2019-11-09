@@ -217,7 +217,7 @@
             } else if(parseInt(bid_number.value) < 1 || parseInt(bid_number.value) > num_advertisements || parseFloat(bid_value.value) < 0){
                 e.preventDefault();
                 alert("Bid Number must be integer and at least one. Cannot be more than " + num_advertisements+" Also, Bid value cannot be less than 0");
-            } else if(parseFloat(bid_value.value) > 100){
+            } else if(parseFloat(bid_value.value) > 100000){
                 e.preventDefault();
                 alert("Bid value cannot be more than 100");
             }
