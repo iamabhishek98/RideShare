@@ -76,13 +76,27 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav ml-auto">
-            <form method = "post" action="/message/dashboard">
-              <!--redirect user to passenger or driver dashboard based on how they logged in using session-->
-              <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Dashboard</button>
+          <form method="post" action="/message/dashboard">
+            <!--redirect user to passenger or driver dashboard based on how they logged in using session-->
+            <button
+              type="submit"
+              class="btn btn-primary mr-1"
+              id="loginbtn"
+              value="submit"
+            >
+              Dashboard
+            </button>
           </form>
-          
-          <form method = "post" action="/message/logout">
-              <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Log Out</button>
+
+          <form method="post" action="/message/logout">
+            <button
+              type="submit"
+              class="btn btn-primary mr-1"
+              id="loginbtn"
+              value="submit"
+            >
+              Log Out
+            </button>
           </form>
         </ul>
       </div>
