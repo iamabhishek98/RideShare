@@ -182,7 +182,7 @@
                         <select class="selectpicker" data-style="btn-info" name="discountpicker">
                                 <optgroup label="Select Vehicle">
                                     <% for (var i = 0; i < avail_discount.length;  i++) { %>
-                                        <option value="<%= avail_discount[i].description %>">
+                                        <option value="<%= i %>"><%= avail_discount[i].description %></option>
                                     <% } %>
 
                                 <option name="" value="0">Test promo</option>

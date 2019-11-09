@@ -219,7 +219,8 @@ router.get('/', async function(req, res, next) {
                                                 advertisements: data2.rows,
                                                 locations: data3.rows,
                                                 current_bids: data4.rows,
-                                                avail_discount: data6.rows
+                                                avail_discount: data6.rows,
+                                                user_name: name_of_user
                                             })
                                         } else {
                                             console.log('available advertisements data is undefined')
