@@ -114,7 +114,8 @@ router.get('/', async function(req, res, next) {
                         console.log(data.rows)
                         if (current_advert != undefined) {
                             res.render('trip', {
-                                trips: data.rows, current_trip: current_advert
+                                trips: data.rows, current_trip: current_advert,
+                                user_name: req.session.passport.user.name
                             });
                         } else {
                             console.log("some weird error lel");

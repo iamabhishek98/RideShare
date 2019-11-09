@@ -226,7 +226,8 @@ router.get('/', async function(req, res, next) {
             if (data2 != undefined) {
               console.log(data2.rows)
               res.render('danalytics', {
-                own_analytics: data.rows, result: data2.rows, title: 'Express' 
+                own_analytics: data.rows, result: data2.rows, title: 'Express',
+                user_name: req.session.passport.user.name 
               })
             } else {
               console.log('danalytics data is undefined')
@@ -247,7 +248,6 @@ router.get('/', async function(req, res, next) {
   } else {
     res.redirect('./login');
   }
-  
   
   // res.render('danalytics', { result: [], title: 'Express' });
 });

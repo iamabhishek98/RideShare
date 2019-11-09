@@ -30,7 +30,8 @@ router.get('/', function(req, res, next){
             if (data != undefined) {
                 console.log(data.rows)
                 res.render('feedback', {
-                    list_trips: data.rows
+                    list_trips: data.rows,
+                    user_name: req.session.passport.user.name
                 });
             } else {
                 console.log('list of trips data is undefined')

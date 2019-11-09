@@ -692,7 +692,8 @@ router.get('/', async function(req, res, next) {
             if (data2 != undefined) {
               console.log(data2.rows)
               res.render('panalytics', {
-                own_analytics: data.rows, result: data2.rows, title: 'Express'  
+                own_analytics: data.rows, result: data2.rows, title: 'Express',
+                user_name: req.session.passport.user.name  
               })
             } else {
               console.log('bid analytics data is undefined')

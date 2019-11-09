@@ -19,8 +19,6 @@ sql.query = {
     add_general_loc: "insert into location(loc_name, loc_add) values($1, $2)"
 }
 
-
-
 var user_email;
 router.get('/', function(req, res, next){
     if(req.session.passport == undefined){
@@ -31,7 +29,9 @@ router.get('/', function(req, res, next){
                 try{
                     pool.query(sql.query.get_location_info, [user_email], (err, data) => {
                         console.log(data.rows);
-                        res.render('locations', {locations: data.rows});
+                        res.render('locations', {locations: data.rows,
+                        user_name:req.session.passport.user.name,
+                        user_type:req.session.passport.user.id});
                     });
                 } catch{
                     console.log("some kind of error occurred");

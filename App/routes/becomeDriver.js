@@ -7,6 +7,7 @@ const pool = new Pool({connectionString:process.env.DATABASE_URL})
 
 const sql = []
 sql.query = {
+    get_user_name: 'select name from passenger where email = $1',
     insert_vehicle: 'insert into vehicles(license_plate, pax) values($1, $2)',
     insert_drives: 'insert into drives(email, license_plate) values($1, $2)',
     insert_driver: 'insert into driver(email) values($1)',
@@ -18,7 +19,7 @@ sql.query = {
                 "COMMIT"
 }
 
-router.get('/', function(req, res, next){
+router.get('/', async function(req, res, next){
     if(req.session.passport == undefined){
         console.log("attempt at unauthorised access");
         res.redirect('./login');
@@ -27,7 +28,21 @@ router.get('/', function(req, res, next){
         res.redirect('./driver');
     } else if(req.session.passport.user.id == "passenger"){
         //we need to now create a driver account for the user now
-        res.render('becomeDriver', {title: 'Express '});
+
+        var name_of_user = "";
+        try{
+            var data_pack = await pool.query(sql.query.get_user_name, [req.session.passport.user.email]);
+            console.log("Passenger name info: ------");
+            console.log(data_pack);
+            name_of_user = data_pack.rows[0].name;
+            req.session.passport.user.name = name_of_user;
+        } catch {
+            name_of_user = "";
+            console.log("name error T.T");
+        }
+
+
+        res.render('becomeDriver', {title: 'Express ', user_name: name_of_user});
     } else {
         //whatever reason
         res.redirect('./login');
@@ -35,7 +50,7 @@ router.get('/', function(req, res, next){
 })
 
 router.post('/', async function(req, res, next){
-
+    redirect('./');
 })
 
 router.post('/register_vehicle', async function(req, res, next){
@@ -70,10 +85,14 @@ router.post('/register_vehicle', async function(req, res, next){
         //     }   
         // });
 
+        try{
+            var data1 = await pool.query(sql.query.insert_vehicle, [req.body.vehicleNumber, req.body.paxPicker]);
+            var data2 = await pool.query(sql.query.insert_driver, [req.session.passport.user.email]);
+            var data3 = await pool.query(sql.query.insert_drives, [req.session.passport.user.email, req.body.vehicleNumber]);
+        } catch (e){
+            console.log(e);
+        }
 
-        var data1 = await pool.query(sql.query.insert_vehicle, [req.body.vehicleNumber, req.body.paxPicker]);
-        var data2 = await pool.query(sql.query.insert_driver, [req.session.passport.user.email]);
-        var data3 = await pool.query(sql.query.insert_drives, [req.session.passport.user.email, req.body.vehicleNumber]);
         
         console.log("query successs");
         req.session.passport.user.id="driver";

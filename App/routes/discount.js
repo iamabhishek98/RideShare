@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
         res.redirect('login');
     } else if(req.session.passport.user.id == "passenger"){
         //access granted
-        res.render('discounts');
+        res.render('discount',  { title: 'Express', user_name: req.session.passport.user.name });
 
     } else if (req.session.passport.user.id == "driver"){
         //access denied
@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
         res.redirect('login');
     }
 
-    res.render('discount', { title: 'Express' });
+    res.render('discount', { title: 'Express', user_name: req.session.passport.user.name });
 });
 
 router.post('/dashboard', function(req, res, next){

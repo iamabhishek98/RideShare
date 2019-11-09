@@ -110,7 +110,7 @@ create table gets (
 
 create table songs (
     name varchar(256) primary key,
-    duration time,
+    duration int,
     artist varchar(256)
 );
 
@@ -125,3 +125,10 @@ create table plays (
     name varchar(256) references songs(name),
     primary key(email, name)
 );
+
+insert into discount(description, tier, amount) values ('no discount', 0, 0);
+insert into discount(description, tier, amount) values ('10% coupon', 1, 10);
+insert into discount(description, tier, amount) values ('20% coupon', 2, 20);
+insert into discount(description, tier, amount) values ('30% coupon', 3, 30);
+insert into discount(description, tier, amount) values ('40% coupon', 4, 40);
+insert into discount(description, tier, amount) values ('50% coupon', 5, 50);

@@ -30,7 +30,9 @@ router.get('/', function(req, res, next) {
               if (data != undefined) {
                   console.log(data.rows)
                   res.render('inbox', {
-                    message : data.rows
+                    message : data.rows,
+                    user_name: req.session.passport.user.name,
+                    user_type: req.session.passport.user.id
                   });
               } else {
                   console.log('view_messages is undefined')

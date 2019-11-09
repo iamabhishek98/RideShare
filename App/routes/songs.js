@@ -34,7 +34,9 @@ router.get('/', async function(req, res, next){
             if (fav_songs_data != undefined) {
                 console.log(fav_songs_data.rows)
                 res.render('songs', {
-                    songs: fav_songs_data.rows
+                    songs: fav_songs_data.rows,
+                    user_name: req.session.passport.user.name,
+                    user_type: req.session.passport.user.id
                 });
             } else {
                 console.log('fav songs data is undefined')
