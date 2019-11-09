@@ -193,17 +193,28 @@ router.post('/add_vehicle', async function(req, res, next){
 
     var vehicleNum = req.body.newVehicleNum;
     var paxPicker = req.body.paxPicker;
-    var insert_vehicle = await pool.query(sql.query.insert_vehicle, [vehicleNum, paxPicker]);
-    if (insert_vehicle != undefined) {
-        console.log(insert_vehicle)
-    } else {
-        console.log('insert vehicle data is undefined')
-    }
-    var insert_drives = await pool.query(sql.query.insert_drives, [driver_email, vehicleNum]);
-    if (insert_drives != undefined) {
-        console.log(insert_drives)
-    } else {
-        console.log('insert drives data is undefined')
+    try{
+        var insert_vehicle = await pool.query(sql.query.insert_vehicle, [vehicleNum, paxPicker]);
+        if (insert_vehicle != undefined) {
+            console.log(insert_vehicle)
+        } else {
+            console.log('insert vehicle data is undefined')
+        }
+        try{
+            var insert_drives = await pool.query(sql.query.insert_drives, [driver_email, vehicleNum]);
+            if (insert_drives != undefined) {
+                console.log(insert_drives)
+            } else {
+                console.log('insert drives data is undefined')
+            }
+        } catch(e){
+            console.log(e);
+            res.redirect('../driver');
+        }
+
+    } catch(e) {
+        console.log(e);
+        res.redirect('../driver');
     }
     res.redirect('../driver');
 })
@@ -304,13 +315,15 @@ router.post('/delete_vehicle', async function(req, res, next) {
     if (all_vehicles_data != undefined) {
         console.log(all_vehicles_data.rows)
         var vehicle = all_vehicles_data.rows[delete_id].license_plate;
+        console.log("VEHICLE TO BE REMOVED" + vehicle);
         pool.query(sql.query.delete_drives, [driver_email, vehicle], (err, data) => {
             if (data != undefined) {
-                console.log(data)
+                console.log("REMOVED FROM DRIVES: " + data)
                 pool.query(sql.query.delete_vehicle, [vehicle], (err, data2) => {
                     if (data2 != undefined) {
-                        console.log(data2)
+                        console.log("REMOVED FROM VEHICLES: " + data2)
                     } else {
+                        console.log(err);
                         console.log('delete vehicle data is undefined')
                     }
                 })
