@@ -88,13 +88,17 @@
                         <tr>
                             <th scope="col">Total Expenditure</th>
                             <th scope="col">Average Price per Trip</th>
+                            <th scope="col">Current Tier</th>
+                            <th scope="col">Number of Discount Coupons</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% for (var i = 0; i < own_analytics.length;  i++) { %>
                             <tr>
-                                <td><%= own_analytics[i].expenditure %></td>
-                                <td><%= own_analytics[i].avg_price %></td>
+                                <td>$<%= own_analytics[i].expenditure %></td>
+                                <td>$<%= own_analytics[i].avg_price %></td>
+                                <td><%= own_analytics[i].current_tier%></td>
+                                <td><%= own_analytics[i].discount_coupons%></td>
                             </tr>    
                         <% } %>
                     </tbody>
