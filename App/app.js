@@ -61,7 +61,7 @@ var inboxRouter = require("./routes/inbox");
 var songRouter = require("./routes/songs");
 var feedbackRouter = require("./routes/feedback");
 var locationsRouter = require("./routes/locations");
-
+var driverHistoryRouter = require("./routes/driverHistory");
 
 var app = express();
 
@@ -126,7 +126,7 @@ app.use('/inbox', inboxRouter);
 app.use('/songs', songRouter);
 app.use('/feedback', feedbackRouter);
 app.use('/locations', locationsRouter);
-
+app.use('/driverHistory', driverHistoryRouter);
 
 
 // catch 404 and forward to error handler

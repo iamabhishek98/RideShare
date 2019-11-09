@@ -22,7 +22,15 @@ const pool = new Pool({
 /* GET login page. */
 router.get('/', function(req, res, next) {
   console.log("login request");
-  res.render('login', { title: 'Express' });
+  if(req.session.passport == undefined){
+    res.render('login', {title: 'Express'});
+  } else if (req.session.passport.user.id == "passenger"){
+    res.redirect('passenger');
+  } else if (req.session.passport.user.id == "driver"){
+    res.redirect('driver');
+  } else {
+    res.render('login', {title: 'Express'});
+  }
 });
 
 passport.use(new LocalStrategy(

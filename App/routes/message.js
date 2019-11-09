@@ -21,7 +21,7 @@ var user_email;
 /* GET signup page. */
 router.get("/", function(req, res, next) {
   console.log("Message page");
-  if(req.session.passport.user.email == undefined){
+  if(req.session.passport == undefined){
     console.log("user not logged in");
   } else {
     user_email = req.session.passport.user.email;

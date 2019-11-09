@@ -106,8 +106,9 @@ router.get('/', function(req, res, next) {
     driver_email = req.session.passport.user.email;
     console.log("driver dashboard");
     console.log(req.session);
-    if(req.session.passport.user.email==undefined){
+    if(req.session.passport==undefined){
         console.log("driver not logged in");
+        res.redirect('login');
     } else if(req.session.passport.user.id == "driver"){
         console.log("This is a driver account");
         try {
@@ -308,9 +309,12 @@ router.post('/danalytics', function(req, res, next){
     res.redirect('../danalytics');
 })
 
+router.post('/driverHistory', function(req, res, next){
+    res.redirect('../driverHistory');
+})
 router.post('/del_ad', function(req, res, next){
     var del_index = req.body.del_index;
-    
+
     res.redirect('./');
 })
 

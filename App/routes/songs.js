@@ -24,7 +24,7 @@ var user_email;
 var user_type;
 router.get('/', async function(req, res, next){
     user_type = req.session.passport.user.id;
-    if(req.session == undefined){
+    if(req.session.passport == undefined){
         console.log("user not logged in");
         res.redirect("login");
     } else if (user_type == "driver"
