@@ -156,15 +156,15 @@ sql.query = {
                                                 group by email_bidder) TE) T, 
                                 discount D
                                 where D.tier = T.tier)
-                        insert into gets(email, tier) 
-                        select email_bidder, tier
-                        from ((select distinct email as email_bidder, 0 as tier, 0 as discount, 'no discount' as description
-                        from passenger 
-                        where email not in 
-                        (select distinct email_bidder as email from Q1))
+                insert into gets(email, tier) 
+                select email_bidder, tier
+                from ((select distinct email as email_bidder, 0 as tier, 0 as discount, 'no discount' as description
+                            from passenger 
+                            where email not in 
+                            (select distinct email_bidder as email from Q1))
                         union 
                         select distinct email_bidder, tier, discount, description from Q1) DP
-                        where not exists (select distinct * from gets 
+                where not exists (select distinct * from gets 
                                     where email = DP.email_bidder and tier = DP.tier);`,
     
     avail_discount: `select G.email, D.tier, D.amount/100 as discount, D.description  
@@ -275,21 +275,14 @@ router.post('/logout', function(req, res, next){
 router.post('/bid', async function(req, res, next){
     var bid_num = req.body.bid_num;
     var bid_val = req.body.bid_val;
-    //@Abhi discount val returns the index of the selection
+
     var discount_val = req.body.discountpicker;
-
-
-
-    console.log("Start of Abhhi method");
 
     var discount = await pool.query(sql.query.avail_discount, [passenger_email]);
 
     if (discount != undefined) {
            console.log(discount.rows);
            var discounted = discount.rows;
-
-
-           console.log("samuel start");
            console.log(parseFloat(bid_val));
            console.log(discounted[discount_val].discount);
            console.log(parseFloat(bid_val) * parseFloat(discounted[discount_val].discount));
@@ -301,17 +294,6 @@ router.post('/bid', async function(req, res, next){
        } else {
            console.log('discount data is undefined')
        }
-    console.log("END OF ABHI METHOD");
-
-
-
-
-
-
-
-
-
-
 
     console.log("discount index" + discount_val);
     var avail_data = await pool.query(sql.query.avail_advertisements)
@@ -323,9 +305,8 @@ router.post('/bid', async function(req, res, next){
         var end_loc = advertisement.end_loc; 
         var email_bidder = passenger_email
         var email_driver = advertisement.email
-        var s_date = advertisement.a_date;split("T")[0];
-        var s_time = advertisement.a_time;
-        var vehicle_data = await pool.query(sql.query.avail_vehicle, [email_driver, start_loc, end_loc, s_date, s_time]);
+        
+        var vehicle_data = await pool.query(sql.query.avail_vehicle, [email_driver, start_loc, end_loc, advertisement.a_date, advertisement.a_time]);
         var vehicle;
         if (vehicle_data != undefined) {
             console.log(vehicle_data.rows)
@@ -333,9 +314,9 @@ router.post('/bid', async function(req, res, next){
         } else {
             console.log('vehicle data is undefined')
         }
-        console.log(amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time);
         try {
-            var result = await pool.query(sql.query.insert_bid, [amount, start_loc, end_loc, email_bidder, email_driver, vehicle, s_date, s_time]);
+            var result = await pool.query(sql.query.insert_bid, [amount, start_loc, end_loc, email_bidder, email_driver, 
+                                                vehicle, advertisement.a_date, advertisement.a_time]);
             if (result != undefined) {
                 console.log(result)
             } else {
@@ -347,9 +328,6 @@ router.post('/bid', async function(req, res, next){
     } else {
         console.log("avail data is undefined")
     }
-    // console.log(bid_num);
-    // console.log(bid_val);
-
     res.redirect('./');
 })
 
