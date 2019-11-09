@@ -64,8 +64,12 @@ insert into bid(is_win, s_date, s_time, amount, start_loc, end_loc, email_bidder
 insert into bid(is_win, s_date, s_time, amount, start_loc, end_loc, email_bidder, email_driver, vehicle) values ('true', '2018-12-24', '10:10:00', '28.5', 'Queenstown', 'NUS', 'shagergham0@theatlantic.com', 'ayurenev5@icio.us',  'SBD0170' );
 
 /*discounts*/
-insert into discount(description, tier, amount) values ('a discount', 1, 5.0);
-insert into discount(description, tier, amount) values ('a discount', 2, 10.0);
+insert into discount(description, tier, amount) values ('no discount', 0, 0);
+insert into discount(description, tier, amount) values ('10% coupon', 1, 10);
+insert into discount(description, tier, amount) values ('20% coupon', 2, 20);
+insert into discount(description, tier, amount) values ('30% coupon', 3, 30);
+insert into discount(description, tier, amount) values ('40% coupon', 4, 40);
+insert into discount(description, tier, amount) values ('50% coupon', 5, 50);
 
 /*gets*/
 insert into gets(email, tier, is_used, exp_date) values ('ayurenev5@icio.us', 1, 'false', '2019-11-01');

@@ -9,7 +9,7 @@ const pool = new Pool({connectionString:process.env.DATABASE_URL})
 
 const sql = []
 sql.query = {
-
+    get_user_name: 'select name from passenger where email = $1',
     check_driver: 'select * from driver where email = $1',
 
     all_vehicles: `select distinct D.license_plate, V.pax
@@ -102,15 +102,34 @@ sql.query = {
 var driver_email;
 
 /* GET login page. */
-router.get('/', function(req, res, next) {
-    driver_email = req.session.passport.user.email;
+router.get('/', async function(req, res, next) {
+    
     console.log("driver dashboard");
     console.log(req.session);
-    if(req.session.passport.user.email==undefined){
+    if(req.session.passport==undefined){
         console.log("driver not logged in");
+        res.redirect('login');
     } else if(req.session.passport.user.id == "driver"){
         console.log("This is a driver account");
+        driver_email = req.session.passport.user.email;
+
         try {
+
+            var name_of_user = "";
+            try{
+                var data_pack = await pool.query(sql.query.get_user_name, [driver_email]);
+                console.log("Passenger name info: ------");
+                console.log(data_pack);
+                name_of_user = data_pack.rows[0].name;
+                req.session.passport.user.name = name_of_user;
+            } catch {
+                name_of_user = "";
+                console.log("name error T.T");
+            }
+
+
+
+
             // need to only load driver related bids
             pool.query(sql.query.all_vehicles, [driver_email], (err, data) => {
                 if (data != undefined) {
@@ -127,7 +146,7 @@ router.get('/', function(req, res, next) {
                                             if (data4 != undefined) {
                                                 console.log(data4.rows)
                                                 res.render('driver', {available_bids: data2.rows, accepted_bids: data4.rows, all_vehicles: data.rows, 
-                                                    vehicles: result.rows, advertised: data3.rows, title : 'Express'})
+                                                    vehicles: result.rows, advertised: data3.rows, title : 'Express', user_name: name_of_user})
                                             } else {
                                                 console.log('accepted bids data is undefined')
                                             }
@@ -158,10 +177,12 @@ router.get('/', function(req, res, next) {
 })
 
 router.post('/logout', function(req, res, next){
-    req.session.passport.user.email = "";
-    req.session.passport.user.password = "";
-    req.session.passport.user.id = "";
-    console.log(session);
+    if(req.session.passport != undefined){
+        req.session.passport.user.email = "";
+        req.session.passport.user.password = "";
+        req.session.passport.user.id = "";
+        console.log(session);
+    }
     res.redirect('../login');
 })
 
@@ -308,9 +329,11 @@ router.post('/danalytics', function(req, res, next){
     res.redirect('../danalytics');
 })
 
+router.post('/driverHistory', function(req, res, next){
+    res.redirect('../driverHistory');
+})
 router.post('/del_ad', function(req, res, next){
     var del_index = req.body.del_index;
-    
     res.redirect('./');
 })
 

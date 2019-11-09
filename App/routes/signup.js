@@ -22,7 +22,15 @@ sql.query = {
 
 /* GET signup page. */
 router.get('/', function(req, res, next) {
-  res.render('signup', { title: 'Express' });
+  if(req.session.passport == undefined){
+    res.render('signup', { title: 'Express' });
+  } else if (req.session.passport.user.id == "passenger"){
+    res.redirect('passenger');
+  } else if (req.session.passport.user.id == "driver"){
+    res.redirect('driver');
+  } else {
+    res.render('signup', {title: 'Express'});
+  }
 });
 
 // POST

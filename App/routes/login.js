@@ -10,7 +10,8 @@ const sql = {};
 sql.query = {
     //registering
     email_query: 'select * from passenger where email = $1',
-    check_driver: 'select * from driver where email = $1'
+    check_driver: 'select * from driver where email = $1',
+    get_user_name: 'select name from passenger where email = $1'
   };
 
 //Postgre SQL Connection
@@ -22,7 +23,15 @@ const pool = new Pool({
 /* GET login page. */
 router.get('/', function(req, res, next) {
   console.log("login request");
-  res.render('login', { title: 'Express' });
+  if(req.session.passport == undefined){
+    res.render('login', {title: 'Express'});
+  } else if (req.session.passport.user.id == "passenger"){
+    res.redirect('passenger');
+  } else if (req.session.passport.user.id == "driver"){
+    res.redirect('driver');
+  } else {
+    res.render('login', {title: 'Express'});
+  }
 });
 
 passport.use(new LocalStrategy(
@@ -45,7 +54,7 @@ passport.use(new LocalStrategy(
             try{
               if (await bcrypt.compare(password, data.rows[0].password)){
                 console.log("success");
-                return done(null, {email, password, id: '221341242', bid: "", start_trip_id: ""});
+                return done(null, {email, password, id: '221341242', bid: "", start_trip_id: "", name: ""});
               } else {
                 console.log("failure");
                 return done(null, false, {email});  

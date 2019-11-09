@@ -91,7 +91,7 @@
     </div>
 
     <div class="container" style="background:white">
-        <h2 className="my-5"> Welcome </h2>
+        <h2 className="my-5"> Welcome <%= user_name%></h2>
         <div style="height:20px;"></div>
         <div class = "row">
             <div class = "col">
@@ -170,6 +170,30 @@
                   <label for="exampleInputPassword1">Bid Value</label>
                   <input type="text" class="form-control" id="bid_val" name="bid_val" placeholder="Bid Amount">
                 </div>
+
+
+                <!--Promo selection goes here-->
+
+                <div class="dropdown">
+                        <label for="vehicle">
+                            <h4>Discount Offered: </h4>
+                        </label>
+    
+                        <select class="selectpicker" data-style="btn-info" name="discountpicker">
+                                <optgroup label="Select Vehicle">
+                                    <% for (var i = 0; i < avail_discount.length;  i++) { %>
+                                        <option value="<%= i %>"><%= avail_discount[i].description %></option>
+                                    <% } %>
+
+                                <option name="" value="0">Test promo</option>
+                            </optgroup>
+                            </select>
+                    </div>
+
+
+
+
+
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
     </div>
@@ -193,6 +217,9 @@
             } else if(parseInt(bid_number.value) < 1 || parseInt(bid_number.value) > num_advertisements || parseFloat(bid_value.value) < 0){
                 e.preventDefault();
                 alert("Bid Number must be integer and at least one. Cannot be more than " + num_advertisements+" Also, Bid value cannot be less than 0");
+            } else if(parseFloat(bid_value.value) > 100000){
+                e.preventDefault();
+                alert("Bid value cannot be more than 100");
             }
         })
 
@@ -259,6 +286,8 @@
                         <th scope="col">End Location</th>
                         <th scope="col">Est. Arrival Date</th>
                         <th scope="col">Est. Arrival Time</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Win Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -269,8 +298,10 @@
                             <td><%= current_bids[i].driver %></td>
                             <td><%= current_bids[i].start_loc %></td>
                             <td><%= current_bids[i].end_loc %></td>
-                            <td><%= String(current_bids[i].s_date).substring(0,11) %></td>
+                            <td><%= String(current_bids[i].s_date).substring(0,16) %></td>
                             <td><%= current_bids[i].s_time %></td>
+                            <td>$<%= current_bids[i].amount %></td>
+                            <td><%= current_bids[i].is_win %></td>
                         </tr>    
                         <% } %>
                     </tr>
@@ -351,7 +382,7 @@
                         <td><%= advertisements[i].name %></td>
                         <td><%= advertisements[i].start_loc %></td>
                         <td><%= advertisements[i].end_loc %></td>
-                        <td><%= String(advertisements[i].a_date).substring(0,11) %></td>
+                        <td><%= String(advertisements[i].a_date).substring(0,16) %></td>
                         <td><%= advertisements[i].a_time %></td>
                         <td><%= advertisements[i].current_pax %></td>
                         <!-- <td><div class="input-group mb-3">

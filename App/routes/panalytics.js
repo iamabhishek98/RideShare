@@ -698,35 +698,65 @@ sql.query = {
   where L.loc_name = AB.location and L.loc_name = WB.location and L.loc_name = WP.location;
     `,
   
-  own_analytics : `select distinct T.email_bidder, T.expenditure, A.avg_price
-  from (select distinct email_bidder, sum(amount) as expenditure
-          from bid 
-          where is_win is true 
-          and e_time is not null 
-          and e_date is not null
-          group by email_bidder) T,
-      (select distinct email_bidder, avg(amount) as avg_price
-          from bid 
-          where is_win is true
-          and e_time is not null
-          and e_date is not null
-          group by email_bidder) A
-  where T.email_bidder = A.email_bidder and T.email_bidder = $1;`
+  own_analytics : `select * from 
+                    ((select distinct email as email_bidder, 0 as expenditure, 0 as avg_price, 0 as current_tier, 0 as discount_coupons
+                    from bid, passenger
+                    where email not in (select distinct email_bidder from bid where e_date is not null))
+                    union
+                    (select distinct T.email_bidder, T.expenditure, A.avg_price, DP.tier as current_tier, DC.count as discount_coupons
+                    from (select distinct email_bidder, sum(amount) as expenditure
+                            from bid 
+                            where is_win is true 
+                            and e_time is not null 
+                            and e_date is not null
+                            group by email_bidder) T,
+                        (select distinct email_bidder, avg(amount) as avg_price
+                            from bid 
+                            where is_win is true
+                            and e_time is not null
+                            and e_date is not null
+                            group by email_bidder) A,
+                        (select distinct T.email_bidder, D.tier, D.amount/100 as discount
+                            from (select distinct email_bidder, 
+                                        case 
+                                            when (total_expenditure < 500) then 0
+                                            when (total_expenditure >= 500 and total_expenditure < 1000) then 1 
+                                            when (total_expenditure >= 1000 and total_expenditure < 1500) then 2
+                                            when (total_expenditure >= 1500 and total_expenditure < 2000) then 3
+                                            when (total_expenditure >= 2000 and total_expenditure < 2500) then 4
+                                            when (total_expenditure >= 2500) then 5
+                                        end as tier
+                                    from (select distinct email_bidder, sum(amount) as total_expenditure
+                                            from bid
+                                            where e_date is not null
+                                            group by email_bidder) TE) T, 
+                            discount D
+                            where D.tier = T.tier) DP,
+                        (select distinct email, count(*)
+                            from gets
+                            where is_used is false
+                            group by email) DC
+                    where T.email_bidder = A.email_bidder
+                    and T.email_bidder = DP.email_bidder
+                    and T.email_bidder = DC.email)) Q
+                    where email_bidder = $1;`
 }
 
 // do the passport.js shit here to get user email
 
+var passenger_email;
 /* GET signup page. */
 router.get('/', function(req, res, next) {
   console.log("Passenger Analytics");
-  if(req.session == undefined){
+  if(req.session.passport == undefined){
     console.log("user not logged in");
     res.redirect('login');
   } else if(req.session.passport.user.id == "passenger"){
     //passenger success
+    passenger_email = req.session.passport.user.email;
     try{
       // Construct Specific SQL Query
-      pool.query(sql.query.own_analytics, ['shagergham0@theatlantic.com'], (err, data) => {
+      pool.query(sql.query.own_analytics, [passenger_email], (err, data) => {
         if (data != undefined) {
           console.log(data.rows)
           pool.query(sql.query.panalytics_basic,(err, data2) => {
