@@ -43,28 +43,28 @@
             <ul class="navbar-nav ml-auto">
                     <li class = "nav-item">
                             <form method = "post" action="/passenger/songs">
-                                <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Songs</button>
+                                <button type="submit" class="btn btn-primary mr-1" id="loginbtn" value = "submit">Songs</button>
                             </form>
                         </li>
                         <li class = "nav-item">
                                 <form method = "post" action="/driver/driverHistory">
-                                    <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">History</button>
+                                    <button type="submit" class="btn btn-primary mr-1" id="loginbtn" value = "submit">History</button>
                                 </form>
                             </li>
 
                     <li class="nav-item">
                             <form method = "post" action="/driver/danalytics">
-                                <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Analytics</button>
+                                <button type="submit" class="btn btn-primary mr-1" id="loginbtn" value = "submit">Analytics</button>
                             </form>
                         </li>
                 <li class="nav-item">
                         <form method = "post" action="/driver/inbox">
-                            <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Inbox</button>
+                            <button type="submit" class="btn btn-primary mr-1" id="loginbtn" value = "submit">Inbox</button>
                         </form>
                     </li>
                     <li class="nav-item"></li>
                     <form method = "post" action="/driver/logout">
-                    <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Log Out</button>
+                    <button type="submit" class="btn btn-primary mr-1" id="loginbtn" value = "submit">Log Out</button>
                 </form>
                     <!-- <a class="nav-link" href="login">Log In</a> -->
                 </li>
@@ -84,9 +84,10 @@
 
     <div class="container" style="background:white">
         <h2 className="my-5"> Welcome <%= user_name %></h2>
+        <hr  style="background-color: navy" />
         <div style="height:20px;"></div>
         <div class="row">
-            <div class="col">
+            <div class="col-12">
 
                 <form method="post" action="/driver/add_vehicle">
                 <div class="form-group">
@@ -138,7 +139,7 @@
                         </tbody>
                     </table>
             </div>
-            <div class="col">
+            <div class="col-12">
 
                 <form method="post" action="/driver/advertise">
                 <form id="advertisetrip" method="post" action="/driver/basic">
