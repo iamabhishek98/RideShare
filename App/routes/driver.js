@@ -159,10 +159,12 @@ router.get('/', function(req, res, next) {
 })
 
 router.post('/logout', function(req, res, next){
-    req.session.passport.user.email = "";
-    req.session.passport.user.password = "";
-    req.session.passport.user.id = "";
-    console.log(session);
+    if(req.session.passport != undefined){
+        req.session.passport.user.email = "";
+        req.session.passport.user.password = "";
+        req.session.passport.user.id = "";
+        console.log(session);
+    }
     res.redirect('../login');
 })
 
@@ -314,7 +316,6 @@ router.post('/driverHistory', function(req, res, next){
 })
 router.post('/del_ad', function(req, res, next){
     var del_index = req.body.del_index;
-
     res.redirect('./');
 })
 

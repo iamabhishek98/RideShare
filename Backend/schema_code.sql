@@ -59,6 +59,11 @@ create table favouriteLocation(
     primary key(email_passenger, loc_name)
 );
 
+
+select distinct f.loc_name, l.loc_add
+from favouriteLocation f left join location l on l.loc_name = f.loc_name
+where f.email_passenger = 't3@t3';
+
 create table advertisesTrip(
     start_loc varchar(256) not null references location(loc_name),
     end_loc varchar(256) not null references location(loc_name),
