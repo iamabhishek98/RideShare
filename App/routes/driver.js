@@ -255,13 +255,16 @@ router.post('/advertise', function(req, res, next) {
             if (data != undefined) {
                 console.log(data)
             } else {
+                console.log("ERORRRRRRRRRRRRRRRRRRRRRR");
                 console.log('data is undefined.')
+                console.log(err);
             }
         })
+        res.redirect("./");
     } catch {
         console.log('driver advertise error')
     }
-    res.redirect("./");
+   // res.redirect("./");
 })
 
 router.post('/start_trip', function(req, res, next){
