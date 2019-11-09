@@ -7,6 +7,7 @@ const pool = new Pool({connectionString:process.env.DATABASE_URL})
 
 const sql = []
 sql.query = {
+    get_user_name: 'select name from passenger where email = $1',
     recommended_drivers : `select distinct P.name, R.email_driver, R.rating, Q.common_songs
                             from (select distinct email_driver, avg(rating) as rating 
                                     from bid B
@@ -176,7 +177,7 @@ sql.query = {
 
 var passenger_email;
 /* GET login page. */
-router.get('/', function(req, res, next) {
+router.get('/', async function(req, res, next) {
     console.log("passenger dashboard");
     
     if(req.session.passport == undefined){
@@ -186,6 +187,18 @@ router.get('/', function(req, res, next) {
         passenger_email = req.session.passport.user.email;
         //passenger success
         try {
+            var name_of_user = "";
+            try{
+                var data_pack = await pool.query(sql.query.get_user_name, [passenger_email]);
+                console.log("Passenger name info: ------");
+                console.log(data_pack);
+                name_of_user = data_pack.rows[0].name;
+                req.session.passport.user.name = name_of_user;
+            } catch {
+                name_of_user = "";
+                console.log("name error T.T");
+            }
+            
             pool.query(sql.query.recommended_drivers, [passenger_email], (err, data) => {
                 if (data != undefined) {
                     console.log(data.rows);
@@ -206,7 +219,8 @@ router.get('/', function(req, res, next) {
                                                 advertisements: data2.rows,
                                                 locations: data3.rows,
                                                 current_bids: data4.rows,
-                                                avail_discount: data6.rows
+                                                avail_discount: data6.rows,
+                                                user_name: name_of_user
                                             })
                                         } else {
                                             console.log('available advertisements data is undefined')
