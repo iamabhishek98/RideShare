@@ -253,7 +253,7 @@ sql.query = {
 /* GET signup page. */
 router.get('/', function(req, res, next) {
   console.log("danalytics");
-  if(req.session == undefined){
+  if(req.session.passport == undefined){
     console.log("driver not logged in");
     res.redirect('login');
   } else if(req.session.passport.user.id == "driver"){

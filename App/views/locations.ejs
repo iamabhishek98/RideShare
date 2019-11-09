@@ -109,18 +109,20 @@
         </div>
         
         <br />
-        <h3>Your Messages: </h3>
+        <h3>Your Favourite Location: </h3>
         <br />
         <table class="table">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Location Name</th>
+                    <th scope="col">Location Address</th>
                 </tr>
                 <% for (var i = 0; i < locations.length;  i++) { %>
                     <tr>
                       <td><%= i+1 %></td>  
                       <td><%= locations[i].loc_name %></td>
+                      <td><%= locations[i].loc_add %></td>
                     </tr>    
                 <% } %>
             </thead>

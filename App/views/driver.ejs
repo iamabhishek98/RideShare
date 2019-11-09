@@ -46,6 +46,12 @@
                                 <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Songs</button>
                             </form>
                         </li>
+                        <li class = "nav-item">
+                                <form method = "post" action="/driver/driverHistory">
+                                    <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">History</button>
+                                </form>
+                            </li>
+
                     <li class="nav-item">
                             <form method = "post" action="/driver/danalytics">
                                 <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Analytics</button>
@@ -191,16 +197,34 @@
                 </form>
                 <br/>
 
-                <form method="post" action="/driver/start_trip">
+                <form method="post" action="/driver/start_trip" id="trip_start_form">
                     <!-- <button type="submit" class="btn btn-primary" id="loginbtn">Start Trip</button> -->
 
                     <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="start_trip_id" laceholder="Trip id" required>
+                            <input type="text" class="form-control" id="start_trip_num" name="start_trip_id" placeholder="Bid Trip Number" required>
                             <div class="input-group-append">
                               <button class="btn btn-primary" type="submit">start Trip</button>
                             </div>
                           </div>
             </form>
+
+
+            <script>
+                const trip_start_form = document.getElementById("trip_start_form");
+                const start_trip_num = document.getElementById("start_trip_num");
+                var num_bids = "<%= available_bids.length %>";
+                trip_start_form.addEventListener('submit', (e) => {
+                    if(parseInt(start_trip_num.value) === NaN){
+                        e.preventDefault();
+                        alert("Please enter a valid number");
+                    } else if(parseInt(start_trip_num.value) < 1 || parseInt(start_trip_num.value) > num_bids){
+                        e.preventDefault();
+                        alert("Your input number is out of range");
+                    } else {
+                        //good
+                    }
+                })
+            </script>
             </div>
         </div>
 

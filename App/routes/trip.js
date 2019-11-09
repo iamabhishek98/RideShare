@@ -88,14 +88,17 @@ var start_trip_id; //@Abhi, look at this variable for the start-trip-id
 
 /* GET login page. */
 router.get('/', async function(req, res, next) {
+    
     console.log("trip dashboard");
-    console.log(req)
+    console.log(req);
     console.log(req.session);
     if(req.session.passport==undefined){
+        res.redirect('login');
         console.log("driver not logged in");
     } else if(req.session.passport.user.id == "driver"){
         driver_email = req.session.passport.user.email;
         start_trip_id = req.session.passport.user.start_trip_id;
+
         //have access
         var index = (start_trip_id)-1;
         console.log(index)
@@ -105,7 +108,7 @@ router.get('/', async function(req, res, next) {
             console.log(all_adverts.rows)
             try {
                 var current_advert_data = all_adverts.rows;
-                var current_advert = current_advert_data[index]
+                var current_advert = current_advert_data[index];
                 pool.query(sql.query.list_trips, [driver_email], (err, data) => {
                     if (data != undefined) {
                         console.log(data.rows)
@@ -113,6 +116,8 @@ router.get('/', async function(req, res, next) {
                             res.render('trip', {
                                 trips: data.rows, current_trip: current_advert
                             });
+                        } else {
+                            console.log("some weird error lel");
                         }
                     } else {
                         console.log('list of trips data is undefined')
@@ -174,6 +179,7 @@ router.post('/endtrip', async function(req, res, next){
         console.log('all advertisements data is undefined')
     }
 
+    
     if (vehicle != undefined && start_loc != undefined && end_loc != undefined && s_date != undefined && s_time != undefined) {
         //delete advertisement
         var delete_ad = await pool.query(sql.query.delete_advertisement, [driver_email, vehicle, start_loc, end_loc, s_date, s_time])
@@ -200,11 +206,14 @@ router.post('/endtrip', async function(req, res, next){
         var complete_trip = await pool.query(sql.query.complete_trip, [e_date, e_time, driver_email, vehicle, start_loc, end_loc, s_date, s_time])
         if (complete_trip != undefined) {
             console.log(complete_trip)
+            
         } else {
+            
             console.log('complete trip data is undefined')
         }
-    }
 
+        res.redirect('../driver');
+    }
     res.redirect('./');
 })
 

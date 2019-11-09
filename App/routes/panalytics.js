@@ -719,7 +719,7 @@ sql.query = {
 /* GET signup page. */
 router.get('/', function(req, res, next) {
   console.log("Passenger Analytics");
-  if(req.session == undefined){
+  if(req.session.passport == undefined){
     console.log("user not logged in");
     res.redirect('login');
   } else if(req.session.passport.user.id == "passenger"){

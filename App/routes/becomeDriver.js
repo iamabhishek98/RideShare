@@ -19,7 +19,7 @@ sql.query = {
 }
 
 router.get('/', function(req, res, next){
-    if(req.session.passport.user.email == undefined){
+    if(req.session.passport == undefined){
         console.log("attempt at unauthorised access");
         res.redirect('./login');
     } else if(req.session.passport.user.id == "driver"){
@@ -73,7 +73,7 @@ router.post('/register_vehicle', async function(req, res, next){
 
         var data1 = await pool.query(sql.query.insert_vehicle, [req.body.vehicleNumber, req.body.paxPicker]);
         var data2 = await pool.query(sql.query.insert_driver, [req.session.passport.user.email]);
-        var data3 = await pool.query(sql.query.insert_drives, [req.session.passport.user.email, rSeq.body.vehicleNumber]);
+        var data3 = await pool.query(sql.query.insert_drives, [req.session.passport.user.email, req.body.vehicleNumber]);
         
         console.log("query successs");
         req.session.passport.user.id="driver";
