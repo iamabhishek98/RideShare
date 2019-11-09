@@ -288,7 +288,7 @@ router.post('/bid', async function(req, res, next){
         console.log('discount data is undefined')
     }
 
-/*    console.log("discount index" + discount_val);
+    console.log("discount index" + discount_val);
     var avail_data = await pool.query(sql.query.avail_advertisements)
     if (avail_data != undefined) {
         console.log(avail_data.rows)
@@ -321,7 +321,7 @@ router.post('/bid', async function(req, res, next){
         }
     } else {
         console.log("avail data is undefined")
-    }*/
+    }
     // console.log(bid_num);
     // console.log(bid_val);
 console.log("discount index" + discount_val);
