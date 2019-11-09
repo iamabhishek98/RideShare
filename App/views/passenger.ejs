@@ -259,6 +259,8 @@
                         <th scope="col">End Location</th>
                         <th scope="col">Est. Arrival Date</th>
                         <th scope="col">Est. Arrival Time</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Win Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -269,8 +271,10 @@
                             <td><%= current_bids[i].driver %></td>
                             <td><%= current_bids[i].start_loc %></td>
                             <td><%= current_bids[i].end_loc %></td>
-                            <td><%= String(current_bids[i].s_date).substring(0,11) %></td>
+                            <td><%= String(current_bids[i].s_date).substring(0,16) %></td>
                             <td><%= current_bids[i].s_time %></td>
+                            <td>$<%= current_bids[i].amount %></td>
+                            <td><%= current_bids[i].is_win %></td>
                         </tr>    
                         <% } %>
                     </tr>
@@ -351,7 +355,7 @@
                         <td><%= advertisements[i].name %></td>
                         <td><%= advertisements[i].start_loc %></td>
                         <td><%= advertisements[i].end_loc %></td>
-                        <td><%= String(advertisements[i].a_date).substring(0,11) %></td>
+                        <td><%= String(advertisements[i].a_date).substring(0,16) %></td>
                         <td><%= advertisements[i].a_time %></td>
                         <td><%= advertisements[i].current_pax %></td>
                         <!-- <td><div class="input-group mb-3">
