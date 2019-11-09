@@ -145,11 +145,12 @@ var passenger_email;
 /* GET login page. */
 router.get('/', function(req, res, next) {
     console.log("passenger dashboard");
-    passenger_email = req.session.passport.user.email;
+    
     if(req.session.passport == undefined){
         console.log("user not logged in");
         res.redirect('login');
     } else if(req.session.passport.user.id == "passenger"){
+        passenger_email = req.session.passport.user.email;
         //passenger success
         try {
             pool.query(sql.query.recommended_drivers, [passenger_email], (err, data) => {
@@ -218,7 +219,9 @@ router.post('/logout', function(req, res, next){
 router.post('/bid', async function(req, res, next){
     var bid_num = req.body.bid_num;
     var bid_val = req.body.bid_val;
-
+    //@Abhi discount val returns the index of the selection
+    var discount_val = req.body.discountpicker;
+    console.log("discount index" + discount_val);
     var avail_data = await pool.query(sql.query.avail_advertisements)
     if (avail_data != undefined) {
         console.log(avail_data.rows)
