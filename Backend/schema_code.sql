@@ -110,7 +110,7 @@ create table gets (
 
 create table songs (
     name varchar(256) primary key,
-    duration int,
+    duration time,
     artist varchar(256)
 );
 
