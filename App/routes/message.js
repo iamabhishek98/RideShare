@@ -27,7 +27,10 @@ router.get("/", function(req, res, next) {
     user_email = req.session.passport.user.email;
     console.log(user_email);
   }
-  res.render("message", { title: "Express" });
+  res.render("message", { title: "Express",
+  user_name: req.session.passport.user.name,
+  user_type: req.session.passport.user.id
+  });
 });
 
 // POST
@@ -39,7 +42,7 @@ router.post("/basic", function(req, res, next) {
   var user_Message = req.body.user_Message;
   var d = new Date();
   var date = d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear();
-  var time = "00:00:00";
+  var time = d.getHours() + ":" + d.getMinutes() + ":" +d.getSeconds();
   console.log(sender, email, user_Message, date, time);
   
   pool.query(
@@ -49,6 +52,8 @@ router.post("/basic", function(req, res, next) {
       console.log(data);
     }
   );
+
+  res.redirect('./');
 });
 
 router.post("/logout", function(req, res, next){

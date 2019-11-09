@@ -77,6 +77,7 @@
             <div class="container" style="color:white;">
                 <h1 style="font-size: 64px;">CARPOOL@2019</h1>
                 <p class="lead">Share a Ride or Ride to Share</p>
+                <h4><%= user_name %> (Driver)</h4>
             </div>
         </div>
     </div>
@@ -212,14 +213,18 @@
             <script>
                 const trip_start_form = document.getElementById("trip_start_form");
                 const start_trip_num = document.getElementById("start_trip_num");
+                var num_advertised = "<%= advertised.length %>";
                 var num_bids = "<%= accepted_bids.length %>";
                 trip_start_form.addEventListener('submit', (e) => {
                     if(parseInt(start_trip_num.value) === NaN){
                         e.preventDefault();
                         alert("Please enter a valid number");
-                    } else if(parseInt(start_trip_num.value) < 1 || parseInt(start_trip_num.value) > num_bids){
+                    } else if(parseInt(start_trip_num.value) < 1 || parseInt(start_trip_num.value) > num_advertised){
                         e.preventDefault();
                         alert("Your input number is out of range");
+                    } else if(num_bids < 1){
+                        e.preventDefault();
+                        alert("You can't start a trip without accepting a bid")
                     } else {
                         //good
                     }
