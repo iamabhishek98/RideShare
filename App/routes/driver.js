@@ -308,5 +308,11 @@ router.post('/danalytics', function(req, res, next){
     res.redirect('../danalytics');
 })
 
+router.post('/del_ad', function(req, res, next){
+    var del_index = req.body.del_index;
+    
+    res.redirect('./');
+})
+
 
 module.exports = router;  

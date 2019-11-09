@@ -332,4 +332,10 @@ router.post('/locations', function(req, res, next){
     res.redirect('../locations');
 })
 
+router.post('/del_bid', function(req, res, next){
+    var del_index = req.body.del_index;
+
+    res.redirect('./');
+})
+
 module.exports = router;  

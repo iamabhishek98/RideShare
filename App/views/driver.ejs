@@ -206,7 +206,44 @@
 
         <br/>
         <br/>
-        <h3>Advertised Trips: </h3>
+        <div class = "row">
+                <div class = "col">
+                    <h3>Advertised Trips: </h3>
+                </div>
+    
+                <div class = "col">
+                        <form method="post" action="/driver/del_ad" id="del_ad_form">
+                            <div class="input-group mb-3">
+                                    <input type="text" class="form-control" placeholder="Ad Num to Delete" name="del_index" id="del_ad_input">
+                                    <div class="input-group-append">
+                                      <button class="btn btn-primary" type="submit">Delete</button>
+                                    </div>
+                                    
+                                  </div>
+                                </form>
+                </div>
+            </div>
+    
+    
+            <script>
+                    const num_ads = "<%= advertised.length %>";
+                    const del_ad_form = document.getElementById("del_ad_form");
+                    const del_ad_input = document.getElementById("del_ad_input");
+                    //Samuel, implement ejs to do data verification here
+                    
+                    del_ad_form.addEventListener('submit', (e) => {
+                        if(parseInt(del_ad_input.value) === NaN){
+                            e.preventDefault();
+                            alert("Invalid ad index to delete");
+                        } else if(parseInt(del_ad_input.value) < 1){
+                            e.preventDefault();
+                            alert("Ad index to delete has to be more than 1");
+                        } else if(parseInt(del_ad_input.value) > num_ads){
+                            e.preventDefault();
+                            alert("Ad index to delete is out of range");
+                        }
+                    })
+                </script>
         <br />
         <table class="table">
             <thead class="thead-dark">
@@ -269,7 +306,12 @@
 
         <br/>
         <br/>
+
+      
+    
+
         <h3>Current Bids: </h3>
+
         <br />
         <table class="table">
             <thead class="thead-dark">
