@@ -208,7 +208,7 @@ sql.query = {
                       where A.email_driver = R.email_driver)) Q
                       where email_driver = $1;`
 }
-//////////replace email with actual driver_email
+
 /* GET signup page. */
 var driver_email;
 router.get('/', function(req, res, next) {
