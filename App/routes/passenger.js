@@ -86,6 +86,9 @@ sql.query = {
                     and B.e_date is null 
                     and B.email_bidder = $1;`,
 
+    delete_current_bid : `delete from bid where email_driver = $1 and email_bidder = $2 and start_loc = $3 
+                            and end_loc = $4 and s_date = $5 and s_time = $6`,
+
     search_advertisements: `select distinct N.name, A.email, CP.current_pax, A.start_loc, A.end_loc, A.a_date, A.a_time
                                 from advertisesTrip A, 
                                     (select distinct P.name, P.email 
@@ -332,9 +335,31 @@ router.post('/locations', function(req, res, next){
     res.redirect('../locations');
 })
 
-router.post('/del_bid', function(req, res, next){
+router.post('/del_bid', async function(req, res, next){
     var del_index = req.body.del_index;
-
+    var current_bids = await pool.query(sql.query.current_bids, [passenger_email])
+    var delete_bid;
+    if (current_bids != undefined) {
+        delete_bid = current_bids.rows[del_index-1]
+        console.log('delete bid ',delete_bid)
+    } else {
+        console.log('current bids data is undefined')
+    }
+    //B.email_bidder, B.email_driver, B.start_loc, B.end_loc, B.s_date, B.s_time
+    if (delete_bid != undefined) {
+        var email_driver = delete_bid.email_driver
+        var start_loc = delete_bid.start_loc
+        var end_loc = delete_bid.end_loc
+        var s_date = delete_bid.s_date
+        var s_time = delete_bid.s_time
+        pool.query(sql.query.delete_current_bid, [email_driver, passenger_email, start_loc, end_loc, s_date, s_time], (err, data) => {
+            if (data != undefined) {
+                console.log(data)
+            } else {
+                console.log('delete current bid data is undefined')
+            }
+        })
+    }
     res.redirect('./');
 })
 
