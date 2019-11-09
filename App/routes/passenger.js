@@ -175,7 +175,7 @@ router.get('/', async function(req, res, next) {
                                 if (data2 != undefined && data3 != undefined && data4 != undefined) {
                                     console.log(data2.rows);
                                     console.log(data3.rows);
-                                    console.log(data4.rows)
+                                    console.log(data4.rows);
                                     res.render('passenger', {
                                         recommended : data.rows, 
                                         advertisements: data2.rows,
