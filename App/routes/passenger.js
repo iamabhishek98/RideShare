@@ -171,7 +171,9 @@ sql.query = {
                         from gets G, discount D 
                         where is_used is false
                         and D.tier = G.tier
-                        and G.email = $1;`
+                        and G.email = $1;`,
+
+    use_discount : `update gets set is_used='true' where email = $1 and tier = $2`
 
 }
 
@@ -247,21 +249,6 @@ router.get('/', async function(req, res, next) {
         res.redirect('./login');
     }   
     
-/*    else {
-        passenger_email = req.session.passport.user.email;
-        console.log(passenger_email);
-    }
-    try {
-        pool.query(sql.query.avail_advertisements, (err, data) => {
-            console.log(data.rows)
-            res.render('passenger', {
-                advertisements: data.rows
-            })
-        })
-    } catch {
-        console.log('passenger bid error')
-    }
-    res.render('passenger', {advertisements: [], title: 'Express' });*/
 });
 
 
@@ -281,16 +268,23 @@ router.post('/bid', async function(req, res, next){
     var discount = await pool.query(sql.query.avail_discount, [passenger_email]);
 
     if (discount != undefined) {
-           console.log(discount.rows);
-           var discounted = discount.rows;
-           console.log(parseFloat(bid_val));
-           console.log(discounted[discount_val].discount);
-           console.log(parseFloat(bid_val) * parseFloat(discounted[discount_val].discount));
-          console.log("samuel end");
+            console.log(discount.rows);
+            var discounted = discount.rows;
+            console.log(parseFloat(bid_val));
+            var discount_entry = discounted[discount_val];
+            
+            pool.query(sql.query.use_discount, [passenger_email, discount_entry.tier], (err, data) => {
+                if (data!= undefined) {
+                    console.log(data)
+                } else {
+                    console.log('using coupon data is undefined')
+                }
+            })
 
-           bid_val = parseFloat(bid_val) - (parseFloat(bid_val)*parseFloat(discounted[discount_val].discount));
+            console.log(parseFloat(bid_val) * parseFloat(discounted[discount_val].discount)); 
+            bid_val = parseFloat(bid_val) - (parseFloat(bid_val)*parseFloat(discounted[discount_val].discount));
 
-           console.log(bid_val);
+            console.log(bid_val);
        } else {
            console.log('discount data is undefined')
        }
