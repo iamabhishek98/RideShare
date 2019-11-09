@@ -137,7 +137,40 @@ sql.query = {
                                 and CP.email_driver = A.email
                                 and CP.vehicle = A.vehicle
                                 and A.start_loc = $1 and A.end_loc = $2
-                                order by A.a_date desc, A.a_time desc`
+                                order by A.a_date desc, A.a_time desc`,
+    
+    insert_tier: `with Q1 as (select distinct T.email_bidder, D.tier, D.amount/100 as discount, D.description  
+                                from (select distinct email_bidder, 
+                                            case 
+                                                when (total_expenditure < 500) then 0
+                                                when (total_expenditure >= 500 and total_expenditure < 1000) then 1 
+                                                when (total_expenditure >= 1000 and total_expenditure < 1500) then 2
+                                                when (total_expenditure >= 1500 and total_expenditure < 2000) then 3
+                                                when (total_expenditure >= 2000 and total_expenditure < 2500) then 4
+                                                when (total_expenditure >= 2500) then 5
+                                            end as tier
+                                        from (select distinct email_bidder, sum(amount) as total_expenditure
+                                                from bid
+                                                where e_date is not null
+                                                group by email_bidder) TE) T, 
+                                discount D
+                                where D.tier = T.tier)
+                        insert into gets(email, tier) 
+                        select email_bidder, tier
+                        from ((select distinct email as email_bidder, 0 as tier, 0 as discount, 'no discount' as description
+                        from passenger 
+                        where email not in 
+                        (select distinct email_bidder as email from Q1))
+                        union 
+                        select distinct email_bidder, tier, discount, description from Q1) DP
+                        where not exists (select distinct * from gets 
+                                    where email = DP.email_bidder and tier = DP.tier);`,
+    
+    avail_discount: `select G.email, D.tier, D.amount/100 as discount, D.description  
+                        from gets G, discount D 
+                        where is_used is false
+                        and D.tier = G.tier
+                        and G.email = $1;`
 
 }
 
@@ -159,19 +192,28 @@ router.get('/', function(req, res, next) {
                     pool.query(sql.query.avail_advertisements, (err, data2) => {
                         pool.query(sql.query.favourite_location, [passenger_email], (err, data3) => {                           
                             pool.query(sql.query.current_bids, [passenger_email], (err, data4) => {
-                                if (data2 != undefined && data3 != undefined && data4 != undefined) {
-                                    console.log(data2.rows);
-                                    console.log(data3.rows);
-                                    console.log(data4.rows)
-                                    res.render('passenger', {
-                                        recommended : data.rows, 
-                                        advertisements: data2.rows,
-                                        locations: data3.rows,
-                                        current_bids: data4.rows
+                                pool.query(sql.query.insert_tier, (err, result) => {
+                                    pool.query(sql.query.avail_discount, [passenger_email], (err, data6) => {
+                                        if (data2 != undefined && data3 != undefined && data4 != undefined 
+                                            && result != undefined && data6 != undefined) {
+                                            console.log(data2.rows);
+                                            console.log(data3.rows);
+                                            console.log(data4.rows);
+                                            console.log(result);
+                                            console.log(data6.rows);
+                                            res.render('passenger', {
+                                                recommended : data.rows, 
+                                                advertisements: data2.rows,
+                                                locations: data3.rows,
+                                                current_bids: data4.rows,
+                                                avail_discount: data6.rows
+                                            })
+                                        } else {
+                                            console.log('available advertisements data is undefined')
+                                        }
                                     })
-                                } else {
-                                    console.log('available advertisements data is undefined')
-                                }
+                                   
+                                })
                             })
                             
                         })
