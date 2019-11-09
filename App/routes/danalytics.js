@@ -211,7 +211,7 @@ sql.query = {
 
 /* GET signup page. */
 var driver_email;
-router.get('/', function(req, res, next) {
+router.get('/', async function(req, res, next) {
   console.log("danalytics");
   if(req.session.passport == undefined){
     console.log("driver not logged in");
@@ -253,259 +253,329 @@ router.get('/', function(req, res, next) {
 });
 
 // POST
-router.post('/increasing', function(req, res, next){
+router.post('/increasing', async function(req, res, next){
   try{
     // Construct Specific SQL Query
-	  pool.query(sql.query.danalytics_increasing,(err, data) => {
-      if (data != undefined) {
-        console.log(data.rows)
-        res.render('danalytics', {
-          result: data.rows 
-        })
-      } else {
-        console.log('data is undefined')
-      }
-    });
+    var own_analytics = await pool.query(sql.query.own_analytics, [driver_email])
+    if (own_analytics != undefined) {
+      pool.query(sql.query.danalytics_increasing,(err, data) => {
+        if (data != undefined) {
+          console.log(data.rows)
+          res.render('danalytics', {
+            own_analytics: own_analytics.rows, result: data.rows, 
+          })
+        } else {
+          console.log('data is undefined')
+        }
+      });
+    } else {
+      console.log('own analytics data is undefined')
+    }
   } catch {
     console.log('danalytics increasing error');
   }
 })
 
-router.post('/decreasing', function(req, res, next){
+router.post('/decreasing', async function(req, res, next){
   try{
     // Construct Specific SQL Query
-	  pool.query(sql.query.danalytics_decreasing,(err, data) => {
-      if (data != undefined) {
-        console.log(data.rows)
-        res.render('danalytics', {
-          result: data.rows 
-        })
-      } else {
-        console.log('data is undefined')
-      }
-    });
+	  var own_analytics = await pool.query(sql.query.own_analytics, [driver_email])
+    if (own_analytics != undefined) {
+      pool.query(sql.query.danalytics_decreasing,(err, data) => {
+        if (data != undefined) {
+          console.log(data.rows)
+          res.render('danalytics', {
+            own_analytics: own_analytics.rows, result: data.rows, 
+          })
+        } else {
+          console.log('data is undefined')
+        }
+      });
+    } else {
+      console.log('own analytics data is undefined')
+    }
   } catch {
     console.log('danalytics decreasing error');
   }
 })
 
-router.post('/00', function(req, res, next){
+router.post('/00', async function(req, res, next){
   try{
     // var order = 'desc';
-	  pool.query(sql.query.danalytics_00,(err, data) => {
-      if (data != undefined) {
-        console.log(data.rows)
-        res.render('danalytics', {
-          result: data.rows 
-        })
-      } else {
-        console.log('data is undefined')
-      }
-    });
+	  var own_analytics = await pool.query(sql.query.own_analytics, [driver_email])
+    if (own_analytics != undefined) {
+      pool.query(sql.query.danalytics_00,(err, data) => {
+        if (data != undefined) {
+          console.log(data.rows)
+          res.render('danalytics', {
+            own_analytics: own_analytics.rows, result: data.rows, 
+          })
+        } else {
+          console.log('data is undefined')
+        }
+      });
+    } else {
+      console.log('own analytics data is undefined')
+    }
   } catch {
     console.log('danalytics decreasing error');
   }
 })
 
-router.post('/02', function(req, res, next){
+router.post('/02', async function(req, res, next){
   try{
     // var order = 'desc';
-	  pool.query(sql.query.danalytics_02,(err, data) => {
-      if (data != undefined) {
-        console.log(data.rows)
-        res.render('danalytics', {
-          result: data.rows 
-        })
-      } else {
-        console.log('data is undefined')
-      }
-    });
+	  var own_analytics = await pool.query(sql.query.own_analytics, [driver_email])
+    if (own_analytics != undefined) {
+      pool.query(sql.query.danalytics_02,(err, data) => {
+        if (data != undefined) {
+          console.log(data.rows)
+          res.render('danalytics', {
+            own_analytics: own_analytics.rows, result: data.rows, 
+          })
+        } else {
+          console.log('data is undefined')
+        }
+      });
+    } else {
+      console.log('own analytics data is undefined')
+    }
   } catch {
     console.log('danalytics decreasing error');
   }
 })
 
-router.post('/04', function(req, res, next){
+router.post('/04', async function(req, res, next){
   try{
     // var order = 'desc';
-	  pool.query(sql.query.danalytics_04,(err, data) => {
-      if (data != undefined) {
-        console.log(data.rows)
-        res.render('danalytics', {
-          result: data.rows 
-        })
-      } else {
-        console.log('data is undefined')
-      }
-    });
+	  var own_analytics = await pool.query(sql.query.own_analytics, [driver_email])
+    if (own_analytics != undefined) {
+      pool.query(sql.query.danalytics_04,(err, data) => {
+        if (data != undefined) {
+          console.log(data.rows)
+          res.render('danalytics', {
+            own_analytics: own_analytics.rows, result: data.rows, 
+          })
+        } else {
+          console.log('data is undefined')
+        }
+      });
+    } else {
+      console.log('own analytics data is undefined')
+    }
   } catch {
     console.log('danalytics decreasing error');
   }
 })
 
-router.post('/06', function(req, res, next){
+router.post('/06', async function(req, res, next){
   try{
     // var order = 'desc';
-	  pool.query(sql.query.danalytics_06,(err, data) => {
-      if (data != undefined) {
-        console.log(data.rows)
-        res.render('danalytics', {
-          result: data.rows 
-        })
-      } else {
-        console.log('data is undefined')
-      }
-    });
+	  var own_analytics = await pool.query(sql.query.own_analytics, [driver_email])
+    if (own_analytics != undefined) {
+      pool.query(sql.query.danalytics_06,(err, data) => {
+        if (data != undefined) {
+          console.log(data.rows)
+          res.render('danalytics', {
+            own_analytics: own_analytics.rows, result: data.rows, 
+          })
+        } else {
+          console.log('data is undefined')
+        }
+      });
+    } else {
+      console.log('own analytics data is undefined')
+    }
   } catch {
     console.log('danalytics decreasing error');
   }
 })
 
-router.post('/08', function(req, res, next){
+router.post('/08', async function(req, res, next){
   try{
     // var order = 'desc';
-	  pool.query(sql.query.danalytics_08,(err, data) => {
-      if (data != undefined) {
-        console.log(data.rows)
-        res.render('danalytics', {
-          result: data.rows 
-        })
-      } else {
-        console.log('data is undefined')
-      }
-    });
+	  var own_analytics = await pool.query(sql.query.own_analytics, [driver_email])
+    if (own_analytics != undefined) {
+      pool.query(sql.query.danalytics_08,(err, data) => {
+        if (data != undefined) {
+          console.log(data.rows)
+          res.render('danalytics', {
+            own_analytics: own_analytics.rows, result: data.rows, 
+          })
+        } else {
+          console.log('data is undefined')
+        }
+      });
+    } else {
+      console.log('own analytics data is undefined')
+    }
   } catch {
     console.log('danalytics decreasing error');
   }
 })
 
-router.post('/10', function(req, res, next){
+router.post('/10', async function(req, res, next){
   try{
     // var order = 'desc';
-	  pool.query(sql.query.danalytics_10,(err, data) => {
-      if (data != undefined) {
-        console.log(data.rows)
-        res.render('danalytics', {
-          result: data.rows 
-        })
-      } else {
-        console.log('data is undefined')
-      }
-    });
+	  var own_analytics = await pool.query(sql.query.own_analytics, [driver_email])
+    if (own_analytics != undefined) {
+      pool.query(sql.query.danalytics_10,(err, data) => {
+        if (data != undefined) {
+          console.log(data.rows)
+          res.render('danalytics', {
+            own_analytics: own_analytics.rows, result: data.rows, 
+          })
+        } else {
+          console.log('data is undefined')
+        }
+      });
+    } else {
+      console.log('own analytics data is undefined')
+    }
   } catch {
     console.log('danalytics decreasing error');
   }
 })
 
-router.post('/12', function(req, res, next){
+router.post('/12', async function(req, res, next){
   try{
     // var order = 'desc';
-	  pool.query(sql.query.danalytics_12,(err, data) => {
-      if (data != undefined) {
-        console.log(data.rows)
-        res.render('danalytics', {
-          result: data.rows 
-        })
-      } else {
-        console.log('data is undefined')
-      }
-    });
+	  var own_analytics = await pool.query(sql.query.own_analytics, [driver_email])
+    if (own_analytics != undefined) {
+      pool.query(sql.query.danalytics_12,(err, data) => {
+        if (data != undefined) {
+          console.log(data.rows)
+          res.render('danalytics', {
+            own_analytics: own_analytics.rows, result: data.rows, 
+          })
+        } else {
+          console.log('data is undefined')
+        }
+      });
+    } else {
+      console.log('own analytics data is undefined')
+    }
   } catch {
     console.log('danalytics decreasing error');
   }
 })
 
-router.post('/14', function(req, res, next){
+router.post('/14', async function(req, res, next){
   try{
     // var order = 'desc';
-	  pool.query(sql.query.danalytics_14,(err, data) => {
-      if (data != undefined) {
-        console.log(data.rows)
-        res.render('danalytics', {
-          result: data.rows 
-        })
-      } else {
-        console.log('data is undefined')
-      }
-    });
+	  var own_analytics = await pool.query(sql.query.own_analytics, [driver_email])
+    if (own_analytics != undefined) {
+      pool.query(sql.query.danalytics_14,(err, data) => {
+        if (data != undefined) {
+          console.log(data.rows)
+          res.render('danalytics', {
+            own_analytics: own_analytics.rows, result: data.rows, 
+          })
+        } else {
+          console.log('data is undefined')
+        }
+      });
+    } else {
+      console.log('own analytics data is undefined')
+    }
   } catch {
     console.log('danalytics decreasing error');
   }
 })
 
-router.post('/16', function(req, res, next){
+router.post('/16', async function(req, res, next){
   try{
     // var order = 'desc';
-	  pool.query(sql.query.danalytics_16,(err, data) => {
-      if (data != undefined) {
-        console.log(data.rows)
-        res.render('danalytics', {
-          result: data.rows 
-        })
-      } else {
-        console.log('data is undefined')
-      }
-    });
+	  var own_analytics = await pool.query(sql.query.own_analytics, [driver_email])
+    if (own_analytics != undefined) {
+      pool.query(sql.query.danalytics_16,(err, data) => {
+        if (data != undefined) {
+          console.log(data.rows)
+          res.render('danalytics', {
+            own_analytics: own_analytics.rows, result: data.rows, 
+          })
+        } else {
+          console.log('data is undefined')
+        }
+      });
+    } else {
+      console.log('own analytics data is undefined')
+    }
   } catch {
     console.log('danalytics decreasing error');
   }
 })
 
-router.post('/18', function(req, res, next){
+router.post('/18', async function(req, res, next){
   try{
     // var order = 'desc';
-	  pool.query(sql.query.danalytics_18,(err, data) => {
-      if (data != undefined) {
-        console.log(data.rows)
-        res.render('danalytics', {
-          result: data.rows 
-        })
-      } else {
-        console.log('data is undefined')
-      }
-    });
+	  var own_analytics = await pool.query(sql.query.own_analytics, [driver_email])
+    if (own_analytics != undefined) {
+      pool.query(sql.query.danalytics_18,(err, data) => {
+        if (data != undefined) {
+          console.log(data.rows)
+          res.render('danalytics', {
+            own_analytics: own_analytics.rows, result: data.rows, 
+          })
+        } else {
+          console.log('data is undefined')
+        }
+      });
+    } else {
+      console.log('own analytics data is undefined')
+    }
   } catch {
     console.log('danalytics decreasing error');
   }
 })
 
-router.post('/20', function(req, res, next){
+router.post('/20', async function(req, res, next){
   try{
     // var order = 'desc';
-	  pool.query(sql.query.danalytics_20,(err, data) => {
-      if (data != undefined) {
-        console.log(data.rows)
-        res.render('danalytics', {
-          result: data.rows 
-        })
-      } else {
-        console.log('data is undefined')
-      }
-    });
+	  var own_analytics = await pool.query(sql.query.own_analytics, [driver_email])
+    if (own_analytics != undefined) {
+      pool.query(sql.query.danalytics_20,(err, data) => {
+        if (data != undefined) {
+          console.log(data.rows)
+          res.render('danalytics', {
+            own_analytics: own_analytics.rows, result: data.rows, 
+          })
+        } else {
+          console.log('data is undefined')
+        }
+      });
+    } else {
+      console.log('own analytics data is undefined')
+    }
   } catch {
     console.log('danalytics decreasing error');
   }
 })
 
-router.post('/22', function(req, res, next){
+router.post('/22', async function(req, res, next){
   try{
     // var order = 'desc';
-	  pool.query(sql.query.danalytics_22,(err, data) => {
-      if (data != undefined) {
-        console.log(data.rows)
-        res.render('danalytics', {
-          result: data.rows 
-        })
-      } else {
-        console.log('data is undefined')
-      }
-    });
+	  var own_analytics = await pool.query(sql.query.own_analytics, [driver_email])
+    if (own_analytics != undefined) {
+      pool.query(sql.query.danalytics_22,(err, data) => {
+        if (data != undefined) {
+          console.log(data.rows)
+          res.render('danalytics', {
+            own_analytics: own_analytics.rows, result: data.rows, 
+          })
+        } else {
+          console.log('data is undefined')
+        }
+      });
+    } else {
+      console.log('own analytics data is undefined')
+    }
   } catch {
     console.log('danalytics decreasing error');
   }
 })
 
-router.post('/dashboard', function(req, res, next){
+router.post('/dashboard', async function(req, res, next){
   res.redirect('../driver');
 })
 
