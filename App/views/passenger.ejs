@@ -95,26 +95,29 @@
         <h2 className="my-5"> Welcome <%= user_name%></h2>
         <div style="height:20px;"></div>
         <div class = "row">
-            <div class = "col">
-                <h5>Search for a Ride!</h5>
+            <div class = "col-12 my-5">
+                <h3>Search for a Ride!</h3>
         <form method="post" action="/passenger/search_advertisements" id="search_ride_form">
-
-                <label>Enter your start location:
-                        <input list="s_locations" name="start_location" id="s_locat"/></label>
+            <div class="form-group">
+                <label>Enter your start location:</label>
+                        <input type = "text" list="s_locations" name="start_location" id="s_locat" class = "form-control"/>
                         <datalist id="s_locations">
                             <% for (var i = 0; i < locations.length;  i++) { %>
                                 <option value="<%= locations[i].loc_name %>">
                             <% } %>
                         </datalist>
                         <br/>
+            </div>  
+            <div class = "form-group" > 
                         
-                <label>Enter your End location:
-                        <input list="e_locations" name="end_location" id="e_locat" /></label>
+                <label>Enter your End location:</label>
+                        <input type = "text" e_locations" name="end_location" id="e_locat" class = "form-control" />
                         <datalist id="e_locations">
                                 <% for (var i = 0; i < locations.length;  i++) { %>
                                     <option value="<%= locations[i].loc_name %>">
                                 <% } %>
                         </datalist>
+            </div>
 
             <!-- <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Start Location" aria-label="Recipient's username"
@@ -158,8 +161,8 @@
         </script>
     </div>
 
-    <div class = "col">
-        <h5>Bid for a Ride!</h5>
+    <div class = "col-12 my-5">
+        <h3>Bid for a Ride!</h3>
         
         <form method="post" action="/passenger/bid" id="bid_ride_form">
                 <div class="form-group">
@@ -238,6 +241,7 @@
     </div>
             
         <br/>
+
 
         <div class = "row">
             <div class = "col">
