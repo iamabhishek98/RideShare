@@ -12,61 +12,48 @@ const pool = new Pool({connectionString:process.env.DATABASE_URL})
 const sql = {}
 sql.query = {
     danalytics_basic: `select L.loc_name as location, T.total_bids, AB.average_bid
-    from Location L, 
-        (select distinct start_loc as location, avg(amount) as average_bid
-        from bid
-        group by location
-        ) AB, 
-        (select distinct start_loc as location, count(*) as total_bids
-        from bid
-        group by start_loc
-        ) T
-    where L.loc_name = AB.location and L.loc_name = T.location;
-     
-      `,
+                          from Location L, 
+                            (select distinct start_loc as location, avg(amount) as average_bid
+                            from bid
+                            group by location) AB, 
+                            (select distinct start_loc as location, count(*) as total_bids
+                            from bid
+                            group by start_loc) T
+                        where L.loc_name = AB.location and L.loc_name = T.location;`,
     
     danalytics_increasing: `select L.loc_name as location, T.total_bids, AB.average_bid
-    from Location L, 
-        (select distinct start_loc as location, avg(amount) as average_bid
-        from bid
-        group by location
-        ) AB, 
-        (select distinct start_loc as location, count(*) as total_bids
-        from bid
-        group by start_loc
-        ) T
-    where L.loc_name = AB.location and L.loc_name = T.location
-    order by T.total_bids asc; 
-    `,
+                              from Location L, 
+                                  (select distinct start_loc as location, avg(amount) as average_bid
+                                  from bid
+                                  group by location) AB, 
+                                  (select distinct start_loc as location, count(*) as total_bids
+                                  from bid
+                                  group by start_loc) T
+                              where L.loc_name = AB.location and L.loc_name = T.location
+                              order by T.total_bids asc; `,
     
     danalytics_decreasing: `select L.loc_name as location, T.total_bids, AB.average_bid
-    from Location L, 
-        (select distinct start_loc as location, avg(amount) as average_bid
-        from bid
-        group by location
-        ) AB, 
-        (select distinct start_loc as location, count(*) as total_bids
-        from bid
-        group by start_loc
-        ) T
-    where L.loc_name = AB.location and L.loc_name = T.location
-    order by T.total_bids desc;
-      `,
+                              from Location L, 
+                                  (select distinct start_loc as location, avg(amount) as average_bid
+                                  from bid
+                                  group by location) AB, 
+                                  (select distinct start_loc as location, count(*) as total_bids
+                                  from bid
+                                  group by start_loc) T
+                              where L.loc_name = AB.location and L.loc_name = T.location
+                              order by T.total_bids desc;`,
     
     danalytics_00:`select L.loc_name as location, T.total_bids, AB.average_bid
-    from Location L, 
-        (select distinct start_loc as location, avg(amount) as average_bid
-        from bid
-        where s_time between '00:00:00' and '02:00:00'
-        group by location
-        ) AB, 
-        (select distinct start_loc as location, count(*) as total_bids
-        from bid
-        where s_time between '00:00:00' and '02:00:00'
-        group by start_loc
-        ) T
-    where L.loc_name = AB.location and L.loc_name = T.location;
-    `,
+                    from Location L, 
+                        (select distinct start_loc as location, avg(amount) as average_bid
+                        from bid
+                        where s_time between '00:00:00' and '02:00:00'
+                        group by location) AB, 
+                        (select distinct start_loc as location, count(*) as total_bids
+                        from bid
+                        where s_time between '00:00:00' and '02:00:00'
+                        group by start_loc) T
+                    where L.loc_name = AB.location and L.loc_name = T.location;`,
 
     danalytics_02:`select L.loc_name as location, T.total_bids, AB.average_bid
     from Location L, 
@@ -233,7 +220,12 @@ sql.query = {
     where L.loc_name = AB.location and L.loc_name = T.location;
     `,
 
-    own_analytics : `select A.email_driver, A.avg_price, R.rating
+    own_analytics : `select * from
+                      ((select distinct email as email_driver, 0 as avg_price, 0 as rating
+                          from bid, driver
+                          where email not in (select distinct email_driver from bid where e_date is not null))
+                      union
+                      (select A.email_driver, A.avg_price, coalesce(R.rating,0)
                       from (select distinct email_driver, avg(amount) as avg_price
                               from bid 
                               where is_win is true
@@ -246,11 +238,12 @@ sql.query = {
                               and e_date is not null 
                               and e_time is not null
                               group by email_driver) R
-                      where A.email_driver = R.email_driver
-                      and A.email_driver = $1;`
+                      where A.email_driver = R.email_driver)) Q
+                      where email_driver = $1;`
 }
 //////////replace email with actual driver_email
 /* GET signup page. */
+var driver_email;
 router.get('/', function(req, res, next) {
   console.log("danalytics");
   if(req.session.passport == undefined){
@@ -258,7 +251,8 @@ router.get('/', function(req, res, next) {
     res.redirect('login');
   } else if(req.session.passport.user.id == "driver"){
     try{
-      pool.query(sql.query.own_analytics, ['jcashen7@aboutads.info'], (err, data) => {
+      driver_email = req.session.passport.user.email;
+      pool.query(sql.query.own_analytics, [driver_email], (err, data) => {
         if (data != undefined) {
           console.log(data.rows)
           pool.query(sql.query.danalytics_basic,(err, data2) => {
