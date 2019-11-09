@@ -212,7 +212,7 @@
             <script>
                 const trip_start_form = document.getElementById("trip_start_form");
                 const start_trip_num = document.getElementById("start_trip_num");
-                var num_bids = "<%= available_bids.length %>";
+                var num_bids = "<%= accepted_bids.length %>";
                 trip_start_form.addEventListener('submit', (e) => {
                     if(parseInt(start_trip_num.value) === NaN){
                         e.preventDefault();
