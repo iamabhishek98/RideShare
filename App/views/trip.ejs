@@ -70,27 +70,7 @@
     </div>
 
     <div class="container" style="background:white">
-        <h2 className="my-5"> Welcome </h2>
-
-        <form method = "post" action ="trip/endtrip">
-            <!-- <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="basic-addon1">Start Date and Time</span>
-                </div>
-                <input type="datetime-local" class="form-control" name = "start_datetime">
-              </div> -->
-
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="basic-addon1">End Date and Time</span>
-                </div>
-                <input type="datetime-local" class="form-control" name = "end_datetime">
-              </div>
-
-        <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">End Trip</button>
-    
-    
-    </form>
+        
 
     <br/>
     <h3>Your ongoing trips:</h3>
@@ -99,22 +79,44 @@
     <table class="table">
         <thead class="thead-dark">
           <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Passenger</th>
+            <th scope="col">Start Date</th>
             <th scope="col">Start Time</th>
             <th scope="col">Start Location</th>
             <th scope="col">End Location</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
+            <tr>
+                <tr>
+                    <td><%= String(current_trip.a_date).substring(0,16) %></td>
+                    <td><%= current_trip.a_time %></td>
+                    <td><%= current_trip.start_loc %></td>
+                    <td><%= current_trip.end_loc %></td>
 
+                </tr>  
             </tr>  
         </tbody>
       </table>
 
+      <form method = "post" action ="trip/endtrip">
+        <!-- <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">Start Date and Time</span>
+            </div>
+            <input type="datetime-local" class="form-control" name = "start_datetime">
+          </div> -->
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">End Date and Time</span>
+            </div>
+            <input type="datetime-local" class="form-control" name = "end_datetime">
+          </div>
+
+    <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">End Trip</button>
 
 
+    </form>
 
 
 
@@ -142,7 +144,7 @@
                 <tr>
                     <th scope="row"><%= i+1 %></th>
                     <td><%= trips[i].passenger %></td>
-                    <td><%= String(trips[i].e_date).substring(0,11) %></td>
+                    <td><%= String(trips[i].e_date).substring(0,16) %></td>
                     <td><%= trips[i].e_time %></td>
                     <td><%= trips[i].start_loc %></td>
                     <td><%= trips[i].end_loc %></td>
