@@ -48,6 +48,7 @@ create table message(
     primary key (msg_time, msg_date, sender_email, receiver_email) 
 );
 
+/*should be preloaded with data*/
 create table location(
     loc_name varchar(256) primary key,
     loc_add varchar(256) not null
@@ -75,7 +76,7 @@ create table advertisesTrip(
     primary key(email, vehicle, start_loc, a_date, a_time)
 );
 
-/*changed bid recently*/
+
 create table bid(
     is_win boolean default false,
     amount float not null,
@@ -97,6 +98,7 @@ create table bid(
     --foreign key (email_driver, vehicle, start_loc, s_date, s_time) references advertisesTrip(email, vehicle, start_loc, a_date, a_time)
 );
 
+/*should be preloaded with data*/
 create table discount(
     description varchar(256),
     tier numeric not null,
@@ -108,7 +110,6 @@ create table gets (
     email varchar(256) references passenger(email),
     tier numeric references discount(tier),
     is_used boolean default false,
-    exp_date date not null,
     primary key(email, tier)
 );
 
