@@ -56,169 +56,136 @@ sql.query = {
                     where L.loc_name = AB.location and L.loc_name = T.location;`,
 
     danalytics_02:`select L.loc_name as location, T.total_bids, AB.average_bid
-    from Location L, 
-        (select distinct start_loc as location, avg(amount) as average_bid
-        from bid
-        where s_time between '02:00:00' and '04:00:00'
-        group by location
-        ) AB, 
-        (select distinct start_loc as location, count(*) as total_bids
-        from bid
-        where s_time between '02:00:00' and '04:00:00'
-        group by start_loc
-        ) T
-    where L.loc_name = AB.location and L.loc_name = T.location;
-    `,
+                    from Location L, 
+                        (select distinct start_loc as location, avg(amount) as average_bid
+                        from bid
+                        where s_time between '02:00:00' and '04:00:00'
+                        group by location) AB, 
+                        (select distinct start_loc as location, count(*) as total_bids
+                        from bid
+                        where s_time between '02:00:00' and '04:00:00'
+                        group by start_loc) T
+                    where L.loc_name = AB.location and L.loc_name = T.location;`,
 
     danalytics_04:`select L.loc_name as location, T.total_bids, AB.average_bid
-    from Location L, 
-        (select distinct start_loc as location, avg(amount) as average_bid
-        from bid
-        where s_time between '04:00:00' and '06:00:00'
-        group by location
-        ) AB, 
-        (select distinct start_loc as location, count(*) as total_bids
-        from bid
-        where s_time between '04:00:00' and '06:00:00'
-        group by start_loc
-        ) T
-    where L.loc_name = AB.location and L.loc_name = T.location;
-    `,
+                    from Location L, 
+                        (select distinct start_loc as location, avg(amount) as average_bid
+                        from bid
+                        where s_time between '04:00:00' and '06:00:00'
+                        group by location) AB, 
+                        (select distinct start_loc as location, count(*) as total_bids
+                        from bid
+                        where s_time between '04:00:00' and '06:00:00'
+                        group by start_loc) T
+                    where L.loc_name = AB.location and L.loc_name = T.location;`,
 
     danalytics_06:`select L.loc_name as location, T.total_bids, AB.average_bid
-    from Location L, 
-        (select distinct start_loc as location, avg(amount) as average_bid
-        from bid
-        where s_time between '06:00:00' and '08:00:00'
-        group by location
-        ) AB, 
-        (select distinct start_loc as location, count(*) as total_bids
-        from bid
-        where s_time between '06:00:00' and '08:00:00'
-        group by start_loc
-        ) T
-    where L.loc_name = AB.location and L.loc_name = T.location;
-    `,
+                    from Location L, 
+                        (select distinct start_loc as location, avg(amount) as average_bid
+                        from bid
+                        where s_time between '06:00:00' and '08:00:00'
+                        group by location) AB, 
+                        (select distinct start_loc as location, count(*) as total_bids
+                        from bid
+                        where s_time between '06:00:00' and '08:00:00'
+                        group by start_loc) T
+                    where L.loc_name = AB.location and L.loc_name = T.location;`,
 
     danalytics_08:`select L.loc_name as location, T.total_bids, AB.average_bid
-    from Location L, 
-        (select distinct start_loc as location, avg(amount) as average_bid
-        from bid
-        where s_time between '08:00:00' and '10:00:00'
-        group by location
-        ) AB, 
-        (select distinct start_loc as location, count(*) as total_bids
-        from bid
-        where s_time between '08:00:00' and '10:00:00'
-        group by start_loc
-        ) T
-    where L.loc_name = AB.location and L.loc_name = T.location;
-    `,
+                    from Location L, 
+                        (select distinct start_loc as location, avg(amount) as average_bid
+                        from bid
+                        where s_time between '08:00:00' and '10:00:00'
+                        group by location) AB, 
+                        (select distinct start_loc as location, count(*) as total_bids
+                        from bid
+                        where s_time between '08:00:00' and '10:00:00'
+                        group by start_loc) T
+                    where L.loc_name = AB.location and L.loc_name = T.location;`,
 
     danalytics_10:`select L.loc_name as location, T.total_bids, AB.average_bid
-    from Location L, 
-        (select distinct start_loc as location, avg(amount) as average_bid
-        from bid
-        where s_time between '10:00:00' and '12:00:00'
-        group by location
-        ) AB, 
-        (select distinct start_loc as location, count(*) as total_bids
-        from bid
-        where s_time between '10:00:00' and '12:00:00'
-        group by start_loc
-        ) T
-    where L.loc_name = AB.location and L.loc_name = T.location;
-    `,
+                    from Location L, 
+                        (select distinct start_loc as location, avg(amount) as average_bid
+                        from bid
+                        where s_time between '10:00:00' and '12:00:00'
+                        group by location) AB, 
+                        (select distinct start_loc as location, count(*) as total_bids
+                        from bid
+                        where s_time between '10:00:00' and '12:00:00'
+                        group by start_loc) T
+                    where L.loc_name = AB.location and L.loc_name = T.location;`,
 
     danalytics_12:`select L.loc_name as location, T.total_bids, AB.average_bid
-    from Location L, 
-        (select distinct start_loc as location, avg(amount) as average_bid
-        from bid
-        where s_time between '12:00:00' and '14:00:00'
-        group by location
-        ) AB, 
-        (select distinct start_loc as location, count(*) as total_bids
-        from bid
-        where s_time between '12:00:00' and '14:00:00'
-        group by start_loc
-        ) T
-    where L.loc_name = AB.location and L.loc_name = T.location;
-    `,
+                    from Location L, 
+                        (select distinct start_loc as location, avg(amount) as average_bid
+                        from bid
+                        where s_time between '12:00:00' and '14:00:00'
+                        group by location) AB, 
+                        (select distinct start_loc as location, count(*) as total_bids
+                        from bid
+                        where s_time between '12:00:00' and '14:00:00'
+                        group by start_loc) T
+                    where L.loc_name = AB.location and L.loc_name = T.location;`,
 
     danalytics_14:`select L.loc_name as location, T.total_bids, AB.average_bid
-    from Location L, 
-        (select distinct start_loc as location, avg(amount) as average_bid
-        from bid
-        where s_time between '14:00:00' and '16:00:00'
-        group by location
-        ) AB, 
-        (select distinct start_loc as location, count(*) as total_bids
-        from bid
-        where s_time between '14:00:00' and '16:00:00'
-        group by start_loc
-        ) T
-    where L.loc_name = AB.location and L.loc_name = T.location;
-    `,
+                    from Location L, 
+                        (select distinct start_loc as location, avg(amount) as average_bid
+                        from bid
+                        where s_time between '14:00:00' and '16:00:00'
+                        group by location) AB, 
+                        (select distinct start_loc as location, count(*) as total_bids
+                        from bid
+                        where s_time between '14:00:00' and '16:00:00'
+                        group by start_loc) T
+                    where L.loc_name = AB.location and L.loc_name = T.location;`,
 
     danalytics_16:`select L.loc_name as location, T.total_bids, AB.average_bid
-    from Location L, 
-        (select distinct start_loc as location, avg(amount) as average_bid
-        from bid
-        where s_time between '16:00:00' and '18:00:00'
-        group by location
-        ) AB, 
-        (select distinct start_loc as location, count(*) as total_bids
-        from bid
-        where s_time between '16:00:00' and '18:00:00'
-        group by start_loc
-        ) T
-    where L.loc_name = AB.location and L.loc_name = T.location;
-    `,
+                    from Location L, 
+                        (select distinct start_loc as location, avg(amount) as average_bid
+                        from bid
+                        where s_time between '16:00:00' and '18:00:00'
+                        group by location) AB, 
+                        (select distinct start_loc as location, count(*) as total_bids
+                        from bid
+                        where s_time between '16:00:00' and '18:00:00'
+                        group by start_loc) T
+                    where L.loc_name = AB.location and L.loc_name = T.location;`,
 
     danalytics_18:`select L.loc_name as location, T.total_bids, AB.average_bid
-    from Location L, 
-        (select distinct start_loc as location, avg(amount) as average_bid
-        from bid
-        where s_time between '18:00:00' and '20:00:00'
-        group by location
-        ) AB, 
-        (select distinct start_loc as location, count(*) as total_bids
-        from bid
-        where s_time between '18:00:00' and '20:00:00'
-        group by start_loc
-        ) T
-    where L.loc_name = AB.location and L.loc_name = T.location;
-    `,
+                    from Location L, 
+                        (select distinct start_loc as location, avg(amount) as average_bid
+                        from bid
+                        where s_time between '18:00:00' and '20:00:00'
+                        group by location) AB, 
+                        (select distinct start_loc as location, count(*) as total_bids
+                        from bid
+                        where s_time between '18:00:00' and '20:00:00'
+                        group by start_loc) T
+                    where L.loc_name = AB.location and L.loc_name = T.location;`,
 
     danalytics_20:`select L.loc_name as location, T.total_bids, AB.average_bid
-    from Location L, 
-        (select distinct start_loc as location, avg(amount) as average_bid
-        from bid
-        where s_time between '20:00:00' and '22:00:00'
-        group by location
-        ) AB, 
-        (select distinct start_loc as location, count(*) as total_bids
-        from bid
-        where s_time between '20:00:00' and '22:00:00'
-        group by start_loc
-        ) T
-    where L.loc_name = AB.location and L.loc_name = T.location;
-    `,
+                    from Location L, 
+                        (select distinct start_loc as location, avg(amount) as average_bid
+                        from bid
+                        where s_time between '20:00:00' and '22:00:00'
+                        group by location) AB, 
+                        (select distinct start_loc as location, count(*) as total_bids
+                        from bid
+                        where s_time between '20:00:00' and '22:00:00'
+                        group by start_loc) T
+                    where L.loc_name = AB.location and L.loc_name = T.location;`,
 
     danalytics_22:`select L.loc_name as location, T.total_bids, AB.average_bid
-    from Location L, 
-        (select distinct start_loc as location, avg(amount) as average_bid
-        from bid
-        where s_time between '22:00:00' and '00:00:00'
-        group by location
-        ) AB, 
-        (select distinct start_loc as location, count(*) as total_bids
-        from bid
-        where s_time between '22:00:00' and '00:00:00'
-        group by start_loc
-        ) T
-    where L.loc_name = AB.location and L.loc_name = T.location;
-    `,
+                    from Location L, 
+                        (select distinct start_loc as location, avg(amount) as average_bid
+                        from bid
+                        where s_time between '22:00:00' and '00:00:00'
+                        group by location) AB, 
+                        (select distinct start_loc as location, count(*) as total_bids
+                        from bid
+                        where s_time between '22:00:00' and '00:00:00'
+                        group by start_loc) T
+                    where L.loc_name = AB.location and L.loc_name = T.location;`,
 
     own_analytics : `select * from
                       ((select distinct email as email_driver, 0 as avg_price, 0 as rating
