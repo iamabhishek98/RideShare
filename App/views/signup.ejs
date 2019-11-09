@@ -81,20 +81,20 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="inputPassword4">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                 </div>
             </div>
             <div class="form-grpup">
                 <label for="inputEmail4">Email</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
             </div>
             <div class="form-group">
                 <label for="inputCity">Credit Card Number</label>
-                <input type="text" class="form-control" id="creditCardNum" name ="credit_card">
+                <input type="text" class="form-control" id="creditCardNum" name ="credit_card" required>
             </div>
 
             <h5>Register As:</h5>
@@ -120,7 +120,7 @@
 
                 <div class="form-group">
                         <label for="inputCity">Capacity (num of passangers it can hold):</label>
-                        <input type="text" class="form-control" id="vehicleNum" name="vehPaxNum">
+                        <input type="text" class="form-control" id="vehiclePaxNum" name="vehPaxNum">
                     </div>
             </div>
             <br>
@@ -130,6 +130,43 @@
     </div>
     <div style="height:40px"></div>
 
+    <script>
+
+        /**
+         *  form validation:
+         *  1. all fields must be non empty except driver fields(veh num and pax)
+         *  2. to be driver, must provide veh num and pax
+         */
+        const form = document.getElementById('signup_form');
+        const name = document.getElementById('name');
+        const password = document.getElementById('password');
+        const email = document.getElementById('email');
+         const creditCardNum = document.getElementById('creditCardNum');
+        const vehicleNum = document.getElementById('vehicleNum');
+        const vehPaxNum = document.getElementById('vehiclePaxNum');
+        
+        form.addEventListener('submit', (e) => {
+            if(vehicleNum.value === '' && vehPaxNum.value === ''){
+                 //good
+            } else if (vehicleNum.value !== '' && vehPaxNum.value !== ''){
+                //good
+                if(Number.isInteger(parseInt(vehPaxNum.value))
+                    && vehicleNum.value.length == 8 
+                    && vehPaxNum.value >= 1 && vehPaxNum.value <= 6){
+                        //good
+                    } else {
+                        e.preventDefault();
+                        alert("Ensure vehicle number is 8 characters long, pax must be integer from 1 to 6")
+                    }
+            } else {
+                //no good
+                e.preventDefault();
+                alert("To be driver, provide both vehicle number and capacity");
+            }
+            
+        })
+
+    </script>
     <script>
             (function () {
                 window.addEventListener('load', function () {

@@ -96,10 +96,10 @@
         <div class = "row">
             <div class = "col">
                 <h5>Search for a Ride!</h5>
-        <form method="post" action="/passenger/search_advertisements">
+        <form method="post" action="/passenger/search_advertisements" id="search_ride_form">
 
                 <label>Enter your start location:
-                        <input list="s_locations" name="start_location" /></label>
+                        <input list="s_locations" name="start_location" id="s_locat"/></label>
                         <datalist id="s_locations">
                             <% for (var i = 0; i < locations.length;  i++) { %>
                                 <option value="<%= locations[i].loc_name %>">
@@ -108,7 +108,7 @@
                         <br/>
                         
                 <label>Enter your End location:
-                        <input list="e_locations" name="end_location" /></label>
+                        <input list="e_locations" name="end_location" id="e_locat" /></label>
                         <datalist id="e_locations">
                                 <% for (var i = 0; i < locations.length;  i++) { %>
                                     <option value="<%= locations[i].loc_name %>">
@@ -135,24 +135,68 @@
             <button type="submit" class="btn btn-primary" id="loginbtn">Search</button>
         
         </form>
+
+        <script>
+            const search_ride_form = document.getElementById('search_ride_form');
+            const start_loc = document.getElementById('s_locat');
+            const end_loc = document.getElementById('e_locat');
+
+            search_ride_form.addEventListener('submit', (e) => {
+                if(start_loc.value === ''|| end_loc.value === ''){
+                    e.preventDefault();
+                    console.log(start_loc.value);
+                    console.log(end_loc.value);
+                    console.log("meow");
+                    alert("Please enter origin and destination!");
+                } else if (start_loc.value === end_loc.value){
+                    e.preventDefault();
+                    alert("Origin and destination cannot be the same");
+                }
+            })
+
+        </script>
     </div>
 
     <div class = "col">
         <h5>Bid for a Ride!</h5>
         
-        <form method="post" action="/passenger/bid2">
+        <form method="post" action="/passenger/bid" id="bid_ride_form">
                 <div class="form-group">
                   <label for="exampleInputEmail1">Bid Number</label>
-                  <input type="text" class="form-control" id="exampleInputEmail1" name = "bid_num" placeholder="Bid Number">
+                  <input type="text" class="form-control" id="bid_num" name = "bid_num" placeholder="Bid Number">
                 
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Bid Value</label>
-                  <input type="text" class="form-control" id="exampleInputPassword1" name="bid_val" placeholder="Bid Amount">
+                  <input type="text" class="form-control" id="bid_val" name="bid_val" placeholder="Bid Amount">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
     </div>
+
+
+    <script>
+        const form = document.getElementById("bid_ride_form");
+        const bid_number = document.getElementById("bid_num");
+        const bid_value = document.getElementById("bid_val");
+        var num_advertisements = "<%= advertisements.length %>";
+        console.log(num_advertisements);
+
+        form.addEventListener('submit', (e) => {
+            if(bid_number.value === '' || bid_value.value === ''){
+                e.preventDefault();
+                alert("You must enter both the bid number as well as bid value")
+            } 
+            else if(!Number.isInteger(parseInt(bid_number.value)) || parseFloat(bid_value.value) === NaN){
+                e.preventDefault();
+                alert("Invalid input");
+            } else if(parseInt(bid_number.value) < 1 || parseInt(bid_number.value) > num_advertisements || parseFloat(bid_value.value) < 0){
+                e.preventDefault();
+                alert("Bid Number must be integer and at least one. Cannot be more than " + num_advertisements+" Also, Bid value cannot be less than 0");
+            }
+        })
+
+    </script>
 
     <!-- <div class = "col">
             <form method = "post" action="/passenger/fav_song">
@@ -168,13 +212,76 @@
     </div>
             
         <br/>
-    
+
+        <div class = "row">
+            <div class = "col">
+                <h3>Your Current bids</h3>
+            </div>
+            
+            <div class = "col">
+                    <form method="post" action="/passenger/del_bid" id="del_bid_form">
+                    <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Bid Num to Delete" name="del_index" id="del_bid_input">
+                            <div class="input-group-append">
+                              <button class="btn btn-primary" type="submit">Delete</button>
+                            </div>
+                            
+                          </div>
+                        </form>
+            </div>
+        </div>
+
+        <script>
+            
+            const del_bid_form = document.getElementById("del_bid_form");
+            const del_bid_input = document.getElementById("del_bid_input");
+            //Samuel, implement ejs to do data verification here
+
+            del_bid_form.addEventListener('submit', (e) => {
+                if(parseInt(del_bid_input.value) === NaN){
+                    e.preventDefault();
+                    alert("Invalid bid index to delete");
+                } else if(parseInt(del_bid_input.value) < 1){
+                    e.preventDefault();
+                    alert("Bid index to delete has to be more than 1");
+                }
+            })
+        </script>
+
+
+        <br/>
+        <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Driver Name</th>
+                        <th scope="col">Start Location</th>
+                        <th scope="col">End Location</th>
+                        <th scope="col">Est. Arrival Date</th>
+                        <th scope="col">Est. Arrival Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                 <tr>
+                    <% for (var i = 0; i < current_bids.length;  i++) { %>
+                        <tr>
+                            <th scope="row"><%= i+1 %></th>
+                            <td><%= current_bids[i].driver %></td>
+                            <td><%= current_bids[i].start_loc %></td>
+                            <td><%= current_bids[i].end_loc %></td>
+                            <td><%= String(current_bids[i].s_date).substring(0,11) %></td>
+                            <td><%= current_bids[i].s_time %></td>
+                        </tr>    
+                        <% } %>
+                    </tr>
+                </tbody>
+            </table>
+        <br/>
     
         <!-- <form method="post" action="/passenger/start_trip">
                 <button type="submit" class="btn btn-primary" id="loginbtn">Start Trip</button>
         </form> -->
 
-        <br/>
         <h3>Recommended Drivers</h3>
         <br/>
         <table class="table">
@@ -189,13 +296,12 @@
                     <!--Do u want it to be a form? If not, just remove the corresponding form tags-->
                         <form method = "post" action = "/passenger/recc_drivers">
                     <tr>
-                        <!--Abhishek, change the ejs here to show recommended drivers details-->
-                    <% for (var i = 0; i < recommended.length;  i++) { %>
-                        <tr>
-                            <th scope="row"><%= recommended[i].name %></td>
-                            <td><%= recommended[i].rating %></td>
-                            <td><%= recommended[i].common_songs %></td>
-                        </tr>    
+                         <% for (var i = 0; i < recommended.length;  i++) { %>
+                            <tr>
+                                <th scope="row"><%= recommended[i].name %></td>
+                                <td><%= recommended[i].rating %></td>
+                                <td><%= recommended[i].common_songs %></td>
+                            </tr>    
                         <% } %>
                     </tr>
                     </form>
@@ -226,6 +332,7 @@
         <table class="table">
             <thead class="thead-dark">
                 <tr>
+                    <th scope="col">Id</th>
                     <th scope="col">Driver Name</th>
                     <th scope="col">Start Location</th>
                     <th scope="col">End Location</th>
@@ -240,10 +347,11 @@
                 <tr>
                 <% for (var i = 0; i < advertisements.length;  i++) { %>
                     <tr>
-                        <th scope="row"><%= advertisements[i].name %></td>
+                        <th scope="row"><%= i+1 %></th>
+                        <td><%= advertisements[i].name %></td>
                         <td><%= advertisements[i].start_loc %></td>
                         <td><%= advertisements[i].end_loc %></td>
-                        <td><%= advertisements[i].a_date %></td>
+                        <td><%= String(advertisements[i].a_date).substring(0,11) %></td>
                         <td><%= advertisements[i].a_time %></td>
                         <td><%= advertisements[i].current_pax %></td>
                         <!-- <td><div class="input-group mb-3">
