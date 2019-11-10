@@ -24,8 +24,12 @@ To start the client on localhost:3000:
 ```
 $ node bin/www
 ```
-## Instructions to Running Schema on PSQL prior to usage
+## Dependencies
+```
+npm i passport passport-local express-session express-flash dotenv bcrypt
+```
 
+## Instructions to Running Schema on PSQL prior to usage
 ```
 Run schema.sql in the directory Backend in your psql database before using the website
 ```
