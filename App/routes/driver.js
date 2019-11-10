@@ -34,8 +34,9 @@ sql.query = {
                             from passenger P, bid B
                             where P.email = B.email_bidder) N
                         where B.email_bidder = N.email
-                        and B.email_driver = $1
-                        and B.is_win is true;`,
+                        and B.is_win is true
+                        and B.e_date is null
+                        and B.email_driver = $1;`,
 
     available_adverts : `select distinct A.start_loc, A.end_loc, A.a_date, A.a_time, CP.email_driver, CP.vehicle, CP.current_pax
                             from advertisestrip A, 

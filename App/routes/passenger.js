@@ -265,9 +265,10 @@ router.post('/bid', async function(req, res, next){
 
     var discount_val = req.body.discountpicker;
 
+    console.log("discount index" + discount_val);
     var discount = await pool.query(sql.query.avail_discount, [passenger_email]);
 
-    if (discount != undefined) {
+    if (discount != undefined && discount_val != undefined) {
             console.log(discount.rows);
             var discounted = discount.rows;
             console.log(parseFloat(bid_val));
@@ -285,11 +286,10 @@ router.post('/bid', async function(req, res, next){
             bid_val = parseFloat(bid_val) - (parseFloat(bid_val)*parseFloat(discounted[discount_val].discount));
 
             console.log(bid_val);
-       } else {
-           console.log('discount data is undefined')
-       }
+    } else {
+        console.log('discount data is undefined')
+    }
 
-    console.log("discount index" + discount_val);
     var avail_data = await pool.query(sql.query.avail_advertisements)
     if (avail_data != undefined) {
         console.log(avail_data.rows)

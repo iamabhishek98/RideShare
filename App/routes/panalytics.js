@@ -629,7 +629,7 @@ sql.query = {
   
   own_analytics : `select * from 
                     ((select distinct email as email_bidder, 0 as expenditure, 0 as avg_price, 0 as current_tier, 0 as discount_coupons
-                    from bid, passenger
+                    from passenger
                     where email not in (select distinct email_bidder from bid where e_date is not null))
                     union
                     (select distinct T.email_bidder, T.expenditure, A.avg_price, DP.tier as current_tier, DC.count as discount_coupons
@@ -661,10 +661,18 @@ sql.query = {
                                             group by email_bidder) TE) T, 
                             discount D
                             where D.tier = T.tier) DP,
-                        (select distinct email, count(*)
-                            from gets
-                            where is_used is false
-                            group by email) DC
+                        (select D.email, count(A.count)
+                          from (select distinct email, count(*)
+                                    from gets
+                                    group by email) D
+                              left join
+                              (select distinct email, count(*)
+                                    from gets
+                                    where is_used is false
+                                    and tier != '0'
+                                    group by email) A
+                                    on D.email = A.email
+                                    group by D.email) DC
                     where T.email_bidder = A.email_bidder
                     and T.email_bidder = DP.email_bidder
                     and T.email_bidder = DC.email)) Q
