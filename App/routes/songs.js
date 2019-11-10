@@ -21,7 +21,8 @@ sql.query = {
     insert_song_likes : `INSERT INTO likes(email, name) VALUES($1, $2);`,
     insert_song_plays: "insert into plays(email, name) values($1, $2)",
     delete_likes : `DELETE FROM likes WHERE email = $1 and name = $2;`,
-    delete_plays: `DELETE FROM plays WHERE email = $1 and name = $2;`
+    delete_plays: `DELETE FROM plays WHERE email = $1 and name = $2;`,
+    delete_song: 'delete from songs where name = $1'
     // not adding delete song coz other users might be liking the same song
 }
 
@@ -151,6 +152,12 @@ router.post('/delete_song', async function(req, res, next){
         } else {
             console.log('delete song likes data is undefined')
         }
+        var delete_the_song = await pool.query(sql.query.delete_song, [name]);
+        if(delete_the_song != undefined){
+            console.log("the song deleted form song table");
+        } else {
+            console.log("song  not delete. PROBLEM!");
+        }
     
     } else if(req.session.passport.user.id == "driver"){
         var play_songs_data = await pool.query(sql.query.play_songs, [user_email]);
@@ -168,6 +175,19 @@ router.post('/delete_song', async function(req, res, next){
         } else {
             console.log('delete song likes data is undefined')
         }
+
+        // try{
+        //     var delete_the_song = await pool.query(sql.query.delete_song, [name]);
+        //     if(delete_the_song != undefined){
+        //         console.log("the song deleted form song table");
+        //     } else {
+        //         console.log("song  not delete. PROBLEM!");
+        //     }
+        // } catch(e){
+        //     console.log(e);
+        //     redirect('./');
+        // }
+
     
     }
 

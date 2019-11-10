@@ -381,7 +381,8 @@ router.post('/search_advertisements', function(req, res, next){
                                 recommended : data.rows, 
                                 advertisements: data2.rows,
                                 locations: data3.rows,
-                                current_bids: data4.rows
+                                current_bids: data4.rows,
+                                user_name: req.session.passport.user.name
                             })
                         } else {
                             console.log('available advertisements data is undefined')
