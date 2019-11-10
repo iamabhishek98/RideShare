@@ -179,41 +179,79 @@ router.post('/endtrip', async function(req, res, next){
         }
     } else {
         console.log('all advertisements data is undefined')
-    }
-
-    console.log("CURRRENT DATE TIME:::::");
-    console.log(s_date);
-    console.log(s_time);
-    console.log(end_date_time);
-    s_date = (s_date+'').split("T")[0];
-    
-    var start_spec = s_date + "T"+s_time;
-    if(Date.parse(end_date_time) < start_spec){
-        console.log("TRIP CANNOT END EARLIER THAN IT STARTED");
-        res.redirect('../trip');
-    } 
+    }    
 
     console.log("TIME INFORMATIN;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;");
     console.log(end_date_time);
     console.log(s_date);
     console.log(s_time);
-    //var StartDate = new Date((s_date.toString()).split("T")[0]);
-    var EndDate = new Date((end_date_time+'').split("T")[0]);
-    console.log("MEOWWWWWWW");
-    console.log(s_date+'');
-    console.log((new Date(s_date)).toISOString);
 
-    console.log()
-    // console.log(s_date.toString());
-    // console.log(s_date.getMonth());
-    // console.log(s_date.getFullYear());
-    // console.log(s_date.getDate());
-    var StartDate = new Date((s_date.toISOString).split("T")[0]);
-    console.log(StartDate);
-    console.log(EndDate);
+    var EndYear = (end_date_time+"").split("T")[0].split("-")[0];
+    var EndMonth = (end_date_time+"").split("T")[0].split("-")[1];
+    var EndDay = (end_date_time+"").split("T")[0].split("-")[2];
+
+    var EndHour = (end_date_time+"").split("T")[1].split(":")[0];
+    var EndMin = (end_date_time+"").split("T")[1].split(":")[1];
+
+    var StartYear = (s_date+"").split(" ")[3];
+    var StartMonth =(s_date+"").split(" ")[1];
+    var StartDay = (s_date+"").split(" ")[2];
+
+    var StartHour = (s_time+"").split(":")[0];
+    var StartMin = (s_time+"").split(":")[1];
+
+    switch(StartMonth){
+        case "Jan":
+            StartMonth = 1;
+            break;
+        case "Feb":
+            StartMonth = 2;
+            break;
+        case "Mar":
+            StartMonth = 3;
+            break;
+        case "Apr":
+            StartMonth = 4;
+            break;
+        case "May":
+            StartMonth = 5;
+            break;
+        case "Jun":
+            StartMonth = 6;
+            break;
+        case "Jul":
+            StartMonth = 7;
+            break;
+        case "Aug":
+            StartMonth = 8;
+            break;
+        case "Sep":
+            StartMonth = 9;
+            break;
+        case "Oct":
+            StartMonth = 10;
+            break;
+        case "Nov":
+            StartMonth = 11;
+            break;
+        case "Dec":
+            StartMonth = 12;
+            break;
+        default:
+            StartMonth = "err";
+            break;
+    }
     var valid_end_date = false;
+    var St_Date = new Date(StartYear, StartMonth - 1, StartDay, StartHour, StartMin, 0, 0);
+    var En_Date = new Date(EndYear, EndMonth -1, EndDay, EndHour, EndMin, 0, 0);
+    console.log(St_Date);
+    console.log(En_Date);
+    if(En_Date >= St_Date){
+        valid_end_date = true;
+    }
+    console.log(valid_end_date);
 
-    if (vehicle != undefined && start_loc != undefined && end_loc != undefined && s_date != undefined && s_time != undefined) {
+    if (valid_end_date && vehicle != undefined && start_loc != undefined && end_loc != undefined && s_date != undefined && s_time != undefined) {
 
 
         // delete losing bids first
