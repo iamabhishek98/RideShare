@@ -159,6 +159,8 @@ router.post('/endtrip', async function(req, res, next){
     var s_date;
     var s_time;
 
+
+
     //get trip information
     var all_adverts = await pool.query(sql.query.all_advertisements, [driver_email]);
     if (all_adverts != undefined) {
@@ -179,23 +181,44 @@ router.post('/endtrip', async function(req, res, next){
         console.log('all advertisements data is undefined')
     }
 
-    // console.log("CURRRENT DATE TIME:::::");
-    // console.log(s_date);
-    // console.log(s_time);
-    // console.log(end_date_time);
-    // s_date = (s_date+'').split("T")[0];
+    console.log("CURRRENT DATE TIME:::::");
+    console.log(s_date);
+    console.log(s_time);
+    console.log(end_date_time);
+    s_date = (s_date+'').split("T")[0];
     
-    // var start_spec = s_date + "T"+s_time;
-    // if(Date.parse(end_date_time) < start_spec){
-    //     console.log("TRIP CANNOT END EARLIER THAN IT STARTED");
-    //     res.redirect('../trip');
-    // } 
-    
+    var start_spec = s_date + "T"+s_time;
+    if(Date.parse(end_date_time) < start_spec){
+        console.log("TRIP CANNOT END EARLIER THAN IT STARTED");
+        res.redirect('../trip');
+    } 
+
+    console.log("TIME INFORMATIN;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;");
+    console.log(end_date_time);
+    console.log(s_date);
+    console.log(s_time);
+    //var StartDate = new Date((s_date.toString()).split("T")[0]);
+    var EndDate = new Date((end_date_time+'').split("T")[0]);
+    console.log("MEOWWWWWWW");
+    console.log(s_date+'');
+    console.log((new Date(s_date)).toISOString);
+
+    console.log()
+    // console.log(s_date.toString());
+    // console.log(s_date.getMonth());
+    // console.log(s_date.getFullYear());
+    // console.log(s_date.getDate());
+    var StartDate = new Date((s_date.toISOString).split("T")[0]);
+    console.log(StartDate);
+    console.log(EndDate);
+    var valid_end_date = false;
+
     if (vehicle != undefined && start_loc != undefined && end_loc != undefined && s_date != undefined && s_time != undefined) {
 
 
         // delete losing bids first
-        var delete_losing_bids = await pool.query(sql.query.delete_losing_bids, [driver_email, vehicle, start_loc, end_loc, s_date, s_time])
+        try{
+            var delete_losing_bids = await pool.query(sql.query.delete_losing_bids, [driver_email, vehicle, start_loc, end_loc, s_date, s_time])
         if (delete_losing_bids != undefined) {
             console.log(delete_losing_bids)
         } else {
@@ -223,8 +246,12 @@ router.post('/endtrip', async function(req, res, next){
             console.log('complete trip data is undefined')
         }
         res.redirect('../driver');
+        } catch(e){
+            console.log(e);
+            res.redirect('../trip');
+        }
     }
-    res.redirect('./');
+    res.redirect('../trip');
 })
 
 router.post('/dashboard', function(req, res, next){
