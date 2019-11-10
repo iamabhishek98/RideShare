@@ -265,9 +265,10 @@ router.post('/bid', async function(req, res, next){
 
     var discount_val = req.body.discountpicker;
 
+    console.log("discount index" + discount_val);
     var discount = await pool.query(sql.query.avail_discount, [passenger_email]);
 
-    if (discount != undefined) {
+    if (discount != undefined && discount_val != undefined) {
             console.log(discount.rows);
             var discounted = discount.rows;
             console.log(parseFloat(bid_val));
@@ -285,11 +286,10 @@ router.post('/bid', async function(req, res, next){
             bid_val = parseFloat(bid_val) - (parseFloat(bid_val)*parseFloat(discounted[discount_val].discount));
 
             console.log(bid_val);
-       } else {
-           console.log('discount data is undefined')
-       }
+    } else {
+        console.log('discount data is undefined')
+    }
 
-    console.log("discount index" + discount_val);
     var avail_data = await pool.query(sql.query.avail_advertisements)
     if (avail_data != undefined) {
         console.log(avail_data.rows)
@@ -373,22 +373,28 @@ router.post('/search_advertisements', function(req, res, next){
             pool.query(sql.query.search_advertisements, [start_location, end_location], (err, data2) => {
                 pool.query(sql.query.favourite_location, [passenger_email], (err, data3) => {                           
                     pool.query(sql.query.current_bids, [passenger_email], (err, data4) => {
-                        if (data2 != undefined && data3 != undefined && data4 != undefined) {
-                            console.log(data2.rows);
-                            console.log(data3.rows);
-                            console.log(data4.rows)
-                            res.render('passenger', {
-                                recommended : data.rows, 
-                                advertisements: data2.rows,
-                                locations: data3.rows,
-                                current_bids: data4.rows,
-                                user_name: req.session.passport.user.name
+                        pool.query(sql.query.insert_tier, (err, result) => {
+                            pool.query(sql.query.avail_discount, [passenger_email], (err, data6) => {
+                                if (data2 != undefined && data3 != undefined && data4 != undefined && result != undefined) {
+                                    console.log(data2.rows);
+                                    console.log(data3.rows);
+                                    console.log(data4.rows);
+                                    console.log(data6.rows)
+                                    res.render('passenger', {
+                                        recommended : data.rows, 
+                                        advertisements: data2.rows,
+                                        locations: data3.rows,
+                                        current_bids: data4.rows,
+                                        avail_discount: data6.rows,
+                                        user_name: req.session.passport.user.name
+                                    })
+                                } else {
+                                    console.log('available advertisements data is undefined')
+                                }
                             })
-                        } else {
-                            console.log('available advertisements data is undefined')
-                        }
+                        })
+                        
                     })
-                    
                 })
             })
         } else {

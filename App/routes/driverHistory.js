@@ -7,7 +7,7 @@ const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 const sql = {};
 sql.query = {
-    list_trips : `select distinct P.name as passenger, B.email_bidder, B.email_driver, B.e_date, B.e_time, B.start_loc, B.end_loc, B.review, B.rating 
+    list_trips : `select distinct P.name as passenger, B.email_bidder, B.amount, B.email_driver, B.e_date, B.e_time, B.start_loc, B.end_loc, B.review, B.rating 
                     from bid B, passenger P
                     where B.e_date is not null
                     and P.email = B.email_bidder 
