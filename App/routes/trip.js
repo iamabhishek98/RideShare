@@ -130,7 +130,6 @@ router.get('/', async function(req, res, next) {
         } else {
             console.log('all advertisements data is undefined')
         }
-
         
         console.log("you are now in the trip page: --------");
         console.log("trip id");
@@ -207,12 +206,9 @@ router.post('/endtrip', async function(req, res, next){
         var complete_trip = await pool.query(sql.query.complete_trip, [e_date, e_time, driver_email, vehicle, start_loc, end_loc, s_date, s_time])
         if (complete_trip != undefined) {
             console.log(complete_trip)
-            
         } else {
-            
             console.log('complete trip data is undefined')
         }
-
         res.redirect('../driver');
     }
     res.redirect('./');
