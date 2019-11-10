@@ -44,37 +44,37 @@
             <ul class="navbar-nav ml-auto">
                     <li class = "nav-item">
                             <form method = "post" action="/passenger/locations">
-                                <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Locations</button>
+                                <button type="submit" class="btn btn-primary mr-1" id="loginbtn" value = "submit">Locations</button>
                             </form>
                         </li>
                     <li class = "nav-item">
                             <form method = "post" action="/passenger/feedback">
-                                <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Feedback</button>
+                                <button type="submit" class="btn btn-primary mr-1" id="loginbtn" value = "submit">Feedback</button>
                             </form>
                         </li>
                     <li class = "nav-item">
                             <form method = "post" action="/passenger/songs">
-                                <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Songs</button>
+                                <button type="submit" class="btn btn-primary mr-1" id="loginbtn" value = "submit">Songs</button>
                             </form>
                         </li>
                     <!-- <li class = "nav-item">
                             <form method = "post" action="/passenger/discount">
-                                <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Rewards</button>
+                                <button type="submit" class="btn btn-primary mr-1" id="loginbtn" value = "submit">Rewards</button>
                             </form>
                         </li> -->
                     <li class = "nav-item">
                             <form method = "post" action="/passenger/panalytics">
-                                <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Analytics</button>
+                                <button type="submit" class="btn btn-primary mr-1" id="loginbtn" value = "submit">Analytics</button>
                             </form>
                         </li>
                 <li class = "nav-item">
                     <form method = "post" action="/passenger/inbox">
-                        <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Inbox</button>
+                        <button type="submit" class="btn btn-primary mr-1" id="loginbtn" value = "submit">Inbox</button>
                     </form>
                 </li>
                 <li class = "nav-item">
                     <form method = "post" action="/passenger/logout">
-                        <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Log Out</button>
+                        <button type="submit" class="btn btn-primary mr-1" id="loginbtn" value = "submit">Log Out</button>
                     </form>
                 </li>
             </ul>
@@ -91,30 +91,36 @@
         </div>
     </div>
 
+ 
+
     <div class="container" style="background:white">
         <h2 className="my-5"> Welcome <%= user_name%></h2>
         <div style="height:20px;"></div>
+        <hr  style="background-color: navy" />
         <div class = "row">
-            <div class = "col">
-                <h5>Search for a Ride!</h5>
+            <div class = "col-12 my-5">
+                <h3>Search for a Ride!</h3>
         <form method="post" action="/passenger/search_advertisements" id="search_ride_form">
-
-                <label>Enter your start location:
-                        <input list="s_locations" name="start_location" id="s_locat"/></label>
+            <div class="form-group">
+                <label>Enter your start location:</label>
+                        <input type = "text" list="s_locations" name="start_location" id="s_locat" class = "form-control"/>
                         <datalist id="s_locations">
                             <% for (var i = 0; i < locations.length;  i++) { %>
                                 <option value="<%= locations[i].loc_name %>">
                             <% } %>
                         </datalist>
                         <br/>
+            </div>  
+            <div class = "form-group" > 
                         
-                <label>Enter your End location:
-                        <input list="e_locations" name="end_location" id="e_locat" /></label>
+                <label>Enter your End location:</label>
+                        <input type = "text" e_locations" name="end_location" id="e_locat" class = "form-control" />
                         <datalist id="e_locations">
                                 <% for (var i = 0; i < locations.length;  i++) { %>
                                     <option value="<%= locations[i].loc_name %>">
                                 <% } %>
                         </datalist>
+            </div>
 
             <!-- <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Start Location" aria-label="Recipient's username"
@@ -156,10 +162,11 @@
             })
 
         </script>
+    
     </div>
 
-    <div class = "col">
-        <h5>Bid for a Ride!</h5>
+    <div class = "col-12 my-5">
+        <h3>Bid for a Ride!</h3>
         
         <form method="post" action="/passenger/bid" id="bid_ride_form">
                 <div class="form-group">
@@ -215,7 +222,7 @@
                 alert("Invalid input");
             } else if(parseInt(bid_number.value) < 1 || parseInt(bid_number.value) > num_advertisements || parseFloat(bid_value.value) < 0){
                 e.preventDefault();
-                alert("Bid Number must be integer and at least one. Cannot be more than " + num_advertisements+" Also, Bid value cannot be less than 0");
+                alert("Bid Number must be integer and at least one. Cannot be more than number of advertismenets. Also, Bid value cannot be less than 0");
             } else if(parseFloat(bid_value.value) > 100000){
                 e.preventDefault();
                 alert("Bid value cannot be more than 100");
@@ -238,6 +245,7 @@
     </div>
             
         <br/>
+
 
         <div class = "row">
             <div class = "col">

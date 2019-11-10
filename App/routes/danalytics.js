@@ -189,7 +189,7 @@ sql.query = {
 
     own_analytics : `select * from
                       ((select distinct email as email_driver, 0 as avg_price, 0 as rating
-                          from bid, driver
+                          from driver
                           where email not in (select distinct email_driver from bid where e_date is not null))
                       union
                       (select A.email_driver, A.avg_price, coalesce(R.rating,0)

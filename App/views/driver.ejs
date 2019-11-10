@@ -43,28 +43,28 @@
             <ul class="navbar-nav ml-auto">
                     <li class = "nav-item">
                             <form method = "post" action="/passenger/songs">
-                                <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Songs</button>
+                                <button type="submit" class="btn btn-primary mr-1" id="loginbtn" value = "submit">Songs</button>
                             </form>
                         </li>
                         <li class = "nav-item">
                                 <form method = "post" action="/driver/driverHistory">
-                                    <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">History</button>
+                                    <button type="submit" class="btn btn-primary mr-1" id="loginbtn" value = "submit">History</button>
                                 </form>
                             </li>
 
                     <li class="nav-item">
                             <form method = "post" action="/driver/danalytics">
-                                <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Analytics</button>
+                                <button type="submit" class="btn btn-primary mr-1" id="loginbtn" value = "submit">Analytics</button>
                             </form>
                         </li>
                 <li class="nav-item">
                         <form method = "post" action="/driver/inbox">
-                            <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Inbox</button>
+                            <button type="submit" class="btn btn-primary mr-1" id="loginbtn" value = "submit">Inbox</button>
                         </form>
                     </li>
                     <li class="nav-item"></li>
                     <form method = "post" action="/driver/logout">
-                    <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Log Out</button>
+                    <button type="submit" class="btn btn-primary mr-1" id="loginbtn" value = "submit">Log Out</button>
                 </form>
                     <!-- <a class="nav-link" href="login">Log In</a> -->
                 </li>
@@ -84,9 +84,10 @@
 
     <div class="container" style="background:white">
         <h2 className="my-5"> Welcome <%= user_name %></h2>
+        <hr  style="background-color: navy" />
         <div style="height:20px;"></div>
         <div class="row">
-            <div class="col">
+            <div class="col-12">
 
                 <form method="post" action="/driver/add_vehicle">
                 <div class="form-group">
@@ -108,13 +109,13 @@
                         </select>
                         <br/>
                         <br/>
-                      <button type="submit" class="btn btn-primary" id="loginbtn" value = "submit">Add Vehicle</button>
+                      <button type="submit" class="btn btn-success" id="loginbtn" value = "submit">Add Vehicle</button>
                     </form>
                     <form method = "post" action = "/driver/delete_vehicle">
-                        <div>
+                        <div class="col-12 my-5 row">
                         <input type="text" class="form-control" placeholder="Vehicle Id" style ="width:19%"
                                         aria-label="Recipient's username" aria-describedby="button-addon2" name = "delete_vehicle_id">
-                                        <button class="btn btn-primary" type="submit" id="submit-button" value = "submit">Delete</button>
+                                        <button class="btn btn-danger" type="submit" id="submit-button" value = "submit">Delete</button>
                     </div></form>
                     <br/>
 
@@ -138,7 +139,7 @@
                         </tbody>
                     </table>
             </div>
-            <div class="col">
+            <div class="col-12">
 
                 <form method="post" action="/driver/advertise">
                 <form id="advertisetrip" method="post" action="/driver/basic">
@@ -245,7 +246,7 @@
                             <div class="input-group mb-3">
                                     <input type="text" class="form-control" placeholder="Ad Num to Delete" name="del_index" id="del_ad_input">
                                     <div class="input-group-append">
-                                      <button class="btn btn-primary" type="submit">Delete</button>
+                                      <button class="btn btn-danger" type="submit">Delete</button>
                                     </div>
                                     
                                   </div>
@@ -355,10 +356,10 @@
             </thead>
             <tbody>
                 <form method = "post" action = "/driver/bid_true">
-                    <div>
+                    <div class = "col-12 my-3 row">
                     <input type="text" class="form-control" placeholder="Bid Id" style ="width:9%"
                                     aria-label="Recipient's username" aria-describedby="button-addon2" name = "bid_true">
-                                    <button class="btn btn-primary" type="submit" id="submit-button" value = "submit">Accept</button>
+                                    <button class="btn btn-success" type="submit" id="submit-button" value = "submit">Accept</button>
                 </div></form>
                 <tr>
                     <% for (var i = 0; i < available_bids.length;  i++) { %>

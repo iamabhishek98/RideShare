@@ -85,13 +85,11 @@ router.post('/register_vehicle', async function(req, res, next){
         //     }   
         // });
 
-        try{
-            var data1 = await pool.query(sql.query.insert_vehicle, [req.body.vehicleNumber, req.body.paxPicker]);
-            var data2 = await pool.query(sql.query.insert_driver, [req.session.passport.user.email]);
-            var data3 = await pool.query(sql.query.insert_drives, [req.session.passport.user.email, req.body.vehicleNumber]);
-        } catch (e){
-            console.log(e);
-        }
+    
+        var data1 = await pool.query(sql.query.insert_vehicle, [req.body.vehicleNumber, req.body.paxPicker]);
+        var data2 = await pool.query(sql.query.insert_driver, [req.session.passport.user.email]);
+        var data3 = await pool.query(sql.query.insert_drives, [req.session.passport.user.email, req.body.vehicleNumber]);
+    
 
         
         console.log("query successs");
