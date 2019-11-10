@@ -179,25 +179,20 @@ router.post('/endtrip', async function(req, res, next){
         console.log('all advertisements data is undefined')
     }
 
-    console.log("CURRRENT DATE TIME:::::");
-    console.log(s_date);
-    console.log(s_time);
-    console.log(end_date_time);
-    s_date = s_date.split("T")[0];
-    var start_spec = s_date + "T"+s_time;
-    if(Date.parse(end_date_time) < start_spec){
-        console.log("TRIP CANNOT END EARLIER THAN IT STARTED");
-        res.redirect('../trip');
-    } 
+    // console.log("CURRRENT DATE TIME:::::");
+    // console.log(s_date);
+    // console.log(s_time);
+    // console.log(end_date_time);
+    // s_date = (s_date+'').split("T")[0];
+    
+    // var start_spec = s_date + "T"+s_time;
+    // if(Date.parse(end_date_time) < start_spec){
+    //     console.log("TRIP CANNOT END EARLIER THAN IT STARTED");
+    //     res.redirect('../trip');
+    // } 
     
     if (vehicle != undefined && start_loc != undefined && end_loc != undefined && s_date != undefined && s_time != undefined) {
-        //delete advertisement
-        var delete_ad = await pool.query(sql.query.delete_advertisement, [driver_email, vehicle, start_loc, end_loc, s_date, s_time])
-        if (delete_ad != undefined) {
-            console.log(delete_ad);
-        } else {
-            console.log('delete advertisement data is undefined')
-        }
+
 
         // delete losing bids first
         var delete_losing_bids = await pool.query(sql.query.delete_losing_bids, [driver_email, vehicle, start_loc, end_loc, s_date, s_time])
@@ -206,6 +201,14 @@ router.post('/endtrip', async function(req, res, next){
         } else {
             console.log('delete losing bids data is undefined')
         }
+
+                //delete advertisement
+                var delete_ad = await pool.query(sql.query.delete_advertisement, [driver_email, vehicle, start_loc, end_loc, s_date, s_time])
+                if (delete_ad != undefined) {
+                    console.log(delete_ad);
+                } else {
+                    console.log('delete advertisement data is undefined')
+                }
 
         console.log('dates', end_date_time)
     
