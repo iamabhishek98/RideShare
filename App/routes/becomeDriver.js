@@ -90,8 +90,6 @@ router.post('/register_vehicle', async function(req, res, next){
         var data2 = await pool.query(sql.query.insert_driver, [req.session.passport.user.email]);
         var data3 = await pool.query(sql.query.insert_drives, [req.session.passport.user.email, req.body.vehicleNumber]);
     
-
-        
         console.log("query successs");
         req.session.passport.user.id="driver";
         res.redirect('../driver');
