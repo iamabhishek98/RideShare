@@ -27,5 +27,5 @@ $ node bin/www
 ## Instructions to Running Schema on PSQL prior to usage
 
 ```
-
+Run schema.sql in the directory Backend in your psql database before using the website
 ```
