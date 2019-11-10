@@ -179,6 +179,16 @@ router.post('/endtrip', async function(req, res, next){
         console.log('all advertisements data is undefined')
     }
 
+    console.log("CURRRENT DATE TIME:::::");
+    console.log(s_date);
+    console.log(s_time);
+    console.log(end_date_time);
+    s_date = s_date.split("T")[0];
+    var start_spec = s_date + "T"+s_time;
+    if(Date.parse(end_date_time) < start_spec){
+        console.log("TRIP CANNOT END EARLIER THAN IT STARTED");
+        res.redirect('../trip');
+    } 
     
     if (vehicle != undefined && start_loc != undefined && end_loc != undefined && s_date != undefined && s_time != undefined) {
         //delete advertisement
